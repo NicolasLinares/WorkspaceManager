@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
-using WpfApp2.Model;
 using System.IO;
-using WpfApp2.Exceptions;
+using System.Diagnostics;
+using INVOXWorkspaceManager.Model;
+using INVOXWorkspaceManager.Exceptions;
+using INVOXWorkspaceManager.Models.Scripts;
 
-namespace WpfApp2.Controller
+namespace INVOXWorkspaceManager.Controllers
 {
     class DeploymentsController
     {
@@ -80,5 +81,8 @@ namespace WpfApp2.Controller
             workspace.SetBuildCommand(type);
         }
 
+        public string GetSummary() {
+            return workspace.GetCommandList();
+        }
     }
 }

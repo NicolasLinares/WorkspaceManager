@@ -1,6 +1,6 @@
 ﻿
 
-namespace WpfApp2.Model {
+namespace INVOXWorkspaceManager.Models.Scripts {
     class BuildScript {
 
         private static BuildScript _instance;
@@ -16,8 +16,10 @@ namespace WpfApp2.Model {
         public string FILENAME => @".\build.ps1";
         public string DEBUG_PARAM => "-configurations Debug";
         public string RELEASE_PARAM => "-configurations Release";
+        public string BUILD_NUMBER_PARAM => "-buildnumber";
         public string ONLYDEV_PARAM => "-onlyDev";
         public string NOTJS_PARAM => "-notjs";
         public string NOTDOC_PARAM => "-notdoc";
+
     }
 }

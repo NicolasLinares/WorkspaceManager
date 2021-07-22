@@ -1,6 +1,6 @@
 ﻿
 
-namespace WpfApp2.Model {
+namespace INVOXWorkspaceManager.Models.Scripts {
 
     public enum CleanOptions {
         CLEAN,

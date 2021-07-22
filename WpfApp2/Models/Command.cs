@@ -1,13 +1,9 @@
 ﻿
+namespace INVOXWorkspaceManager.Model {
 
-using System;
-using System.Collections.Generic;
-
-namespace WpfApp2.Model {
-
-    [Flags]
+    // Only one command for each type
     public enum CommandType {
-        REVERT = 0,
+        REVERT = 0,  
         CLEAN = 1,
         BRANCH = 2,
         BUILD_DEBUG = 3,
@@ -17,8 +13,8 @@ namespace WpfApp2.Model {
 
     class Command {
 
-        private string sentence = ""; // comando completo
-        private CommandType type; // usado para mantener un orden
+        private string sentence = ""; // is the complete command
+        private CommandType type; // the type defines the order of execution
 
         public string Sentence => sentence;
         public CommandType Type => type;

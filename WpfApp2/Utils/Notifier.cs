@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 
-namespace WpfApp2.Util
+namespace INVOXWorkspaceManager.Util
 {
     /// <summary>    
     /// Implement the notification interface of changes in the property values.

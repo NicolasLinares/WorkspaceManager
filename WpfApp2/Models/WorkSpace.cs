@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using INVOXWorkspaceManager.Models.Scripts;
 
-namespace WpfApp2.Model
+namespace INVOXWorkspaceManager.Model
 {
     class WorkSpace {
 
-        private PowerShell ps; // powershell que contiene los métodos para ejecutar los scripts
-        private SetDevEnvScript setDevEnv; // representa el script setDevEnv.ps1
-        private BuildScript build; // representa el script build.ps1
+        private PowerShell ps;
+        private SetDevEnvScript setDevEnv; // script setDevEnv.ps1
+        private BuildScript build; // script build.ps1
 
-        private Deploy deploy; // lista de comandos que se va a ejecutar 
+        private Deploy deploy;
 
         public WorkSpace() {
             ps = new PowerShell();
@@ -18,7 +20,7 @@ namespace WpfApp2.Model
             build = BuildScript.GetInstance();
             deploy = new Deploy();
 
-            // Añade el comando para revertir el workspace
+            // TORTOISE REVERT
             Command revert = new Command(setDevEnv.REVERT_WORKSPACE, CommandType.REVERT);
             deploy.AddCommand(revert);
         }
@@ -55,7 +57,7 @@ namespace WpfApp2.Model
                 return false;
             }
 
-            //... check all files needed
+            //... check all files
             return true;
         }
 
@@ -82,13 +84,17 @@ namespace WpfApp2.Model
             }
 
             if (cleanParam == null) {
-                deploy.RemoveCommand(CommandType.CLEAN);
+                deploy.RemoveCommandByType(CommandType.CLEAN);
                 return;
             }
 
             string sentence = setDevEnv.FILENAME + " " + cleanParam;
             Command cmmd = new Command(sentence, CommandType.CLEAN);
             deploy.AddCommand(cmmd);
+        }
+
+        public string GetCommandList() {
+            return deploy.CommandList;
         }
 
         public void SetBuildCommand(BuildOptions type) {
@@ -110,7 +116,7 @@ namespace WpfApp2.Model
             }
 
             if (buildParam == null) {
-                deploy.RemoveCommand(CommandType.BUILD_DEBUG);
+                deploy.RemoveCommandByType(CommandType.BUILD_DEBUG);
                 return;
             }
 

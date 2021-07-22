@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1500
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetDevEnvTool", "WpfApp2\SetDevEnvTool.csproj", "{0F0AFAB0-3494-4892-B295-F7C790002708}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INVOXWorkspaceManager", "WpfApp2\INVOXWorkspaceManager.csproj", "{0F0AFAB0-3494-4892-B295-F7C790002708}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

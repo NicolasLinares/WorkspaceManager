@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using WpfApp2.Controller;
+using INVOXWorkspaceManager.Controllers;
 using System.Windows.Media;
-using WpfApp2.Exceptions;
+using INVOXWorkspaceManager.Exceptions;
 using Ookii.Dialogs.WinForms;
-using WpfApp2.Model;
+using INVOXWorkspaceManager.Models.Scripts;
 
-namespace WpfApp2 {
+namespace INVOXWorkspaceManager.Views {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -46,6 +46,11 @@ namespace WpfApp2 {
             set { _NotdocRadioButton.IsChecked = value; }
         }
 
+        private string summaryText {
+            get { return _SummaryTextBox.Text; }
+            set { _SummaryTextBox.Text = value; }
+        }
+
         private DeploymentsController deploymentsController { get; set; }
 
         public MainWindow() {
@@ -55,7 +60,7 @@ namespace WpfApp2 {
         }
 
         /// <summary>
-        /// Selecciona todo el texto cuando el textbox obtiene el foco
+        /// Select all text when textbox gets focus
         /// </summary>
         private void OnPalabraGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
             System.Windows.Controls.TextBox textBox = sender as System.Windows.Controls.TextBox;
@@ -65,7 +70,7 @@ namespace WpfApp2 {
         }
 
         /// <summary>
-        /// Si se hace click sobre el textbox y éste no tiene el foco, se le pone el foco
+        /// Add focus when the user clicks on the textbox
         /// </summary>
         private void OnPalabraPreviewMouseDown(object sender, MouseButtonEventArgs e) {
             System.Windows.Controls.TextBox textBox = sender as System.Windows.Controls.TextBox;
@@ -127,21 +132,29 @@ namespace WpfApp2 {
             }
         }
 
+        private void UpdateSummary() {
+            if (_SummaryTextBox != null)
+                summaryText = deploymentsController.GetSummary();
+        }
+
+
         #region Clean options
 
         private void CleanOption_Checked(object sender, RoutedEventArgs e) {
             if (_CleanRadioButton != null && cleanCheck == true) {
                 deploymentsController.SetCleanOption(CleanOptions.CLEAN);
+                UpdateSummary();
                 return;
             }
 
             if (_FullCleanRadioButton != null && fullcleanCheck == true) {
                 deploymentsController.SetCleanOption(CleanOptions.FULLCLEAN);
+                UpdateSummary();
                 return;
             }
 
             deploymentsController.SetCleanOption(CleanOptions.NOTCLEAN);
-
+            UpdateSummary();
         }
 
 
@@ -156,21 +169,25 @@ namespace WpfApp2 {
             }
 
             deploymentsController.SetNewBranch(branchText);
+            UpdateSummary();
         }
 
         private void BuildOption_Checked(object sender, RoutedEventArgs e) {
 
             if (_NotjsRadioButton != null && notjsCheck == true) {
                 deploymentsController.SetBuildOption(BuildOptions.NOTJS);
+                UpdateSummary();
                 return;
             }
 
             if (_NotdocRadioButton != null && notdocCheck == true) {
                 deploymentsController.SetBuildOption(BuildOptions.NOTDOC);
+                UpdateSummary();
                 return;
             }
 
             deploymentsController.SetBuildOption(BuildOptions.ONLYDEV);
+            UpdateSummary();
         }
 
         #endregion

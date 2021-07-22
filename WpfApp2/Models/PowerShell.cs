@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
-namespace WpfApp2.Model {
+namespace INVOXWorkspaceManager.Model {
 
     class Params {
         public string ADMIN_PARAM => "-ExecutionPolicy Unrestricted";

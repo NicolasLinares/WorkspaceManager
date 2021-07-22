@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.springframework.net http://www.springframework.net/xsd/spring-objects.xsd">
+  <description>INVOX Workspace Manager</description>
+
+  <!-- Parámetros generales básicos inyectables con ${nombre.parametro} -->
+  <object type="Spring.Objects.Factory.Config.VariablePlaceholderConfigurer">
+    <property name="IgnoreUnresolvablePlaceholders" value="true" />
+    <property name="VariableSources">
+      <list>
+        <object type="Spring.Objects.Factory.Config.PropertyFileVariableSource">
+          <property name="Location" value="LocalConfig.properties" />
+          <property name="IgnoreMissingResources" value="true"/>
+        </object>
+        <object type="Spring.Objects.Factory.Config.ConfigurableVariableSource">
+          <property name="Variables">
+            <name-values>
+              <add key="producto.titulo" value="INVOX Workspace Manager" />
+              <add key="producto.descrip" value="Gestión de despliegues y carpetas principales" />
+              <add key="producto.nombreAutor" value="Nicolás Enrique Linares La Barba" />
+              <add key="producto.nivel" value="LOCAL" />
+
+              <add key="script.build.filename" value="build.ps1" />
+              <add key="script.build.param.debug" value="-configurations Debug" />
+              <add key="script.build.param.release" value="-configurations Release" />
+              <add key="script.build.param.buildnumber" value="-buildnumber" />
+              <add key="script.build.param.onlydev" value="-onlyDev" />
+              <add key="script.build.param.notjs" value="-notjs" />
+              <add key="script.build.param.notdoc" value="-notdoc" />
+
+              <add key="script.setDevEnv.filename" value="setDevEnv.ps1" />
+              <add key="script.setDevEnv.param.info" value="-info" />
+              <add key="script.setDevEnv.param.clean" value="-clean" />
+              <add key="script.setDevEnv.param.fullclean" value="-fullclean" />
+              <add key="script.setDevEnv.param.branch" value="-branch" />
+
+              <add key="script.artifacts.filename" value="artifacts.ps1" />
+              <add key="script.artifacts.param.sdk" value="-sdk" />
+              <add key="script.artifacts.param.genSDKApiDoc" value="-genSDKApiDoc" />
+              <add key="script.artifacts.param.clients" value="-clients" />
+
+              <add key="script.tortoise.revert" value="git reset --hard" />
+
+
+              <import resource="ScriptsContext.xml" />
+
+            </name-values>
+          </property>
+        </object>
+      </list>
+    </property>
+  </object>
+</objects>

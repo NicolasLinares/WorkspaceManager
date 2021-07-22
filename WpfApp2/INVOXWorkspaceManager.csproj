@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0F0AFAB0-3494-4892-B295-F7C790002708}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WpfApp2</RootNamespace>
-    <AssemblyName>WpfApp2</AssemblyName>
+    <RootNamespace>INVOXWorkspaceManager</RootNamespace>
+    <AssemblyName>INVOXWorkspaceManager</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -76,6 +76,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -87,6 +88,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="Ookii.Dialogs.WinForms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
       <HintPath>..\packages\Ookii.Dialogs.WinForms.1.2.0\lib\net45\Ookii.Dialogs.WinForms.dll</HintPath>
@@ -116,8 +118,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Util\Notifier.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Models\Scripts\ArtifactsScript.cs" />
+    <Compile Include="Utils\Notifier.cs" />
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -125,21 +128,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controller\DeploymentsController.cs" />
+    <Compile Include="Controllers\DeploymentsController.cs" />
     <Compile Include="Exceptions\NotScriptsInWorkspaceException.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Command.cs" />
-    <Compile Include="Model\Deploy.cs" />
-    <Compile Include="Model\PowerShell.cs" />
-    <Compile Include="Model\BuildScript.cs" />
-    <Compile Include="Model\SetDevEnvScript.cs" />
-    <Compile Include="Model\History.cs" />
-    <Compile Include="Model\WorkSpace.cs" />
+    <Compile Include="Models\Command.cs" />
+    <Compile Include="Models\Deploy.cs" />
+    <Compile Include="Models\PowerShell.cs" />
+    <Compile Include="Models\Scripts\BuildScript.cs" />
+    <Compile Include="Models\Scripts\SetDevEnvScript.cs" />
+    <Compile Include="Models\History.cs" />
+    <Compile Include="Models\WorkSpace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -178,6 +181,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="AppConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ScriptsContext.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
