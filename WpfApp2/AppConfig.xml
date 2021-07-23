@@ -41,14 +41,14 @@
               <add key="script.artifacts.param.clients" value="-clients" />
 
               <add key="script.tortoise.revert" value="git reset --hard" />
-
-
-              <import resource="ScriptsContext.xml" />
-
             </name-values>
           </property>
         </object>
       </list>
     </property>
   </object>
+
+
+  <import resource="ScriptsContext.xml" />
+
 </objects>

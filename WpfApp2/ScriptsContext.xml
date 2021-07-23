@@ -3,11 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://www.springframework.net http://www.springframework.net/xsd/spring-objects.xsd">
 
-  <object id="BuildScript" type="Vocali.EasyDict2.EasyDict.Logica.Impl.LogicaEula" depends-on="LanguageLogic">
-    <property name="LogicaSiguiente" ref="LogicaPrincipal" />
-    <property name="FactoriaVista" ref="FactoriaVista" />
-    <property name="Fichero" value="${eula.fichero}" />
-    <property name="InactivityManager" ref="InactivityManager" />
+  <object id="BuildScript" type="INVOXWorkspaceManager.Models.Scripts.BuildScript">
+    <property name="FILENAME" value="${script.build.filename}" />
+    <property name="DEBUG_PARAM" value="${script.build.param.debug}" />
+    <property name="RELEASE_PARAM" value="${script.build.param.release}" />
+    <property name="BUILD_NUMBER_PARAM" value="${script.build.param.buildnumber}" />
+    <property name="ONLYDEV_PARAM" value="${script.build.param.onlydev}" />
+    <property name="NOTJS_PARAM" value="${script.build.param.notjs}" />
+    <property name="NOTDOC_PARAM" value="${script.build.param.notdoc}" />
   </object>
 
 </objects>

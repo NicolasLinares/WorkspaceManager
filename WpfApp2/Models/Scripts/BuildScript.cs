@@ -12,14 +12,13 @@ namespace INVOXWorkspaceManager.Models.Scripts {
             return _instance;
         }
 
-
-        public string FILENAME => @".\build.ps1";
-        public string DEBUG_PARAM => "-configurations Debug";
-        public string RELEASE_PARAM => "-configurations Release";
-        public string BUILD_NUMBER_PARAM => "-buildnumber";
-        public string ONLYDEV_PARAM => "-onlyDev";
-        public string NOTJS_PARAM => "-notjs";
-        public string NOTDOC_PARAM => "-notdoc";
+        public string FILENAME { get; set; }
+        public string DEBUG_PARAM { get; set; }
+        public string RELEASE_PARAM { get; set; }
+        public string BUILD_NUMBER_PARAM { get; set; }
+        public string ONLYDEV_PARAM { get; set; }
+        public string NOTJS_PARAM { get; set; }
+        public string NOTDOC_PARAM { get; set; }
 
     }
 }
