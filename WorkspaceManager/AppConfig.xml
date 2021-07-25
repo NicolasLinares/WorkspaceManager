@@ -47,8 +47,5 @@
       </list>
     </property>
   </object>
-
-
   <import resource="ScriptsContext.xml" />
-
 </objects>

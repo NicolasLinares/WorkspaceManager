@@ -7,7 +7,6 @@ using INVOXWorkspaceManager.Exceptions;
 using Ookii.Dialogs.WinForms;
 using INVOXWorkspaceManager.Models.Scripts;
 
-
 namespace INVOXWorkspaceManager.Views {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -46,7 +45,6 @@ namespace INVOXWorkspaceManager.Views {
             get { return _NotdocRadioButton.IsChecked; }
             set { _NotdocRadioButton.IsChecked = value; }
         }
-
         private string SummaryText {
             get { return _SummaryTextBox.Text; }
             set { _SummaryTextBox.Text = value; }
@@ -103,7 +101,6 @@ namespace INVOXWorkspaceManager.Views {
         }
 
         private void BrowseInput(object sender, EventArgs e) {
-
             if (string.IsNullOrWhiteSpace(RepoLocationText)) {
                 return;
             }
@@ -133,7 +130,7 @@ namespace INVOXWorkspaceManager.Views {
         private void UpdateSummary() {
             if (_SummaryTextBox != null)
                 SummaryText = DeploymentsController.GetSummary();
-        }
+       
 
 
         #region Clean options
