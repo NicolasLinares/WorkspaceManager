@@ -7,6 +7,7 @@ using INVOXWorkspaceManager.Exceptions;
 using Ookii.Dialogs.WinForms;
 using INVOXWorkspaceManager.Models.Scripts;
 
+
 namespace INVOXWorkspaceManager.Views {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
