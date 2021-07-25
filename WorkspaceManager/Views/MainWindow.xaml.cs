@@ -130,8 +130,8 @@ namespace INVOXWorkspaceManager.Views {
         private void UpdateSummary() {
             if (_SummaryTextBox != null)
                 SummaryText = DeploymentsController.GetSummary();
-       
 
+        }
 
         #region Clean options
 
