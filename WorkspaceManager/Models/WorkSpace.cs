@@ -8,16 +8,25 @@ namespace INVOXWorkspaceManager.Model
 {
     class WorkSpace {
 
+
         private PowerShell ps;
         private SetDevEnvScript setDevEnv; // script setDevEnv.ps1
         private BuildScript build; // script build.ps1
+        private ArtifactsScript artifacts; // script artifacts.ps1
 
         private Deploy deploy;
 
+        private string path;
+        public string RepoPath => path;
+
         public WorkSpace() {
+
             ps = new PowerShell();
+
             setDevEnv = SetDevEnvScript.GetInstance();
             build = BuildScript.GetInstance();
+            artifacts = new ArtifactsScript();
+
             deploy = new Deploy();
 
             // TORTOISE REVERT
@@ -25,35 +34,48 @@ namespace INVOXWorkspaceManager.Model
             deploy.AddCommand(revert);
         }
 
-        public string GetCurrentBranchInformation() {
-
-            string sentence = setDevEnv.FILENAME + " " + setDevEnv.INFO_PARAM;
-            Command getBranchInfoCommand = new Command(sentence, CommandType.BRANCH);
-
-            List<string> output = ps.RunCommandAndSaveOutput(getBranchInfoCommand);
-            return FindCurrentBranch(output);
-
-            string FindCurrentBranch(List<string> outputLines) {
-                foreach(var line in outputLines) {
-                    if (line != "") {
-                        Match match = Regex.Match(line, @"Current branch: [\w\/\-]+");
-                        if (match.Success) {
-                            return line;
-                        }
-                    }
-                }
-
-                return "branch not found";
-            }
+        public void Initialize(string repoPath) {
+            path = repoPath;
+            Directory.SetCurrentDirectory(repoPath);
         }
 
-        public bool CheckScriptsNeeded(string selectedPath) {
+        public string CurrentBranchInformation {
 
-            if (!File.Exists(Path.Combine(selectedPath, setDevEnv.FILENAME))) {
+            get {
+
+                string sentence = setDevEnv.FILENAME + " " + setDevEnv.INFO_PARAM;
+                Command getBranchInfoCommand = new Command(sentence, CommandType.BRANCH);
+
+                List<string> output = ps.RunCommandAndSaveOutput(getBranchInfoCommand);
+                return FindCurrentBranch(output);
+
+                string FindCurrentBranch(List<string> outputLines) {
+                    foreach (var line in outputLines) {
+                        if (line != "") {
+                            Match match = Regex.Match(line, @"Current branch: [\w\/\-]+");
+                            if (match.Success) {
+                                return line;
+                            }
+                        }
+                    }
+
+                    return "branch not found";
+                }
+            }
+
+        }
+
+        public bool CheckScriptsNeeded(string path) {
+
+            if (!File.Exists(Path.Combine(path, setDevEnv.FILENAME))) {
                 return false;
             }
 
-            if (!File.Exists(Path.Combine(selectedPath, build.FILENAME))) {
+            if (!File.Exists(Path.Combine(path, build.FILENAME))) {
+                return false;
+            }
+
+            if (!File.Exists(Path.Combine(path, artifacts.FILENAME))) {
                 return false;
             }
 

@@ -111,9 +111,9 @@ namespace INVOXWorkspaceManager.Views {
         private void BrowseDirectory(string selectedPath) {
 
             try {
-                DeploymentsController.SetCurrentWorkspace(selectedPath);
+                DeploymentsController.SetCurrentWorkspacePath(selectedPath);
 
-                CurrentBranchText = DeploymentsController.GetCurrentWorkspace();
+                CurrentBranchText = DeploymentsController.GetCurrentWorkspacePath();
                 _CurrentBranchTextBox.Visibility = Visibility.Visible;
                 _CurrentBranchTextBox.Foreground = new SolidColorBrush(Colors.Blue);
             } catch (NullReferenceException ex) {

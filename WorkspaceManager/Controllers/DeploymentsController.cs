@@ -52,7 +52,7 @@ namespace INVOXWorkspaceManager.Controllers
             workspace.RunScripts();
         }
 
-        public void SetCurrentWorkspace(string selectedPath) {
+        public void SetCurrentWorkspacePath(string selectedPath) {
 
             if (!Directory.Exists(selectedPath)) {
                 throw new NullReferenceException();
@@ -62,11 +62,11 @@ namespace INVOXWorkspaceManager.Controllers
                 throw new NotScriptsInWorkspaceException("Scripts not found");
             }
 
-            Directory.SetCurrentDirectory(selectedPath);
+            workspace.Initialize(selectedPath);
         }
 
-        public string GetCurrentWorkspace() {
-            return workspace.GetCurrentBranchInformation();
+        public string GetCurrentWorkspacePath() {
+            return workspace.CurrentBranchInformation;
         }
 
         public void SetNewBranch(string branch) {

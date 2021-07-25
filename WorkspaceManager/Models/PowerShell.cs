@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 
@@ -87,10 +88,9 @@ namespace INVOXWorkspaceManager.Model {
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = true;
             processInfo.Verb = "runas";
-
+        
             string args = "";
 
-            
             foreach (Command c in finalScript) {
                 if (c.Sentence == "git reset --hard") {
                     args = options.ADMIN_PARAM + " " + options.NO_EXIT_PARAM + " " + c.Sentence;
@@ -99,11 +99,7 @@ namespace INVOXWorkspaceManager.Model {
                 }
             }
 
-
-
             MessageBox.Show(args);
-
-
 
             processInfo.Arguments = args;
             Process process = Process.Start(processInfo);
@@ -111,8 +107,6 @@ namespace INVOXWorkspaceManager.Model {
             process.WaitForExit();
             int errorLevel = process.ExitCode;
             process.Close();
-
-
 
         }
     }
