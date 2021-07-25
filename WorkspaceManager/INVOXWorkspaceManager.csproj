@@ -123,6 +123,14 @@
     </ApplicationDefinition>
     <Compile Include="Models\Scripts\ArtifactsScript.cs" />
     <Compile Include="Utils\Notifier.cs" />
+    <Page Include="Views\ConfigurationDeploy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DeployTabWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -133,6 +141,12 @@
     </Compile>
     <Compile Include="Controllers\DeploymentsController.cs" />
     <Compile Include="Exceptions\NotScriptsInWorkspaceException.cs" />
+    <Compile Include="Views\ConfigurationDeploy.xaml.cs">
+      <DependentUpon>ConfigurationDeploy.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeployTabWindow.xaml.cs">
+      <DependentUpon>DeployTabWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

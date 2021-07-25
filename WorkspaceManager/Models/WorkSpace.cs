@@ -25,7 +25,7 @@ namespace INVOXWorkspaceManager.Model
 
             setDevEnv = SetDevEnvScript.GetInstance();
             build = BuildScript.GetInstance();
-            artifacts = new ArtifactsScript();
+            artifacts = ArtifactsScript.GetInstance();
 
             deploy = new Deploy();
 

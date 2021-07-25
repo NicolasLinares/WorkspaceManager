@@ -1,0 +1,34 @@
+{
+  "kaldi": {
+    "repoPath": "C:\\REPO\\invox",
+    "branch": "kaldi",
+    "revert": true,
+    "clean_option": "clean",
+    "debug_option": "onlydev",
+    "release_option": "",
+    "artifacts_option": {
+      "sdk": {
+        "value": true,
+        "genSDKApiDoc": false
+      }
+    },
+    "description": "Despliegue de kaldi",
+    "created": "timestamp"
+  },
+  "sermas": {
+    "repoPath": "C:\\REPO\\invox",
+    "branch": "sermas",
+    "revert": true,
+    "clean_option": "notclean",
+    "debug_option": "notjs",
+    "release_option": "notdoc",
+    "artifacts_option": {
+      "clients": {
+        "value": "true",
+        "name": "DemoCorpLocal"
+      }
+    },
+    "description": "Despliegue de kaldi"
+  },
+  "created": "timestamp"
+}

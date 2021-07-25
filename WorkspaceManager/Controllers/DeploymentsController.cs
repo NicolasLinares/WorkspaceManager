@@ -13,7 +13,7 @@ namespace INVOXWorkspaceManager.Controllers
         private static DeploymentsController _instance;
 
         private DeploymentsController() {
-            deploymentHistory = History.GetInstance();
+            DeploymentHistory = History.GetInstance();
             workspace = new WorkSpace();
         }
 
@@ -25,7 +25,7 @@ namespace INVOXWorkspaceManager.Controllers
         }
 
 
-        private History deploymentHistory { get; }
+        private History DeploymentHistory { get; }
         private WorkSpace workspace;
 
         public void OpenFolder() {

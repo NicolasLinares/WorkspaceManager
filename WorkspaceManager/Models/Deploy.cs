@@ -4,6 +4,8 @@ using System.Linq;
 namespace INVOXWorkspaceManager.Model {
     class Deploy {
 
+        public string Name => "kaldi";
+
         private List<Command> deployScript;
 
         public List<Command> FinalScript => deployScript;
