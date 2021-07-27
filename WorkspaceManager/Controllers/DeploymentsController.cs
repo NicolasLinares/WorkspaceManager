@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Diagnostics;
-using INVOXWorkspaceManager.Model;
+using INVOXWorkspaceManager.Models.Deploys;
 using INVOXWorkspaceManager.Exceptions;
-using INVOXWorkspaceManager.Models.Scripts;
+using INVOXWorkspaceManager.Models.Deploys.Scripts;
 
 namespace INVOXWorkspaceManager.Controllers
 {

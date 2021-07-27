@@ -13,7 +13,6 @@
         </Grid.ColumnDefinitions>
 
 
-        // http://wangxinliu.com/tech/program/WPF-DataBinding/
         <ListBox x:Name="listboxFolder1" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding DeploysList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>

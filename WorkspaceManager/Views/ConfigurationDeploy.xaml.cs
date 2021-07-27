@@ -5,7 +5,7 @@ using INVOXWorkspaceManager.Controllers;
 using System.Windows.Media;
 using INVOXWorkspaceManager.Exceptions;
 using Ookii.Dialogs.WinForms;
-using INVOXWorkspaceManager.Models.Scripts;
+using INVOXWorkspaceManager.Models.Deploys.Scripts;
 using System.Windows.Controls;
 
 namespace INVOXWorkspaceManager.Views {

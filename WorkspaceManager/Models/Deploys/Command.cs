@@ -1,5 +1,5 @@
 ﻿
-namespace INVOXWorkspaceManager.Model {
+namespace INVOXWorkspaceManager.Models.Deploys {
 
     // Only one command for each type
     public enum CommandType {

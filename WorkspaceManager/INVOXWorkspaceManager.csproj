@@ -121,9 +121,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\Scripts\ArtifactsScript.cs" />
+    <Compile Include="Models\Deploys\Scripts\ArtifactsScript.cs" />
+    <Compile Include="Models\QuickAccess\Folder.cs" />
+    <Compile Include="Models\QuickAccess\QuickAccess.cs" />
     <Compile Include="Utils\Notifier.cs" />
     <Page Include="Views\ConfigurationDeploy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\QuickAccessTabWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -144,6 +150,9 @@
     <Compile Include="Views\ConfigurationDeploy.xaml.cs">
       <DependentUpon>ConfigurationDeploy.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\QuickAccessTabWindow.xaml.cs">
+      <DependentUpon>QuickAccessTabWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DeployTabWindow.xaml.cs">
       <DependentUpon>DeployTabWindow.xaml</DependentUpon>
     </Compile>
@@ -153,13 +162,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Command.cs" />
-    <Compile Include="Models\Deploy.cs" />
-    <Compile Include="Models\PowerShell.cs" />
-    <Compile Include="Models\Scripts\BuildScript.cs" />
-    <Compile Include="Models\Scripts\SetDevEnvScript.cs" />
-    <Compile Include="Models\History.cs" />
-    <Compile Include="Models\WorkSpace.cs" />
+    <Compile Include="Models\Deploys\Command.cs" />
+    <Compile Include="Models\Deploys\Deploy.cs" />
+    <Compile Include="Models\Deploys\PowerShell.cs" />
+    <Compile Include="Models\Deploys\Scripts\BuildScript.cs" />
+    <Compile Include="Models\Deploys\Scripts\SetDevEnvScript.cs" />
+    <Compile Include="Models\Deploys\History.cs" />
+    <Compile Include="Models\Deploys\WorkSpace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -205,5 +214,6 @@
   <ItemGroup>
     <Resource Include="ScriptsContext.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

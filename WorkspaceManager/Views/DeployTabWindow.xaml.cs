@@ -27,8 +27,6 @@ namespace INVOXWorkspaceManager.Views {
 
             DeploysList = new ObservableCollection<string>();
 
-            DeploysList.Add("US");
-            DeploysList.Add("GB");
 
             InitializeComponent();
 

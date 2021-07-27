@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Windows;
 
-namespace INVOXWorkspaceManager.Model {
+namespace INVOXWorkspaceManager.Models.Deploys {
 
     class Params {
         public string ADMIN_PARAM => "-ExecutionPolicy Unrestricted";

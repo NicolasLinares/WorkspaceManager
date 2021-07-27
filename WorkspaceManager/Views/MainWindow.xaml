@@ -12,10 +12,11 @@
     <Grid>
         <TabControl>
             <TabItem Header="Deploys">
-                <local1:DeployTabWindow>
-                </local1:DeployTabWindow>
+
             </TabItem>
             <TabItem Header="Quick Access" >
+                <local1:QuickAccessTabWindow>
+                </local1:QuickAccessTabWindow>
             </TabItem>
         </TabControl>
 

@@ -1,5 +1,5 @@
 
-namespace INVOXWorkspaceManager.Models.Scripts {
+namespace INVOXWorkspaceManager.Models.Deploys.Scripts {
     class BuildScript {
 
         private static BuildScript _instance;

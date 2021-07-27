@@ -1,6 +1,6 @@
 ﻿
 
-namespace INVOXWorkspaceManager.Models.Scripts {
+namespace INVOXWorkspaceManager.Models.Deploys.Scripts {
 
     public enum CleanOptions {
         CLEAN,
