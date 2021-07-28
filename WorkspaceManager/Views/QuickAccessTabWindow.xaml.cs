@@ -39,10 +39,9 @@ namespace INVOXWorkspaceManager.Views {
             DataContext = this;
             InitializeComponent();
 
-            Path = new ObservableCollection<Folder>();
-
             Items = new ObservableCollection<Folder>();
 
+            // Tests items
             Folder invox = new Folder("INVOX", "Workspace de invox");
             invox.AddSubFolders(new Folder("MisRecursos", "Carpeta de mis recursos"));
             invox.AddSubFolders(new Folder("SDK", "Workspace del sdk"));
@@ -51,6 +50,13 @@ namespace INVOXWorkspaceManager.Views {
             Items.Add(new Folder("SERMAS", "Workspace de sermas"));
             Items.Add(new Folder("KALDI", "Workspace de kaldi"));
             Items.Add(new Folder("TOOLS", "Workspace del tools"));
+
+            // Set Home item
+            Path = new ObservableCollection<Folder>();
+            Folder home = new Folder("HOME", "Volver al inicio");
+            home.AddSubFolders(new List<Folder>(Items));
+            Path.Add(home);
+
         }
 
         #region Folders and Quick access logic
@@ -73,7 +79,7 @@ namespace INVOXWorkspaceManager.Views {
             Folder selectedItem = (Folder)listBox.SelectedValue;
 
             // Forma la ruta para volver luego
-            SetPath(selectedItem);
+            AddFolderToPath(selectedItem);
 
             // Se muestra el contenido de la carpeta
             SetCurrentFolder(selectedItem);
@@ -84,6 +90,12 @@ namespace INVOXWorkspaceManager.Views {
             foreach (var item in selectedItem.Folders) {
                 Items.Add(item);
             }
+        }
+
+        private void NewQuickAccess_Click(object sender, EventArgs e) {
+        }
+
+        private void NewFolder_Click(object sender, EventArgs e) {
         }
 
         #endregion
@@ -113,28 +125,20 @@ namespace INVOXWorkspaceManager.Views {
             if (selectedItem.Name == Path.Last().Name)
                 return;
 
-            UpdatePath(selectedItem);
+            RemoveFolderFromPath(selectedItem);
 
             SetCurrentFolder(selectedItem);
-
         }
 
-        private void SetPath(Folder selectedItem) {
-
-            if(Path.Count == 0) {
-                Folder home = new Folder("HOME", "Volver al inicio");
-                home.AddSubFolders(new List<Folder>(Items));
-                Path.Add(home);
-            }
-
+        private void AddFolderToPath(Folder selectedItem) {
             Path.Add(selectedItem);
         }
 
-
-        private void UpdatePath(Folder selectedItem) {
-            //TODO: error en el Take
-            int i = Path.IndexOf(selectedItem);
-            Path = new ObservableCollection<Folder>(Path.Take(i));
+        private void RemoveFolderFromPath(Folder selectedItem) {
+            int index_selected = Path.IndexOf(selectedItem);
+            for (int index = Path.Count; index > index_selected + 1; index--) {
+                Path.RemoveAt(index-1);
+            }
         }
 
 

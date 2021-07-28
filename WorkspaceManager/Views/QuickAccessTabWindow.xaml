@@ -68,6 +68,26 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1" Height="40" Width="145" Click="NewQuickAccess_Click">
+                <TextBlock>
+                    New quick access
+                </TextBlock>
+            </Button>
+
+            <Button Grid.Column="2" Height="40" Width="145" Click="NewFolder_Click">
+                <TextBlock>
+                    New folder
+                </TextBlock>
+            </Button>
+        </Grid>
     </Grid>
 
 </UserControl>
