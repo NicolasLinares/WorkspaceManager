@@ -93,6 +93,16 @@ namespace INVOXWorkspaceManager.Views {
         }
 
         private void NewQuickAccess_Click(object sender, EventArgs e) {
+            NewQuickAccessDialog dialog = new NewQuickAccessDialog();
+
+            dialog.ShowDialog();
+
+            if (dialog.DialogResult == true) {
+                QuickAccess qa = new QuickAccess(dialog.PathText, dialog.NameText, dialog.DescriptionText);
+
+                //TODO: add to q. a. list 
+                //TODO: Save data in Json
+            }
         }
 
         private void NewFolder_Click(object sender, EventArgs e) {
