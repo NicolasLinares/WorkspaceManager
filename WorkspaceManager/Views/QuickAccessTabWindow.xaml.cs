@@ -15,46 +15,60 @@ namespace INVOXWorkspaceManager.Views {
     public partial class QuickAccessTabWindow : UserControl, INotifyPropertyChanged {
 
         private ObservableCollection<Folder> path;
-
-        private ObservableCollection<Folder> items;
-        private Folder selectedFile;
-
-        public ObservableCollection<Folder> Items {
-            get => items;
-            set => SetProperty(ref items, value);
-        }
         public ObservableCollection<Folder> Path {
             get => path;
             set => SetProperty(ref path, value);
         }
 
-        public Folder SelectedFile {
-            get => selectedFile;
+        private ObservableCollection<Folder> itemsFolder;
+        public ObservableCollection<Folder> ItemsFolder {
+            get => itemsFolder;
+            set => SetProperty(ref itemsFolder, value);
+        }
+
+        private ObservableCollection<QuickAccess> itemsQuickAccess;
+        public ObservableCollection<QuickAccess> ItemsQuickAccess {
+            get => itemsQuickAccess;
+            set => SetProperty(ref itemsQuickAccess, value);
+        }
+
+        private Folder selectedFolder;
+        public Folder SelectedFolderItem {
+            get => selectedFolder;
             set {
-                SetProperty(ref selectedFile, value);
+                SetProperty(ref selectedFolder, value);
             }
         }
+
+        private QuickAccess selectedQuickAccess;
+        public QuickAccess SelectedQuickAccessItem {
+            get => selectedQuickAccess;
+            set {
+                SetProperty(ref selectedQuickAccess, value);
+            }
+        }
+
 
         public QuickAccessTabWindow() {
             DataContext = this;
             InitializeComponent();
 
-            Items = new ObservableCollection<Folder>();
+            ItemsFolder = new ObservableCollection<Folder>();
 
             // Tests items
             Folder invox = new Folder("INVOX", "Workspace de invox");
             invox.AddSubFolders(new Folder("MisRecursos", "Carpeta de mis recursos"));
             invox.AddSubFolders(new Folder("SDK", "Workspace del sdk"));
-            Items.Add(invox);
+            ItemsFolder.Add(invox);
 
-            Items.Add(new Folder("SERMAS", "Workspace de sermas"));
-            Items.Add(new Folder("KALDI", "Workspace de kaldi"));
-            Items.Add(new Folder("TOOLS", "Workspace del tools"));
+            ItemsFolder.Add(new Folder("SERMAS", "Workspace de sermas"));
+            ItemsFolder.Add(new Folder("KALDI", "Workspace de kaldi"));
+            ItemsFolder.Add(new Folder("TOOLS", "Workspace del tools"));
 
             // Set Home item
             Path = new ObservableCollection<Folder>();
             Folder home = new Folder("HOME", "Volver al inicio");
-            home.AddSubFolders(new List<Folder>(Items));
+            home.AddSubFolders(new List<Folder>(ItemsFolder));
             Path.Add(home);
 
         }
@@ -86,9 +100,9 @@ namespace INVOXWorkspaceManager.Views {
         }
 
         private void SetCurrentFolder(Folder selectedItem) {
-            Items = new ObservableCollection<Folder>();
+            ItemsFolder = new ObservableCollection<Folder>();
             foreach (var item in selectedItem.Folders) {
-                Items.Add(item);
+                ItemsFolder.Add(item);
             }
         }
 
@@ -106,6 +120,9 @@ namespace INVOXWorkspaceManager.Views {
         }
 
         private void NewFolder_Click(object sender, EventArgs e) {
+            ItemsFolder.Add(new Folder("Nuevo", "carpeta nueva"));
+            _FoldersListBox.SelectedIndex = ItemsFolder.Count() -1;
+            _FoldersListBox.ScrollIntoView(_FoldersListBox.Items.CurrentItem);
         }
 
         #endregion
@@ -129,7 +146,7 @@ namespace INVOXWorkspaceManager.Views {
             }
 
             Folder selectedItem = (Folder)listBox.SelectedValue;
-            PathListBox.UnselectAll();
+            _PathListBox.UnselectAll();
 
             // TODO: redefinir equals
             if (selectedItem.Name == Path.Last().Name)

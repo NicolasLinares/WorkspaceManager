@@ -3,26 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:INVOXWorkspaceManager.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="600">
+             mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="600">
 
     <Control.Resources>
-        <CollectionViewSource x:Key="items" Source="{Binding Items}">
+        <CollectionViewSource x:Key="itemsFolder" Source="{Binding ItemsFolder}">
         </CollectionViewSource>
         <CollectionViewSource x:Key="path" Source="{Binding Path}">
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="itemsQuickAccess" Source="{Binding ItemsQuickAccess}">
         </CollectionViewSource>
     </Control.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <ListBox Grid.Row="0" 
-                 Name="PathListBox" 
+                 Name="_PathListBox" 
                  VerticalAlignment="Center"
                  BorderBrush="Transparent"
                  ItemsSource="{Binding Source={StaticResource path}}"
@@ -46,48 +46,68 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
+        <Grid Grid.Row="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ListBox Name="_FoldersListBox" Grid.Row="0" BorderBrush="Transparent"
+                     ItemsSource="{Binding Source={StaticResource itemsFolder}}"
+                     SelectedValue="{Binding SelectedFolderItem}"
+                     SelectionChanged="ListBoxSelectionChanged"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     IsSynchronizedWithCurrentItem="True"
+                     Focusable="False" >
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
 
-        <ListBox Grid.Row="1" Name="FilesSourceListBox"
-             ItemsSource="{Binding Source={StaticResource items}}"
-             SelectedValue="{Binding SelectedItem}"
-             SelectionChanged="ListBoxSelectionChanged"
-             ScrollViewer.VerticalScrollBarVisibility="Disabled"
-             IsSynchronizedWithCurrentItem="True"
-             Focusable="False">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate >
+                        <Grid  Width="120" Height="120" Background="LightBlue">
+                            <TextBlock  Text="{Binding Name}" ToolTip="{Binding Description}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
-            <ListBox.ItemTemplate>
-                <DataTemplate >
-                    <Grid  Width="120" Height="120" Background="LightBlue">
-                        <TextBlock  Text="{Binding Name}" ToolTip="{Binding Description}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            <ListBox Name="_QuickAcessListBox" Grid.Row="1" BorderBrush="Transparent"
+                     ItemsSource="{Binding Source={StaticResource itemsQuickAccess}}"
+                     SelectedValue="{Binding SelectedQuickAccessItem}"
+                     SelectionChanged="ListBoxSelectionChanged"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     IsSynchronizedWithCurrentItem="True"
+                     Focusable="False">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
 
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="150"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="1" Height="40" Width="145" Click="NewQuickAccess_Click">
-                <TextBlock>
-                    New quick access
-                </TextBlock>
-            </Button>
-
-            <Button Grid.Column="2" Height="40" Width="145" Click="NewFolder_Click">
-                <TextBlock>
-                    New folder
-                </TextBlock>
-            </Button>
+                <ListBox.ItemTemplate>
+                    <DataTemplate >
+                        <Grid  Width="120" Height="120" Background="LightBlue">
+                            <TextBlock  Text="{Binding Name}" ToolTip="{Binding Description}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+
+            <Button Height="40" Width="145" MinWidth="100" Click="NewQuickAccess_Click" Margin="5px 0px">
+                New quick access
+            </Button>
+
+            <Button Height="40" Width="145" MinWidth="80" Click="NewFolder_Click" Margin="5px 0px">
+                New folder
+            </Button>
+        </StackPanel>
     </Grid>
 
 </UserControl>

@@ -3,20 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:INVOXWorkspaceManager"
-        xmlns:local1="clr-namespace:INVOXWorkspaceManager.Views"
-        mc:Ignorable="d"
-        ResizeMode="NoResize"
-        Title="INVOX Workspace Manager" Height="500" Width="Auto">
+        xmlns:local1="clr-namespace:INVOXWorkspaceManager.Views" 
+        mc:Ignorable="d" ResizeMode="CanResize"
+        Title="INVOX Workspace Manager" Height="500" MinHeight="500" Width="420" MinWidth="420">
 
     <Grid>
         <TabControl>
-            <TabItem Header="Deploys">
 
-            </TabItem>
             <TabItem Header="Quick Access" >
                 <local1:QuickAccessTabWindow>
                 </local1:QuickAccessTabWindow>
+            </TabItem>
+            <TabItem Header="Deploys">
+
             </TabItem>
         </TabControl>
 

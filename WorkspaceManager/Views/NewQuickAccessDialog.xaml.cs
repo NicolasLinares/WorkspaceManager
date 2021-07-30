@@ -1,17 +1,9 @@
 ﻿using Ookii.Dialogs.WinForms;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace INVOXWorkspaceManager.Views {
     /// <summary>
@@ -95,15 +87,12 @@ namespace INVOXWorkspaceManager.Views {
             // Validación de inputs
             if (string.IsNullOrWhiteSpace(PathText)) {
                 _PathTextBox.BorderBrush = Brushes.Red;
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(NameText)) {
+            } else if (string.IsNullOrWhiteSpace(NameText)) {
                 _NameTextBox.BorderBrush = Brushes.Red;
-                return;
+            } else {
+                this.DialogResult = true;
             }
 
-            this.DialogResult = true;
         }
         private void CancelClick(object sender, EventArgs e) {
             this.DialogResult = false;
