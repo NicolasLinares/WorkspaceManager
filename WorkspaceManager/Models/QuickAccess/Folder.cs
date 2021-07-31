@@ -34,18 +34,23 @@ namespace INVOXWorkspaceManager.Models.QuickAccess
             QuickAccess = new List<QuickAccess>();
         }
 
-        #region folder methods
+        #region quick access methods
 
         public void AddQuickAccess(QuickAccess qa) {
             QuickAccess.Add(qa);
         }
 
+        public void AddQuickAccess(List<QuickAccess> qas) {
+            QuickAccess = qas;
+        }
+
         public void RemoveQuickAccess(QuickAccess qa) {
             QuickAccess.Remove(qa);
         }
+
         #endregion
 
-        #region quick access methods
+        #region folder methods
 
         public void AddSubFolders(Folder f) {
             Folders.Add(f);

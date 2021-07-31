@@ -28,26 +28,6 @@ namespace INVOXWorkspaceManager.Controllers
         private History DeploymentHistory { get; }
         private WorkSpace workspace;
 
-        public void OpenFolder() {
-            Process process = Process.Start(@"C:\REPO\invox");
-
-
-            /*
-            
-            // opens the folder in explorer
-            Process.Start(@"c:\temp");
-            // opens the folder in explorer
-            Process.Start("explorer.exe", @"c:\temp");
-            // throws exception
-            Process.Start(@"c:\does_not_exist");
-            // opens explorer, showing some other folder)
-            Process.Start("explorer.exe", @"c:\does_not_exist");
-
-             */
-
-
-        }
-
         public void CreateEnvironment() {
             workspace.RunScripts();
         }

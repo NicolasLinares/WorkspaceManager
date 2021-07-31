@@ -24,30 +24,30 @@
 
         <TextBlock Text="Path" Grid.Row="0" FontWeight="Bold" Foreground="Black" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
         <TextBox Name="_PathTextBox" Grid.Row="1" Grid.ColumnSpan="1"  Height="22px" Margin="20px 0px 0px 0px"
-                     GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" LostFocus="BrowseInput"/>
+                     GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" TextChanged="CheckPath_TextBox"/>
         <Button Name="_BrowseButton" Grid.Row="1" Grid.Column="1" Foreground="Black" IsCancel="True" Margin="0px 0px 10px 0px"
                     VerticalAlignment="Center" HorizontalAlignment="Left" Height="22px" Width="30" Click="BrowseClick">
             . . .
         </Button>
 
         <TextBlock Text="Name" Grid.Row="2" FontWeight="Bold" Foreground="Black" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
-        <TextBox Name="_NameTextBox" Grid.Row="3" Grid.ColumnSpan="2"  Height="22px" Margin="20px 0px"
-                     GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" LostFocus="BrowseInput"/>
+        <TextBox Name="_NameTextBox" Grid.Row="3" Grid.ColumnSpan="2"  Height="22px" Margin="20px 0px" TextChanged="CheckName_TextBox"
+                     GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" IsEnabled="false"/>
 
 
         <TextBlock Text="Description" Grid.Row="4" FontWeight="Bold" Foreground="Black" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
         <TextBox Name="_DescriptionTextBox" Grid.Row="5" Grid.ColumnSpan="2" TextWrapping="Wrap" Height="44px" Margin="20px 0px" Padding="3"
-                     GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" LostFocus="BrowseInput"/>
+                     GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" IsEnabled="false"/>
 
 
         <StackPanel Grid.Row="6" Width="240" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
-            <Button Name="_AcceptButton" Foreground="Black" IsCancel="True" Margin="20px 0" 
+            <Button Name="_AcceptButton" Foreground="Black" IsCancel="True" Margin="20px 0" IsEnabled="False" 
                     VerticalAlignment="Center" Width="80" Height="22px" Click="AcceptClick">
-                Accept
+                Aceptar
             </Button>
             <Button Name="_CancelButton" Foreground="Black" IsCancel="True"  Margin="20px 0" 
                         VerticalAlignment="Center" Width="80" Height="22px" Click="CancelClick">
-                Cancel
+                Cancelar
             </Button>
         </StackPanel>
 

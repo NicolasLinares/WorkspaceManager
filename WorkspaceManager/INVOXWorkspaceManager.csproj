@@ -121,6 +121,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\QuickAccessController.cs" />
     <Compile Include="Models\Deploys\Scripts\ArtifactsScript.cs" />
     <Compile Include="Models\QuickAccess\Folder.cs" />
     <Compile Include="Models\QuickAccess\QuickAccess.cs" />

@@ -8,7 +8,7 @@
     <Control.Resources>
         <CollectionViewSource x:Key="itemsFolder" Source="{Binding ItemsFolder}">
         </CollectionViewSource>
-        <CollectionViewSource x:Key="path" Source="{Binding Path}">
+        <CollectionViewSource x:Key="path" Source="{Binding ItemsPath}">
         </CollectionViewSource>
         <CollectionViewSource x:Key="itemsQuickAccess" Source="{Binding ItemsQuickAccess}">
         </CollectionViewSource>
@@ -24,10 +24,11 @@
         <ListBox Grid.Row="0" 
                  Name="_PathListBox" 
                  VerticalAlignment="Center"
+                 Background="Transparent"
                  BorderBrush="Transparent"
                  ItemsSource="{Binding Source={StaticResource path}}"
                  SelectedValue="{Binding SelectedPathItem}"
-                 SelectionChanged="ListBoxSelectionPathChanged"
+                 SelectionChanged="PathListBox_SelectionChanged"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  IsSynchronizedWithCurrentItem="True"
                  Focusable="False">
@@ -46,66 +47,70 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Grid Grid.Row="1" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <ListBox Name="_FoldersListBox" Grid.Row="0" BorderBrush="Transparent"
-                     ItemsSource="{Binding Source={StaticResource itemsFolder}}"
-                     SelectedValue="{Binding SelectedFolderItem}"
-                     SelectionChanged="ListBoxSelectionChanged"
-                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     IsSynchronizedWithCurrentItem="True"
-                     Focusable="False" >
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
+        <ScrollViewer Name="_ScrollView" Grid.Row="1" VerticalScrollBarVisibility="Hidden" >
+            
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                <ListBox.ItemTemplate>
-                    <DataTemplate >
-                        <Grid  Width="120" Height="120" Background="LightBlue">
-                            <TextBlock  Text="{Binding Name}" ToolTip="{Binding Description}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                <ListBox Name="_FoldersListBox" Grid.Row="0" 
+                         Background="Transparent" 
+                         BorderBrush="Transparent"      
+                         ItemsSource="{Binding Source={StaticResource itemsFolder}}"
+                         SelectedValue="{Binding SelectedFolderItem}"
+                         MouseDoubleClick="FolderListBox_DoubleClick"
+                         IsSynchronizedWithCurrentItem="True"
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         PreviewMouseWheel="DelegateMouseWheelToScrollView"
+                         Focusable="False" >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate >
+                            <Grid  Width="80" Height="80" Background="LightBlue" ToolTip="{Binding Description}">
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
-            <ListBox Name="_QuickAcessListBox" Grid.Row="1" BorderBrush="Transparent"
-                     ItemsSource="{Binding Source={StaticResource itemsQuickAccess}}"
-                     SelectedValue="{Binding SelectedQuickAccessItem}"
-                     SelectionChanged="ListBoxSelectionChanged"
-                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     IsSynchronizedWithCurrentItem="True"
-                     Focusable="False">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-
-                <ListBox.ItemTemplate>
-                    <DataTemplate >
-                        <Grid  Width="120" Height="120" Background="LightBlue">
-                            <TextBlock  Text="{Binding Name}" ToolTip="{Binding Description}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
+                <ListBox Name="_QuickAcessListBox" Grid.Row="1" Background="Transparent" BorderBrush="Transparent"
+                         HorizontalContentAlignment="Stretch"
+                         ItemsSource="{Binding Source={StaticResource itemsQuickAccess}}"
+                         SelectedValue="{Binding SelectedQuickAccessItem}"
+                         MouseDoubleClick="QuickAccessListBox_DoubleClick"
+                         IsSynchronizedWithCurrentItem="True"
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         PreviewMouseWheel="DelegateMouseWheelToScrollView"
+                         MouseRightButtonUp="QuickAccessListBox_RightClick"
+                         Focusable="False">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate >
+                            <StackPanel Height="Auto" Background="LightGray" ToolTip="{Binding Description}">
+                                <TextBlock Height="20" Margin="10 10 0 0" FontWeight="DemiBold" Foreground="RoyalBlue" Text="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                <TextBlock Height="20" Margin="30 0 0 5" Foreground="Black" Text="{Binding Path}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </ScrollViewer>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
 
-            <Button Height="40" Width="145" MinWidth="100" Click="NewQuickAccess_Click" Margin="5px 0px">
-                New quick access
+            <Button Height="40" Width="145" MinWidth="100" Click="CreateQuickAccess_Click" Margin="5px 0px">
+                Crear acceso directo
             </Button>
 
-            <Button Height="40" Width="145" MinWidth="80" Click="NewFolder_Click" Margin="5px 0px">
-                New folder
+            <Button Height="40" Width="145" MinWidth="80" Click="CreateFolder_Click" Margin="5px 0px">
+                Crear grupo
             </Button>
         </StackPanel>
     </Grid>
