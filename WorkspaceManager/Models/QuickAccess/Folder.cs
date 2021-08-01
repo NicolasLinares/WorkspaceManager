@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Media;
+
 
 namespace INVOXWorkspaceManager.Models.QuickAccess
 {
@@ -7,6 +9,8 @@ namespace INVOXWorkspaceManager.Models.QuickAccess
 
         private string name;
         private string description;
+        private Color color;
+
         private List<Folder> folders;
         private List<QuickAccess> quickAccess;
 
@@ -18,6 +22,11 @@ namespace INVOXWorkspaceManager.Models.QuickAccess
             get { return description; }
             set { description = value; }
         }
+        public Color Color {
+            get { return color; }
+            set { color = value; }
+        }
+
         public List<Folder> Folders {
             get { return folders; }
             set { folders = value; }
@@ -27,9 +36,10 @@ namespace INVOXWorkspaceManager.Models.QuickAccess
             set { quickAccess = value; }
         }
 
-        public Folder(string name, string description) {
+        public Folder(string name, string description, Color color) {
             Name = name;
             Description = description;
+            Color = color;
             Folders = new List<Folder>();
             QuickAccess = new List<QuickAccess>();
         }
@@ -65,5 +75,15 @@ namespace INVOXWorkspaceManager.Models.QuickAccess
         }
 
         #endregion
+
+
+        public override bool Equals(object obj) {
+            return obj is Folder f
+                && (Name ?? "").Equals(f.Name);
+        }
+
+        public override int GetHashCode() {
+            return (Name != null ? Name.GetHashCode() : 0);
+        }
     }
 }

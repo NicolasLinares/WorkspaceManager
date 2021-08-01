@@ -1,29 +1,56 @@
 ﻿
 
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 namespace INVOXWorkspaceManager.Models.QuickAccess
 {
-    public class QuickAccess {
+    public class QuickAccess: INotifyPropertyChanged {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private string path;
         private string name;
         private string description;
 
         public string Path {
             get { return path; }
-            set { path = value; }
+            set { SetProperty(ref path, value); }
         }
         public string Name {
             get { return name; }
-            set { name = value; }
+            set { SetProperty(ref name, value); }
         }
         public string Description {
             get { return description; }
-            set { description = value; }
+            set { SetProperty(ref description, value); }
         }
 
         public QuickAccess(string path, string name, string description) {
             Name = name;
             Path = path;
             Description = description;
+        }
+
+        public override bool Equals(object obj) {
+            QuickAccess qa = obj as QuickAccess;
+            return qa != null
+                && (Path ?? "").Equals(qa.Path)
+                && (Name ?? "").Equals(qa.Name);
+        }
+
+        public override int GetHashCode() {
+            return (Name != null ? Name.GetHashCode() : 0);
+        }
+
+        private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null) {
+            if (!EqualityComparer<T>.Default.Equals(field, value)) {
+                field = value;
+                OnPropertyChanged(propertyName);
+            }
+        }
+        private void OnPropertyChanged([CallerMemberName]string propertyName = null) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

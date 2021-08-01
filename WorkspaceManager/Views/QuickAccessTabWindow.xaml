@@ -6,11 +6,11 @@
              mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="600">
 
     <Control.Resources>
-        <CollectionViewSource x:Key="itemsFolder" Source="{Binding ItemsFolder}">
+        <CollectionViewSource x:Key="itemsFolder" Source="{Binding ItemsFolder, Mode=TwoWay}">
         </CollectionViewSource>
-        <CollectionViewSource x:Key="path" Source="{Binding ItemsPath}">
+        <CollectionViewSource x:Key="path" Source="{Binding ItemsPath, Mode=TwoWay}">
         </CollectionViewSource>
-        <CollectionViewSource x:Key="itemsQuickAccess" Source="{Binding ItemsQuickAccess}">
+        <CollectionViewSource x:Key="itemsQuickAccess" Source="{Binding ItemsQuickAccess, Mode=TwoWay}">
         </CollectionViewSource>
     </Control.Resources>
 
@@ -28,7 +28,7 @@
                  BorderBrush="Transparent"
                  ItemsSource="{Binding Source={StaticResource path}}"
                  SelectedValue="{Binding SelectedPathItem}"
-                 SelectionChanged="PathListBox_SelectionChanged"
+                 SelectionChanged="UpdateNavigationPath_SelectionChanged"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  IsSynchronizedWithCurrentItem="True"
                  Focusable="False">
@@ -60,7 +60,7 @@
                          BorderBrush="Transparent"      
                          ItemsSource="{Binding Source={StaticResource itemsFolder}}"
                          SelectedValue="{Binding SelectedFolderItem}"
-                         MouseDoubleClick="FolderListBox_DoubleClick"
+                         MouseDoubleClick="NavegateFolders_DoubleClick"
                          IsSynchronizedWithCurrentItem="True"
                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -73,7 +73,7 @@
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate >
-                            <Grid  Width="80" Height="80" Background="LightBlue" ToolTip="{Binding Description}">
+                            <Grid  Width="80" Height="80" Background="{Binding Color}" ToolTip="{Binding Description}">
                                 <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Grid>
                         </DataTemplate>
@@ -82,20 +82,26 @@
 
                 <ListBox Name="_QuickAcessListBox" Grid.Row="1" Background="Transparent" BorderBrush="Transparent"
                          HorizontalContentAlignment="Stretch"
-                         ItemsSource="{Binding Source={StaticResource itemsQuickAccess}}"
+                         ItemsSource="{Binding Source={StaticResource itemsQuickAccess} }"
                          SelectedValue="{Binding SelectedQuickAccessItem}"
-                         MouseDoubleClick="QuickAccessListBox_DoubleClick"
+                         MouseDoubleClick="OpenQuickAccess_DoubleClick"
                          IsSynchronizedWithCurrentItem="True"
                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          PreviewMouseWheel="DelegateMouseWheelToScrollView"
-                         MouseRightButtonUp="QuickAccessListBox_RightClick"
                          Focusable="False">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Editar"  Click="EditQuickAccess_MenuClick"/>
+                            <MenuItem Header="Eliminar" Click="RemoveQuickAccess_MenuClick"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
                     <ListBox.ItemTemplate>
                         <DataTemplate >
                             <StackPanel Height="Auto" Background="LightGray" ToolTip="{Binding Description}">
                                 <TextBlock Height="20" Margin="10 10 0 0" FontWeight="DemiBold" Foreground="RoyalBlue" Text="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBlock Height="20" Margin="30 0 0 5" Foreground="Black" Text="{Binding Path}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                <TextBlock Height="20" Margin="30 0 0 5" Foreground="Black" Text="{Binding Path}"  HorizontalAlignment="Left" VerticalAlignment="Center" >
+                                </TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

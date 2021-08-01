@@ -1,7 +1,5 @@
 ﻿using INVOXWorkspaceManager.Models.QuickAccess;
-using Ookii.Dialogs.WinForms;
 using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,12 +9,8 @@ namespace INVOXWorkspaceManager.Views {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class NewQuickAccessDialog : Window {
+    public partial class NewFolderDialog : Window {
 
-        public string PathText {
-            get { return _PathTextBox.Text; }
-            private set { _PathTextBox.Text = value; }
-        }
         public string NameText {
             get { return _NameTextBox.Text; }
             private set {
@@ -29,15 +23,21 @@ namespace INVOXWorkspaceManager.Views {
             private set { _DescriptionTextBox.Text = value; }
         }
 
-        public NewQuickAccessDialog() {
+        private Color color;
+
+        public Color Color {
+            get { return color; }
+            private set { color = value; }
+        }
+
+        public NewFolderDialog() {
             InitializeComponent();            
         }
 
-        public NewQuickAccessDialog(QuickAccess qa) {
+        public NewFolderDialog(Folder folder) {
             InitializeComponent();
-            PathText = qa.Path;
-            NameText = qa.Name;
-            DescriptionText = qa.Description;
+            NameText = folder.Name;
+            DescriptionText = folder.Description;
         }
 
         /// <summary>
@@ -61,51 +61,28 @@ namespace INVOXWorkspaceManager.Views {
             }
         }
 
-        private void BrowseClick(object sender, EventArgs e) {
-
-            var browser = new VistaFolderBrowserDialog();
-            var result = browser.ShowDialog();
-
-            if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(browser.SelectedPath)) {
-                PathText = browser.SelectedPath;
-                _PathTextBox.ClearValue(TextBox.BackgroundProperty);
-            }
-        }
 
         private void ValidateName_TextBox(object sender, TextChangedEventArgs e) {
             if (string.IsNullOrWhiteSpace(NameText)) {
                 _NameTextBox.Background = Brushes.Salmon;
-                _PathTextBox.IsEnabled = false;
                 _AcceptButton.IsEnabled = false;
                 return;
             }
 
             _NameTextBox.ClearValue(TextBox.BackgroundProperty);
-            _PathTextBox.IsEnabled = true;
-        }
-
-        private void ValidatePath_TextBox(object sender, TextChangedEventArgs e) {
-            if (!Directory.Exists(PathText)) {
-                _PathTextBox.Background = Brushes.Salmon;
-                _NameTextBox.IsEnabled = false;
-                _AcceptButton.IsEnabled = false;
-                return;
-            }
-
-            _PathTextBox.ClearValue(TextBox.BackgroundProperty);
             _AcceptButton.IsEnabled = true;
         }
 
-
-
+        private void SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e) {
+            if (_ColorPicker.SelectedColor.HasValue) {
+                Color = _ColorPicker.SelectedColor.Value;
+            }
+        }
 
         private void AcceptClick(object sender, EventArgs e) {
 
             // Validación de inputs
-            if (string.IsNullOrWhiteSpace(PathText) ) {
-                _PathTextBox.BorderBrush = Brushes.Red;
-                this.DialogResult = false;
-            } else if (string.IsNullOrWhiteSpace(NameText)) {
+            if (string.IsNullOrWhiteSpace(NameText)) {
                 _NameTextBox.BorderBrush = Brushes.Red;
                 this.DialogResult = false;
 
