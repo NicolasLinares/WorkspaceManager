@@ -1,11 +1,11 @@
-﻿using INVOXWorkspaceManager.Models.QuickAccess;
+﻿using WorkspaceManagerTool.Models.QuickAccess;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
  
-namespace INVOXWorkspaceManager.Views {
+namespace WorkspaceManagerTool.Views {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
@@ -23,9 +23,9 @@ namespace INVOXWorkspaceManager.Views {
             private set { _DescriptionTextBox.Text = value; }
         }
 
-        private Color color;
+        private SolidColorBrush color;
 
-        public Color Color {
+        public SolidColorBrush Color {
             get { return color; }
             private set { color = value; }
         }
@@ -75,7 +75,7 @@ namespace INVOXWorkspaceManager.Views {
 
         private void SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e) {
             if (_ColorPicker.SelectedColor.HasValue) {
-                Color = _ColorPicker.SelectedColor.Value;
+                Color = new SolidColorBrush(_ColorPicker.SelectedColor.Value);
             }
         }
 

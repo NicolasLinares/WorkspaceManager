@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace INVOXWorkspaceManager.Views {
+namespace WorkspaceManagerTool.Views {
     /// <summary>
     /// Interaction logic for DeployTabWindow.xaml
     /// </summary>

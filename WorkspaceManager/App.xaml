@@ -1,7 +1,6 @@
-﻿<Application x:Class="INVOXWorkspaceManager.App"
+﻿<Application x:Class="WorkspaceManagerTool.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:INVOXWorkspaceManager"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
          

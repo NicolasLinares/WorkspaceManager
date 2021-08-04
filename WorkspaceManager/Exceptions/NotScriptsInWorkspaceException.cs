@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace INVOXWorkspaceManager.Exceptions {
+namespace WorkspaceManagerTool.Exceptions {
 
     [Serializable]
     class NotScriptsInWorkspaceException : Exception {

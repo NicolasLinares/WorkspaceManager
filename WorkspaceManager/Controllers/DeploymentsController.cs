@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Diagnostics;
-using INVOXWorkspaceManager.Models.Deploys;
-using INVOXWorkspaceManager.Exceptions;
-using INVOXWorkspaceManager.Models.Deploys.Scripts;
+using WorkspaceManagerTool.Models.Deploys;
+using WorkspaceManagerTool.Exceptions;
+using WorkspaceManagerTool.Models.Deploys.Scripts;
 
-namespace INVOXWorkspaceManager.Controllers
+namespace WorkspaceManagerTool.Controllers
 {
     class DeploymentsController
     {

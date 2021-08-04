@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using INVOXWorkspaceManager.Controllers;
+using WorkspaceManagerTool.Controllers;
 using System.Windows.Media;
-using INVOXWorkspaceManager.Exceptions;
+using WorkspaceManagerTool.Exceptions;
 using Ookii.Dialogs.WinForms;
-using INVOXWorkspaceManager.Models.Deploys.Scripts;
+using WorkspaceManagerTool.Models.Deploys.Scripts;
 using System.Windows.Controls;
 
-namespace INVOXWorkspaceManager.Views {
+namespace WorkspaceManagerTool.Views {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>

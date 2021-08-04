@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 
-namespace INVOXWorkspaceManager.Models.Deploys {
+namespace WorkspaceManagerTool.Models.Deploys {
     class History
     {
         private static History _instance;

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0F0AFAB0-3494-4892-B295-F7C790002708}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>INVOXWorkspaceManager</RootNamespace>
-    <AssemblyName>INVOXWorkspaceManager</AssemblyName>
+    <RootNamespace>WorkspaceManagerTool</RootNamespace>
+    <AssemblyName>WorkspaceManagerTool</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -76,7 +76,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>1</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -93,6 +93,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="Ookii.Dialogs.WinForms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
       <HintPath>..\packages\Ookii.Dialogs.WinForms.1.2.0\lib\net45\Ookii.Dialogs.WinForms.dll</HintPath>
     </Reference>
@@ -140,6 +141,7 @@
     <Compile Include="Models\Deploys\Scripts\ArtifactsScript.cs" />
     <Compile Include="Models\QuickAccess\Folder.cs" />
     <Compile Include="Models\QuickAccess\QuickAccess.cs" />
+    <Compile Include="Utils\JSONManager.cs" />
     <Compile Include="Utils\Notifier.cs" />
     <Compile Include="Views\NewFolderDialog.xaml.cs">
       <DependentUpon>NewFolderDialog.xaml</DependentUpon>

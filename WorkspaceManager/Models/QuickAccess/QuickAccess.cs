@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace INVOXWorkspaceManager.Models.QuickAccess
+namespace WorkspaceManagerTool.Models.QuickAccess
 {
     public class QuickAccess: INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;

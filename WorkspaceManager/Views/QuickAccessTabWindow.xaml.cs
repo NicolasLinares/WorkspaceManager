@@ -1,4 +1,4 @@
-﻿using INVOXWorkspaceManager.Models.QuickAccess;
+﻿using WorkspaceManagerTool.Models.QuickAccess;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,13 +6,13 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System;
-using INVOXWorkspaceManager.Controllers;
+using WorkspaceManagerTool.Controllers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Ookii.Dialogs.WinForms;
 
-namespace INVOXWorkspaceManager.Views {
+namespace WorkspaceManagerTool.Views {
 
     /// <summary>
     /// Interaction logic for QuickAccessTabWindow.xaml
@@ -57,6 +57,9 @@ namespace INVOXWorkspaceManager.Views {
 
         private QuickAccessController QuickAccessController { get; set; }
 
+
+        private Folder home;
+
         public QuickAccessTabWindow() {
             DataContext = this;
             InitializeComponent();
@@ -68,14 +71,14 @@ namespace INVOXWorkspaceManager.Views {
             ItemsQuickAccess = new ObservableCollection<QuickAccess>();
 
             // Tests items
-            Folder invox = new Folder("INVOX", "Workspace de invox", new Color());
-            invox.AddSubFolders(new Folder("MisRecursos", "Carpeta de mis recursos", new Color()));
-            invox.AddSubFolders(new Folder("SDK", "Workspace del sdk", new Color()));
+            Folder invox = new Folder("INVOX", "Workspace de invox", new SolidColorBrush());
+            invox.AddSubFolders(new Folder("MisRecursos", "Carpeta de mis recursos", new SolidColorBrush()));
+            invox.AddSubFolders(new Folder("SDK", "Workspace del sdk", new SolidColorBrush()));
             ItemsFolder.Add(invox);
 
-            ItemsFolder.Add(new Folder("SERMAS", "Workspace de sermas", new Color()));
-            ItemsFolder.Add(new Folder("KALDI", "Workspace de kaldi", new Color()));
-            ItemsFolder.Add(new Folder("TOOLS", "Workspace del tools", new Color()));
+            ItemsFolder.Add(new Folder("SERMAS", "Workspace de sermas", new SolidColorBrush()));
+            ItemsFolder.Add(new Folder("KALDI", "Workspace de kaldi", new SolidColorBrush()));
+            ItemsFolder.Add(new Folder("TOOLS", "Workspace del tools", new SolidColorBrush()));
 
 
             ItemsQuickAccess.Add(new QuickAccess(@"C:\REPO\invox", "Nuevo acceso directo", "Acceso directo creado el 31/07/2021"));
@@ -86,11 +89,10 @@ namespace INVOXWorkspaceManager.Views {
 
             // Set Home item
 
-            Folder home = new Folder("HOME", "Volver al inicio", new Color());
+            home = new Folder("HOME", "Volver al inicio", new SolidColorBrush());
             home.AddSubFolders(new List<Folder>(ItemsFolder));
             home.AddQuickAccess(new List<QuickAccess>(ItemsQuickAccess));
             ItemsPath.Add(home);
-
         }
 
         #endregion
@@ -127,6 +129,8 @@ namespace INVOXWorkspaceManager.Views {
                 QuickAccess qa = new QuickAccess(dialog.PathText, dialog.NameText, dialog.DescriptionText + "\n\nFecha de creación: " + DateTime.Now);
                 ItemsQuickAccess.Add(qa);
                 _ScrollView.ScrollToEnd();
+                QuickAccessController.SaveChanges(home);
+
             }
         }
         private void EditQuickAccess_MenuClick(object sender, RoutedEventArgs e) {
@@ -178,6 +182,7 @@ namespace INVOXWorkspaceManager.Views {
                 Folder folder = new Folder(dialog.NameText, dialog.DescriptionText, dialog.Color);
                 ItemsFolder.Add(folder);
                 _FoldersListBox.ScrollIntoView(folder);
+                QuickAccessController.SaveChanges(home);
             }
 
         }

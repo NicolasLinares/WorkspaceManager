@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 
-namespace INVOXWorkspaceManager.Models.Deploys {
+namespace WorkspaceManagerTool.Models.Deploys {
 
     class Params {
         public string ADMIN_PARAM => "-ExecutionPolicy Unrestricted";

@@ -1,4 +1,4 @@
-﻿using INVOXWorkspaceManager.Models.QuickAccess;
+﻿using WorkspaceManagerTool.Models.QuickAccess;
 using Ookii.Dialogs.WinForms;
 using System;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
  
-namespace INVOXWorkspaceManager.Views {
+namespace WorkspaceManagerTool.Views {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>

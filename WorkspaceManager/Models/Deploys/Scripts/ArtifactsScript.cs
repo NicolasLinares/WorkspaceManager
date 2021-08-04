@@ -1,6 +1,6 @@
 ﻿
 
-namespace INVOXWorkspaceManager.Models.Deploys.Scripts {
+namespace WorkspaceManagerTool.Models.Deploys.Scripts {
     class ArtifactsScript {
 
         private static ArtifactsScript _instance;

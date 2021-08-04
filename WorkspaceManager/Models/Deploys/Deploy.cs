@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace INVOXWorkspaceManager.Models.Deploys {
+namespace WorkspaceManagerTool.Models.Deploys {
     class Deploy {
 
         public string Name => "kaldi";

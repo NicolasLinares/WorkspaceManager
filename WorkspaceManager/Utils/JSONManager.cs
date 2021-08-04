@@ -1,36 +1,34 @@
-﻿using INVOXWorkspaceManager.Model;
+﻿using WorkspaceManagerTool.Models;
+using WorkspaceManagerTool.Models.Deploys;
 using Newtonsoft.Json;
+using System;
 using System.IO;
 
 
-namespace INVOXWorkspaceManager.Utils {
-    class JSONManager {
+namespace WorkspaceManagerTool.Utils {
+    static class JSONManager {
 
-        private string DeploysDirectory {
-            get {
-                string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                string directory = @"INVOXWorkspaceManager\deploys\";
-                return Path.Combine(AppData, directory);
-            }
+        private static void CreateDirectory(string path) {
+            string dir = Path.GetDirectoryName(path);
+            if (Directory.Exists(dir))
+                return;
+            Directory.CreateDirectory(dir);
         }
 
-        //... añadir directorios necesarios
-
-        public Deploy ReadJSON(string file) {
-            string jsonPath = Path.Combine(DeploysDirectory, file);
+        public static T ReadJSON<T>(string jsonPath) {
             string jsonContent = File.ReadAllText(jsonPath);
-            return JsonConvert.DeserializeObject<Deploy>(jsonContent);
+            return JsonConvert.DeserializeObject<T>(jsonContent);
         }
 
-        public void SaveJSON(string filename, Deploy deploy) {
+        public static void SaveJSON<T>(string jsonPath, T obj) {
+            CreateDirectory(jsonPath);
 
-            string jsonPath = Path.Combine(DeploysDirectory, filename);
-
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.NullValueHandling = NullValueHandling.Ignore;  //<<--- tener en cuenta
+            JsonSerializer serializer = new JsonSerializer {
+                NullValueHandling = NullValueHandling.Ignore  //<<--- tener en cuenta
+            };
             using (StreamWriter sw = new StreamWriter(jsonPath))
             using (JsonWriter writer = new JsonTextWriter(sw)) {
-                serializer.Serialize(writer, deploy);
+                serializer.Serialize(writer, obj);
             }
         }
     }

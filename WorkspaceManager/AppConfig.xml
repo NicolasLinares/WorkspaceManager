@@ -2,7 +2,7 @@
 <objects xmlns="http://www.springframework.net"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://www.springframework.net http://www.springframework.net/xsd/spring-objects.xsd">
-  <description>INVOX Workspace Manager</description>
+  <description>Workspace Manager Tool</description>
 
   <!-- Parámetros generales básicos inyectables con ${nombre.parametro} -->
   <object type="Spring.Objects.Factory.Config.VariablePlaceholderConfigurer">
@@ -16,7 +16,7 @@
         <object type="Spring.Objects.Factory.Config.ConfigurableVariableSource">
           <property name="Variables">
             <name-values>
-              <add key="producto.titulo" value="INVOX Workspace Manager" />
+              <add key="producto.titulo" value="Workspace Manager Tool" />
               <add key="producto.descrip" value="Gestión de despliegues y carpetas principales" />
               <add key="producto.nombreAutor" value="Nicolás Enrique Linares La Barba" />
               <add key="producto.nivel" value="LOCAL" />

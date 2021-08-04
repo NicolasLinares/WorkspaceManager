@@ -2,14 +2,14 @@
 using System.Windows.Media;
 
 
-namespace INVOXWorkspaceManager.Models.QuickAccess
+namespace WorkspaceManagerTool.Models.QuickAccess
 {
 
     public class Folder {
 
         private string name;
         private string description;
-        private Color color;
+        private SolidColorBrush color;
 
         private List<Folder> folders;
         private List<QuickAccess> quickAccess;
@@ -22,7 +22,7 @@ namespace INVOXWorkspaceManager.Models.QuickAccess
             get { return description; }
             set { description = value; }
         }
-        public Color Color {
+        public SolidColorBrush Color {
             get { return color; }
             set { color = value; }
         }
@@ -36,7 +36,7 @@ namespace INVOXWorkspaceManager.Models.QuickAccess
             set { quickAccess = value; }
         }
 
-        public Folder(string name, string description, Color color) {
+        public Folder(string name, string description, SolidColorBrush color) {
             Name = name;
             Description = description;
             Color = color;

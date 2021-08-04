@@ -1,10 +1,9 @@
-﻿using INVOXWorkspaceManager.Models.Deploys.Scripts;
-using System;
+﻿using WorkspaceManagerTool.Models.Deploys.Scripts;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace INVOXWorkspaceManager.Models.Deploys
+namespace WorkspaceManagerTool.Models.Deploys
 {
     class WorkSpace {
 
