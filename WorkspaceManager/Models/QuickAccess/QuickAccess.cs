@@ -42,7 +42,9 @@ namespace WorkspaceManagerTool.Models.QuickAccess
             QuickAccess qa = obj as QuickAccess;
             return qa != null
                 && (Path ?? "").Equals(qa.Path)
-                && (Name ?? "").Equals(qa.Name);
+                && (Name ?? "").Equals(qa.Name)
+                && (Description ?? "").Equals(qa.Description)
+                && Group.Equals(qa.Group);
         }
 
         public override int GetHashCode() {

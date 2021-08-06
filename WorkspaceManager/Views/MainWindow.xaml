@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local1="clr-namespace:WorkspaceManagerTool.Views" 
         mc:Ignorable="d" ResizeMode="CanResize"
-        Title="Workspace Manager Tool" Height="500" MinHeight="500" Width="420" MinWidth="420">
+        Title="Workspace Manager Tool" Height="500" MinHeight="500" Width="420" MinWidth="420" >
 
     <Window.Resources>
 
+        <SolidColorBrush x:Key="Dark" Color="#272f3b"/>
         <SolidColorBrush x:Key="DarkBlue" Color="#3a4657"/>
         <SolidColorBrush x:Key="MediumDarkBlue" Color="#4e5b6e"/>
+        <SolidColorBrush x:Key="LightDarkBlue" Color="#677487"/>
 
 
         <Style TargetType="{x:Type TabItem}">
@@ -20,11 +22,9 @@
                         <Border>
                             <Grid>
                                 <Grid>
-                                    <Border x:Name="border" 
-                                            CornerRadius="3,3,0,0"
-                                            Background="WhiteSmoke"/>
+                                    <Border x:Name="border" CornerRadius="5,5,0,0" Background="{StaticResource MediumDarkBlue}" />
                                 </Grid>
-                                <ContentPresenter ContentSource="Header"
+                                <ContentPresenter ContentSource="Header" Margin="20px 5px"
                                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                             </Grid>
@@ -34,7 +34,7 @@
                                      Value="True">
                                 <Setter TargetName="border"
                                         Property="Background"
-                                        Value="{StaticResource MediumDarkBlue}" />
+                                        Value="{StaticResource DarkBlue}" />
                             </Trigger>
                             <Trigger Property="IsSelected"
                                      Value="True">
@@ -49,13 +49,13 @@
         </Style>
     </Window.Resources>
 
-    <Grid  >
-        <TabControl Background="{StaticResource DarkBlue}" >
+    <Grid  Background="{StaticResource Dark}">
+        <TabControl Background="{StaticResource DarkBlue}" BorderThickness="0" >
 
-            <TabItem Header="Quick Access" Background="{StaticResource DarkBlue}"  >
+            <TabItem Header="Quick Access" Foreground="WhiteSmoke" Background="{StaticResource DarkBlue}"  >
                 <local1:QuickAccessTabWindow Background="{StaticResource DarkBlue}" />
             </TabItem>
-            <TabItem Header="Deploys">
+            <TabItem Header="Deploys" Foreground="WhiteSmoke">
 
             </TabItem>
         </TabControl>

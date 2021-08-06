@@ -11,7 +11,30 @@
         <CollectionViewSource x:Key="quickaccess" Source="{Binding QuickAccessItems, Mode=TwoWay}">
         </CollectionViewSource>
 
+        <Style x:Key="_ListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Name="_Border" CornerRadius="10"
+                                Padding="2"
+                                SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <SolidColorBrush x:Key="Dark" Color="#272f3b"/>
+        <SolidColorBrush x:Key="DarkBlue" Color="#3a4657"/>
         <SolidColorBrush x:Key="MediumDarkBlue" Color="#4e5b6e"/>
+        <SolidColorBrush x:Key="LightDarkBlue" Color="#677487"/>
 
     </Control.Resources>
 
@@ -31,7 +54,7 @@
                  SelectedValue="{Binding SelectedGroup}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  IsSynchronizedWithCurrentItem="True"
-                 Focusable="False">
+                 Focusable="False"  ItemContainerStyle="{StaticResource _ListBoxItemStyle}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal" Background="Transparent"/>
@@ -54,7 +77,7 @@
                     IsSynchronizedWithCurrentItem="True"
                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    Focusable="False">
+                    Focusable="False" ItemContainerStyle="{StaticResource _ListBoxItemStyle}">
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Editar"  Click="EditQuickAccess_MenuClick"/>
@@ -63,22 +86,26 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate >
-                    <Grid Height="Auto" Background="{StaticResource MediumDarkBlue}" ToolTip="{Binding Description}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="100"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
-                            <TextBlock Height="20" Margin="10 10 0 0" FontWeight="DemiBold" Foreground="{Binding Group.Color}" Text="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
-                            <TextBlock Height="20" Margin="30 0 0 5" Foreground="White" Text="{Binding Path}"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <TextBlock Grid.Column="1" Padding="10px 3px" Margin="20px 0px" Foreground="Black" Text="{Binding Group.Name}" Background="{Binding Group.Color}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    </Grid>
+
+                    <Border CornerRadius="10" BorderThickness="2" BorderBrush="{StaticResource MediumDarkBlue}" Background="{StaticResource MediumDarkBlue}">
+                        <Grid Height="Auto"  ToolTip="{Binding Description}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Height="20" Margin="10 10 0 0" FontWeight="DemiBold" Foreground="{Binding Group.Color}" Text="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                <TextBlock Height="20" Margin="30 0 0 5" Foreground="WhiteSmoke" Text="{Binding Path}"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <TextBlock Grid.Column="1" Padding="10px 3px" Margin="20px 0px" Foreground="Black" Text="{Binding Group.Name}" Background="{Binding Group.Color}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button Grid.Row="2" Height="40" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="CreateQuickAccess_Click" Margin="5px 0px">
+        <Button Grid.Row="2"  Background="{StaticResource Dark}" Foreground="WhiteSmoke" Height="40" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="CreateQuickAccess_Click" Margin="5px 0px">
             Crear acceso directo
         </Button>
     </Grid>

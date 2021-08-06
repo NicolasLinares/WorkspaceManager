@@ -95,7 +95,7 @@ namespace WorkspaceManagerTool.Views {
             NewQuickAccessDialog dialog = new NewQuickAccessDialog();
 
             if (dialog.ShowDialog() == true) {
-                Group gr = new Group(dialog.GroupText, dialog.Color);
+                Group gr = new Group(dialog.GroupText, new SolidColorBrush(dialog.ColorBrush));
                 QuickAccess qa = new QuickAccess(dialog.PathText, dialog.NameText, dialog.DescriptionText, gr);
 
                 if (!GroupItems.Contains(gr)) {
@@ -116,7 +116,7 @@ namespace WorkspaceManagerTool.Views {
                     item.Path = dialog.PathText;
                     item.Name = dialog.NameText;
                     item.Description = dialog.DescriptionText;
-                    var newGroup = new Group(dialog.GroupText, dialog.Color);
+                    var newGroup = new Group(dialog.GroupText, new SolidColorBrush(dialog.ColorBrush));
                     if (!item.Group.Equals(newGroup)) {
                         RemoveGroupIfNotExists(item.Group);
                         item.Group = newGroup;

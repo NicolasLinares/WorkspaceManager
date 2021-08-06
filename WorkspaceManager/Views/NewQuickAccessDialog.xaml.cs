@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
- 
+
 namespace WorkspaceManagerTool.Views {
     /// <summary>
     /// Interaction logic for Window1.xaml
@@ -34,8 +34,8 @@ namespace WorkspaceManagerTool.Views {
             private set { _GroupTextBox.Text = value; }
         }
 
-        private SolidColorBrush color;
-        public SolidColorBrush Color {
+        private Color color;
+        public Color ColorBrush {
             get { return color; }
             private set { color = value; }
         }
@@ -51,7 +51,8 @@ namespace WorkspaceManagerTool.Views {
             NameText = qa.Name;
             DescriptionText = qa.Description;
             GroupText = qa.Group.Name;
-            Color = qa.Group.Color;
+            ColorBrush = Color.FromRgb(qa.Group.Color.Color.R, qa.Group.Color.Color.G, qa.Group.Color.Color.B);
+            _ColorPicker.SelectedColor = ColorBrush;
         }
 
         /// <summary>
@@ -77,7 +78,7 @@ namespace WorkspaceManagerTool.Views {
 
         private void SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e) {
             if (_ColorPicker.SelectedColor.HasValue) {
-                Color = new SolidColorBrush(_ColorPicker.SelectedColor.Value);
+                ColorBrush = _ColorPicker.SelectedColor.Value;
             }
         }
 
