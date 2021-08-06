@@ -16,7 +16,12 @@ namespace WorkspaceManagerTool.Utils {
         }
 
         public static T ReadJSON<T>(string jsonPath) {
-            string jsonContent = File.ReadAllText(jsonPath);
+            string jsonContent;
+            try {
+                jsonContent = File.ReadAllText(jsonPath);
+            } catch(Exception) {
+                throw;
+            }
             return JsonConvert.DeserializeObject<T>(jsonContent);
         }
 

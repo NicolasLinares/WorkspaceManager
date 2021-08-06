@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d" ShowInTaskbar="False"
         Title="Quick Access" Height="285" Width="500" ResizeMode="NoResize">
     <Grid>
@@ -18,29 +19,40 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="70"/>
             <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="Nombre" Grid.Row="0" FontWeight="Bold" Foreground="Black" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
-        <TextBox Name="_NameTextBox" Grid.Row="1" Grid.ColumnSpan="2"  Height="22px" Margin="20px 0px" TextChanged="ValidateName_TextBox"
+        <TextBox Name="_NameTextBox" Grid.Row="1" Grid.ColumnSpan="1"  Height="22px" Margin="20px 0px 0px 0px" TextChanged="ValidateName_TextBox"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>
 
 
+        <TextBlock Text="Grupo" Grid.Row="0" Grid.Column="1"  FontWeight="Bold" Foreground="Black" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
+        <TextBox Name="_GroupTextBox" Grid.Row="1" Grid.Column="1" Height="22px" Margin="20px 0px 0px 0px" TextChanged="ValidateName_TextBox"
+                     GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>
+
+        <TextBlock Text="Color" Grid.Row="0" Grid.Column="2" FontWeight="Bold" Foreground="Black" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
+        <xctk:ColorPicker Name="_ColorPicker" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Height="22px" Margin="20px 0px" DisplayColorTooltip="True" DisplayColorAndName="False" SelectedColorChanged="SelectedColorChanged" 
+                          AvailableColorsSortingMode="HueSaturationBrightness" />
+
+
         <TextBlock Text="Ruta" Grid.Row="2" FontWeight="Bold" Foreground="Black" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
-        <TextBox Name="_PathTextBox"  Grid.Row="3" Grid.ColumnSpan="1"  Height="22px" Margin="20px 0px 0px 0px" IsEnabled="false"
+        <TextBox Name="_PathTextBox"  Grid.Row="3" Grid.ColumnSpan="3"  Height="22px" Margin="20px 0px 0px 0px" IsEnabled="false"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" TextChanged="ValidatePath_TextBox"/>
-        <Button Name="_BrowseButton" Grid.Row="3" Grid.Column="1" Foreground="Black" IsCancel="True" Margin="0px 0px 10px 0px"
+        <Button Name="_BrowseButton" Grid.Row="3" Grid.Column="3" Foreground="Black" IsCancel="True" Margin="0px 0px 10px 0px"
                     VerticalAlignment="Center" HorizontalAlignment="Left" Height="22px" Width="30" Click="BrowseClick">
             . . .
         </Button>
 
 
         <TextBlock Text="Descripción" Grid.Row="4" FontWeight="Bold" Foreground="Black" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
-        <TextBox Name="_DescriptionTextBox" Grid.Row="5" Grid.ColumnSpan="2" TextWrapping="Wrap" Height="44px" Margin="20px 0px" Padding="3"
+        <TextBox Name="_DescriptionTextBox" Grid.Row="5" Grid.ColumnSpan="4" TextWrapping="Wrap" Height="44px" Margin="20px 0px" Padding="3"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown"/>
 
 
-        <StackPanel Grid.Row="6" Width="240" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="6" Width="240" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal">
             <Button Name="_AcceptButton" Foreground="Black" IsCancel="True" Margin="20px 0" IsEnabled="False" 
                     VerticalAlignment="Center" Width="80" Height="22px" Click="AcceptClick">
                 Aceptar

@@ -7,12 +7,53 @@
         mc:Ignorable="d" ResizeMode="CanResize"
         Title="Workspace Manager Tool" Height="500" MinHeight="500" Width="420" MinWidth="420">
 
-    <Grid>
-        <TabControl>
+    <Window.Resources>
 
-            <TabItem Header="Quick Access" >
-                <local1:QuickAccessTabWindow>
-                </local1:QuickAccessTabWindow>
+        <SolidColorBrush x:Key="DarkBlue" Color="#3a4657"/>
+        <SolidColorBrush x:Key="MediumDarkBlue" Color="#4e5b6e"/>
+
+
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border>
+                            <Grid>
+                                <Grid>
+                                    <Border x:Name="border" 
+                                            CornerRadius="3,3,0,0"
+                                            Background="WhiteSmoke"/>
+                                </Grid>
+                                <ContentPresenter ContentSource="Header"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="{StaticResource MediumDarkBlue}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="{StaticResource DarkBlue}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid  >
+        <TabControl Background="{StaticResource DarkBlue}" >
+
+            <TabItem Header="Quick Access" Background="{StaticResource DarkBlue}"  >
+                <local1:QuickAccessTabWindow Background="{StaticResource DarkBlue}" />
             </TabItem>
             <TabItem Header="Deploys">
 

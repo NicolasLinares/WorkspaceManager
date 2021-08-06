@@ -29,15 +29,29 @@ namespace WorkspaceManagerTool.Views {
             private set { _DescriptionTextBox.Text = value; }
         }
 
+        public string GroupText {
+            get { return _GroupTextBox.Text; }
+            private set { _GroupTextBox.Text = value; }
+        }
+
+        private SolidColorBrush color;
+        public SolidColorBrush Color {
+            get { return color; }
+            private set { color = value; }
+        }
+
         public NewQuickAccessDialog() {
             InitializeComponent();            
         }
 
         public NewQuickAccessDialog(QuickAccess qa) {
             InitializeComponent();
+
             PathText = qa.Path;
             NameText = qa.Name;
             DescriptionText = qa.Description;
+            GroupText = qa.Group.Name;
+            Color = qa.Group.Color;
         }
 
         /// <summary>
@@ -58,6 +72,12 @@ namespace WorkspaceManagerTool.Views {
                     e.Handled = true;
                     textBox.Focus();
                 }
+            }
+        }
+
+        private void SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e) {
+            if (_ColorPicker.SelectedColor.HasValue) {
+                Color = new SolidColorBrush(_ColorPicker.SelectedColor.Value);
             }
         }
 

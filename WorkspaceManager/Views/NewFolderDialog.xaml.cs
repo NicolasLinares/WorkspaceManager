@@ -34,10 +34,9 @@ namespace WorkspaceManagerTool.Views {
             InitializeComponent();            
         }
 
-        public NewFolderDialog(Folder folder) {
+        public NewFolderDialog(Group folder) {
             InitializeComponent();
             NameText = folder.Name;
-            DescriptionText = folder.Description;
         }
 
         /// <summary>

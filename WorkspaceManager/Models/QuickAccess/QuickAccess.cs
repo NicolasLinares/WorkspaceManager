@@ -12,6 +12,7 @@ namespace WorkspaceManagerTool.Models.QuickAccess
         private string path;
         private string name;
         private string description;
+        private Group group;
 
         public string Path {
             get { return path; }
@@ -25,11 +26,16 @@ namespace WorkspaceManagerTool.Models.QuickAccess
             get { return description; }
             set { SetProperty(ref description, value); }
         }
+        public Group Group {
+            get { return group; }
+            set { SetProperty(ref group, value); }
+        }
 
-        public QuickAccess(string path, string name, string description) {
+        public QuickAccess(string path, string name, string description, Group group) {
             Name = name;
             Path = path;
             Description = description;
+            Group = group;
         }
 
         public override bool Equals(object obj) {

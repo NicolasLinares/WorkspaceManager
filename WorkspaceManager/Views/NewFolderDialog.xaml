@@ -20,7 +20,7 @@
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Nombre" Grid.Row="0" FontWeight="Bold" Foreground="Black" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
+        <TextBlock Text="Grupo" Grid.Row="0" FontWeight="Bold" Foreground="Black" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
         <TextBox Name="_NameTextBox" Grid.Row="1" Grid.ColumnSpan="1"  Height="22px" Margin="20px 0px" TextChanged="ValidateName_TextBox"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>
 

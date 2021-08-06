@@ -139,10 +139,10 @@
     </ApplicationDefinition>
     <Compile Include="Controllers\QuickAccessController.cs" />
     <Compile Include="Models\Deploys\Scripts\ArtifactsScript.cs" />
-    <Compile Include="Models\QuickAccess\Folder.cs" />
     <Compile Include="Models\QuickAccess\QuickAccess.cs" />
     <Compile Include="Utils\JSONManager.cs" />
     <Compile Include="Utils\Notifier.cs" />
+    <Compile Include="Models\QuickAccess\Group.cs" />
     <Compile Include="Views\NewFolderDialog.xaml.cs">
       <DependentUpon>NewFolderDialog.xaml</DependentUpon>
     </Compile>
