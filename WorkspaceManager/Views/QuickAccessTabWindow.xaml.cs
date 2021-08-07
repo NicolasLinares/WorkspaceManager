@@ -22,27 +22,24 @@ namespace WorkspaceManagerTool.Views {
         #region Properties and Constructor method
 
         private ObservableCollection<Group> groups;
+        private ObservableCollection<QuickAccess> quickAccess;
+        private Group selectedGroup;
+        private QuickAccess selectedQuickAccess;
+
         public ObservableCollection<Group> GroupItems {
             get => groups;
             set => SetProperty(ref groups, value);
         }
-
-
-        private ObservableCollection<QuickAccess> quickAccess;
         public ObservableCollection<QuickAccess> QuickAccessItems {
             get => quickAccess;
             set => SetProperty(ref quickAccess, value);
         }
-
-        private Group selectedGroup;
         public Group SelectedGroup {
             get => selectedGroup;
             set {
                 SetProperty(ref selectedGroup, value);
             }
         }
-
-        private QuickAccess selectedQuickAccess;
         public QuickAccess SelectedQuickAccessItem {
             get => selectedQuickAccess;
             set {
@@ -51,6 +48,8 @@ namespace WorkspaceManagerTool.Views {
         }
 
         private QuickAccessController QuickAccessController { get; set; }
+
+        public QuickAccessCreationPanel QuickAccessPanel { get; set; }
 
 
         public QuickAccessTabWindow() {
@@ -91,40 +90,30 @@ namespace WorkspaceManagerTool.Views {
 
 
         private void CreateQuickAccess_Click(object sender, EventArgs e) {
-
-            NewQuickAccessDialog dialog = new NewQuickAccessDialog();
-
-            if (dialog.ShowDialog() == true) {
-                Group gr = new Group(dialog.GroupText, new SolidColorBrush(dialog.ColorBrush));
-                QuickAccess qa = new QuickAccess(dialog.PathText, dialog.NameText, dialog.DescriptionText, gr);
-
-                if (!GroupItems.Contains(gr)) {
-                    GroupItems.Add(gr);
-                }
-                QuickAccessItems.Add(qa);
-                QuickAccessController.SaveChanges(QuickAccessItems);
-            }
+            OpenCreationPanel();
         }
         private void EditQuickAccess_MenuClick(object sender, RoutedEventArgs e) {
 
-            NewQuickAccessDialog dialog = new NewQuickAccessDialog(SelectedQuickAccessItem);
+            OpenCreationPanel(SelectedQuickAccessItem);
 
-            if (dialog.ShowDialog() == true) {
+            // Pass data in params
 
-                // set changes in the list
-                foreach (var item in QuickAccessItems.Where(qa => qa.Equals(selectedQuickAccess))) {
-                    item.Path = dialog.PathText;
-                    item.Name = dialog.NameText;
-                    item.Description = dialog.DescriptionText;
-                    var newGroup = new Group(dialog.GroupText, new SolidColorBrush(dialog.ColorBrush));
-                    if (!item.Group.Equals(newGroup)) {
-                        RemoveGroupIfNotExists(item.Group);
-                        item.Group = newGroup;
-                    }
-                }
-                QuickAccessItems = QuickAccessItems;
-                QuickAccessController.SaveChanges(QuickAccessItems);
-            }
+
+
+            //    // set changes in the list
+            //    foreach (var item in QuickAccessItems.Where(qa => qa.Equals(selectedQuickAccess))) {
+            //        item.Path = dialog.PathText;
+            //        item.Name = dialog.NameText;
+            //        item.Description = dialog.DescriptionText;
+            //        var newGroup = new Group(dialog.GroupText, new SolidColorBrush(dialog.ColorBrush));
+            //        if (!item.Group.Equals(newGroup)) {
+            //            RemoveGroupIfNotExists(item.Group);
+            //            item.Group = newGroup;
+            //        }
+            //    }
+            //    QuickAccessItems = QuickAccessItems;
+            //    QuickAccessController.SaveChanges(QuickAccessItems);
+            
         }
         private void RemoveQuickAccess_MenuClick(object sender, RoutedEventArgs e) {
 
@@ -153,7 +142,57 @@ namespace WorkspaceManagerTool.Views {
             }
 
         }
+
+
+        private void AcceptClick(object sender, EventArgs e) {
+
+            // Validación de inputs
+            if (string.IsNullOrWhiteSpace(QuickAccessPanel.NameText)) {
+                QuickAccessPanel.NameText = "Nuevo acceso directo";
+            }
+            if (string.IsNullOrWhiteSpace(QuickAccessPanel.PathText)) {
+                QuickAccessPanel.PathText = "Ruta sin definir";
+            }
+            if (string.IsNullOrWhiteSpace(QuickAccessPanel.GroupText)) {
+                QuickAccessPanel.GroupText = "Nuevos";
+                QuickAccessPanel.ColorBrush = QuickAccessPanel.DefaultColor;
+            }
+            if (!QuickAccessPanel._ColorPicker.SelectedColor.HasValue) {
+                QuickAccessPanel.ColorBrush = QuickAccessPanel.DefaultColor;
+            }
+
+            Group group = new Group(QuickAccessPanel.GroupText, new SolidColorBrush(QuickAccessPanel.ColorBrush));
+            QuickAccess new_qa = new QuickAccess(QuickAccessPanel.PathText, QuickAccessPanel.NameText, QuickAccessPanel.DescriptionText, group);
+            QuickAccessItems.Add(new_qa);
+
+            CloseCreationPanel();
+
+        }
+
+        private void CancelClick(object sender, EventArgs e) {
+            CloseCreationPanel();
+        }
+
         #endregion
+
+        #region Interface methods
+        private void OpenCreationPanel(QuickAccess qa = null) {
+            QuickAccessPanel = new QuickAccessCreationPanel(qa);
+            _CreationQuickAcess_Container.Children.Add(QuickAccessPanel);
+            _CreationPanel_Buttons.Visibility = Visibility.Visible;
+            _CreationQuickAccess_Button.Visibility = Visibility.Collapsed;
+        }
+
+        private void CloseCreationPanel() {
+
+            _CreationQuickAcess_Container.Children.RemoveAt(_CreationQuickAcess_Container.Children.Count - 1);
+            _CreationPanel_Buttons.Visibility = Visibility.Collapsed;
+            _CreationQuickAccess_Button.Visibility = Visibility.Visible;
+        }
+
+
+        #endregion
+
 
         #region Auxiliar methods
 
