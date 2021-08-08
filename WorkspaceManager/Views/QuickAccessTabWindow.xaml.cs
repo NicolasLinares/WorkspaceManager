@@ -50,6 +50,8 @@ namespace WorkspaceManagerTool.Views {
         private QuickAccessController QuickAccessController { get; set; }
 
         public QuickAccessCreationPanel QuickAccessPanel { get; set; }
+        public bool EditingMode { get; private set; }
+        public QuickAccess SelectedQAToEdit { get; private set; }
 
 
         public QuickAccessTabWindow() {
@@ -66,12 +68,10 @@ namespace WorkspaceManagerTool.Views {
                 GroupItems = new ObservableCollection<Group>();
             } else {
                 QuickAccessItems = new ObservableCollection<QuickAccess>(data);
-                GroupItems = new ObservableCollection<Group>(QuickAccessItems.Select(qa => qa.Group).Distinct());
+                UpdateGroupList();
             }
 
         }
-
-
         #endregion
 
 
@@ -93,36 +93,16 @@ namespace WorkspaceManagerTool.Views {
             OpenCreationPanel();
         }
         private void EditQuickAccess_MenuClick(object sender, RoutedEventArgs e) {
-
-            OpenCreationPanel(SelectedQuickAccessItem);
-
-            // Pass data in params
-
-
-
-            //    // set changes in the list
-            //    foreach (var item in QuickAccessItems.Where(qa => qa.Equals(selectedQuickAccess))) {
-            //        item.Path = dialog.PathText;
-            //        item.Name = dialog.NameText;
-            //        item.Description = dialog.DescriptionText;
-            //        var newGroup = new Group(dialog.GroupText, new SolidColorBrush(dialog.ColorBrush));
-            //        if (!item.Group.Equals(newGroup)) {
-            //            RemoveGroupIfNotExists(item.Group);
-            //            item.Group = newGroup;
-            //        }
-            //    }
-            //    QuickAccessItems = QuickAccessItems;
-            //    QuickAccessController.SaveChanges(QuickAccessItems);
-            
+            SelectedQAToEdit = SelectedQuickAccessItem;
+            EditingMode = true;
+            OpenCreationPanel(SelectedQAToEdit);
         }
         private void RemoveQuickAccess_MenuClick(object sender, RoutedEventArgs e) {
 
             MessageBoxResult result = MessageBox.Show("¿Desea eliminar el acceso directo de forma permanente?", "Eliminar acceso directo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
                 var removedItem = SelectedQuickAccessItem;
-                QuickAccessItems.Remove(removedItem);
-                RemoveGroupIfNotExists(removedItem.Group);
-                QuickAccessController.SaveChanges(QuickAccessItems);
+                RemoveItem(removedItem);
             }
         }
         private void OpenQuickAccess_DoubleClick(object sender, MouseButtonEventArgs e) {
@@ -144,7 +124,7 @@ namespace WorkspaceManagerTool.Views {
         }
 
 
-        private void AcceptClick(object sender, EventArgs e) {
+        private void AcceptButton_Click(object sender, EventArgs e) {
 
             // Validación de inputs
             if (string.IsNullOrWhiteSpace(QuickAccessPanel.NameText)) {
@@ -163,14 +143,37 @@ namespace WorkspaceManagerTool.Views {
 
             Group group = new Group(QuickAccessPanel.GroupText, new SolidColorBrush(QuickAccessPanel.ColorBrush));
             QuickAccess new_qa = new QuickAccess(QuickAccessPanel.PathText, QuickAccessPanel.NameText, QuickAccessPanel.DescriptionText, group);
-            QuickAccessItems.Add(new_qa);
 
+
+            if (EditingMode) {
+
+                // remove previous item
+                QuickAccessItems.Remove(SelectedQAToEdit);
+
+                //// set changes in the list
+                //foreach (var item in QuickAccessItems.Where(qa => qa.Equals(selectedQuickAccess))) {
+                //    item.Path = dialog.PathText;
+                //    item.Name = dialog.NameText;
+                //    item.Description = dialog.DescriptionText;
+                //    var newGroup = new Group(dialog.GroupText, new SolidColorBrush(dialog.ColorBrush));
+                //    if (!item.Group.Equals(newGroup)) {
+                //        RemoveGroupIfNotExists(item.Group);
+                //        item.Group = newGroup;
+                //    }
+                //}
+                //QuickAccessItems = QuickAccessItems;
+                
+            }
+
+
+            // TODO: check if exists to avoid duplicity
+            AddItem(new_qa);
             CloseCreationPanel();
-
         }
-
-        private void CancelClick(object sender, EventArgs e) {
+        private void CancelButton_Click(object sender, EventArgs e) {
             CloseCreationPanel();
+            EditingMode = false;
+            SelectedQAToEdit = null;
         }
 
         #endregion
@@ -200,6 +203,26 @@ namespace WorkspaceManagerTool.Views {
             if (!QuickAccessItems.Any(qa => qa.Group.Equals(item))) {
                 GroupItems.Remove(item);
             }
+        }
+
+        private void AddItem(QuickAccess item) {
+            // TODO: ordered add
+            QuickAccessItems.Add(item);
+            UpdateGroupList();
+            QuickAccessController.SaveChanges(QuickAccessItems);
+        }
+
+        private void RemoveItem(QuickAccess item) {
+
+
+            //TODO: no se borran algunos items
+            QuickAccessItems.Remove(item);
+            UpdateGroupList();
+            QuickAccessController.SaveChanges(QuickAccessItems);
+        }
+
+        private void UpdateGroupList() {
+            GroupItems = new ObservableCollection<Group>(QuickAccessItems.Select(qa => qa.Group).Distinct());
         }
 
         #endregion

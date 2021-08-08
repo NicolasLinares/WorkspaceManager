@@ -123,7 +123,9 @@ namespace WorkspaceManagerTool.Views {
             fbd.UseDescriptionForTitle = true;
             fbd.ShowNewFolderButton = true;
 
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+            var result = fbd.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK) {
                 PathText = fbd.SelectedPath;
             }
 

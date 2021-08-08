@@ -199,11 +199,11 @@
 
         <StackPanel Name="_CreationPanel_Buttons" Grid.Row="3" Width="220" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Visibility="Collapsed">
             <Button Name="_AcceptButton"  Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Background="{StaticResource Dark}" IsCancel="True" Margin="20px 0" 
-                    VerticalAlignment="Center" Width="80" Height="30px" Click="AcceptClick">
+                    VerticalAlignment="Center" Width="80" Height="30px" Click="AcceptButton_Click">
                 Aceptar
             </Button>
             <Button Name="_CancelButton" Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Background="{StaticResource Dark}" IsCancel="True"  Padding="20px 0" 
-                        VerticalAlignment="Center" Width="80" Height="30px" Click="CancelClick">
+                        VerticalAlignment="Center" Width="80" Height="30px" Click="CancelButton_Click">
                 Cancelar
             </Button>
         </StackPanel>
