@@ -24,19 +24,19 @@ namespace WorkspaceManagerTool.Views {
 
     public partial class QuickAccessCreationPanel : UserControl, INotifyPropertyChanged {
 
-        private string path;
         private string name;
+        private string path;
         private string description;
         private string group;
         private Color color;
 
-        public string PathText {
-            get => path;
-            set => SetProperty(ref path, value);
-        }
         public string NameText {
             get => name;
             set => SetProperty(ref name, value);
+        }
+        public string PathText {
+            get => path;
+            set => SetProperty(ref path, value);
         }
         public string DescriptionText {
             get => description;
@@ -50,11 +50,23 @@ namespace WorkspaceManagerTool.Views {
             get => color;
             set => SetProperty(ref color, value);
         }
-        public Color DefaultColor => Color.FromRgb(17, 166, 143);
+
+        public static string DefaultName => "Nuevo acceso directo";
+        public static string DefaultPath => "Ruta sin definir";
+        public static string DefaultDescription => "";
+        public static string DefaultGroup => "Nuevo";
+        public static Color DefaultColor => Color.FromRgb(17, 166, 143);
 
         public QuickAccessCreationPanel() {
             DataContext = this;
-            InitializeComponent();            
+            InitializeComponent();
+
+            PathText = DefaultPath;
+            NameText = DefaultName;
+            DescriptionText = DefaultDescription;
+            GroupText = DefaultGroup;
+            ColorBrush = DefaultColor;
+            _ColorPicker.SelectedColor = ColorBrush;
         }
 
         public QuickAccessCreationPanel(QuickAccess qa) {

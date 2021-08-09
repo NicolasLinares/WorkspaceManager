@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:local="clr-namespace:WorkspaceManagerTool.Views" 
              mc:Ignorable="d" d:DesignHeight="500" >
 
     <Control.Resources>
@@ -20,21 +19,35 @@
         <SolidColorBrush x:Key="LightDarkBlue" Color="#677487"/>
 
 
-        <Style x:Key="_ListBoxItemStyle2" TargetType="ListBoxItem">
+        <Style x:Key="_Filters_ListBoxStyle" TargetType="ListBoxItem">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
-                        <Border x:Name="_Border" CornerRadius="2"
-                                Padding="1px"
+                        <Border x:Name="_Border"
+                                Padding="2px 5px"
                                 SnapsToDevicePixels="true">
                             <ContentPresenter />
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="_Border"
+                                        Property="Background"
+                                        Value="{StaticResource LightDarkBlue}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="_Border"
+                                        Property="Background"
+                                        Value="{StaticResource LightDarkBlue}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style x:Key="_ListBoxItemStyle" TargetType="ListBoxItem">
+        <Style x:Key="_QA_ListBoxStyle" TargetType="ListBoxItem">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
@@ -111,15 +124,16 @@
         </Grid.RowDefinitions>
 
         <ListBox Grid.Row="0" 
-                 Name="_PathListBox" 
+                 Name="_FiltersListBox" 
                  VerticalAlignment="Center"
                  Background="Transparent"
                  BorderBrush="Transparent"
                  ItemsSource="{Binding Source={StaticResource filter}}"
                  SelectedValue="{Binding SelectedGroup}"
+                 MouseUp="ApplyFilter_Click"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  IsSynchronizedWithCurrentItem="True"
-                 Focusable="False"  ItemContainerStyle="{StaticResource _ListBoxItemStyle2}">
+                 Focusable="False"  ItemContainerStyle="{StaticResource _Filters_ListBoxStyle}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal" Background="Transparent"/>
@@ -128,7 +142,12 @@
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding Name}" Style="{DynamicResource _ButtonStyle}" Background="{Binding Color}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Border Name="border" 
+                                CornerRadius="2" BorderThickness="1" Padding="10px 3px" Margin="2px 0px"
+                                BorderBrush="{StaticResource MediumDarkBlue}"  Background="{Binding Color}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Foreground="Black" Text="{Binding Name}"  />
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
@@ -142,7 +161,7 @@
                     IsSynchronizedWithCurrentItem="True"
                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    Focusable="False" ItemContainerStyle="{StaticResource _ListBoxItemStyle}">
+                    Focusable="False" ItemContainerStyle="{StaticResource _QA_ListBoxStyle}">
             <ListBox.ContextMenu>
                 <ContextMenu Opacity="0.8">
                     <MenuItem Header="Editar" Click="EditQuickAccess_MenuClick"/>
@@ -208,8 +227,12 @@
             </Button>
         </StackPanel>
 
-        <Button Name="_CreationQuickAccess_Button" Grid.Row="3"  Background="{StaticResource Dark}" Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Height="40" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="CreateQuickAccess_Click" Margin="5px 0px">
+        <Button Name="_CreationQuickAccess_Button" Grid.Row="3"  Background="{StaticResource Dark}" Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Height="40" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="CreateQuickAccess_Click" Margin="5px 0px" >
             Crear acceso directo
+        </Button>
+
+        <Button Name="_RemoveFilter_Button" Grid.Row="3"  Background="{StaticResource Dark}" Style="{DynamicResource _ButtonStyle}" Foreground="IndianRed" Height="40" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="RemoveFilter_Click" Margin="5px 0px" Visibility="Collapsed">
+            Quitar filtro
         </Button>
 
     </Grid>
