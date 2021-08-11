@@ -143,5 +143,29 @@ namespace WorkspaceManagerTool.Views {
 
         }
 
+        public void ValidateInputs() {
+            if (string.IsNullOrWhiteSpace(NameText)) {
+                NameText = QuickAccessCreationPanel.DefaultName;
+            }
+            if (string.IsNullOrWhiteSpace(PathText)) {
+                PathText = QuickAccessCreationPanel.DefaultPath;
+            }
+            if (string.IsNullOrWhiteSpace(GroupText)) {
+                GroupText = QuickAccessCreationPanel.DefaultGroup;
+                ColorBrush = QuickAccessCreationPanel.DefaultColor;
+            }
+            if (string.IsNullOrWhiteSpace(DescriptionText)) {
+                DescriptionText = QuickAccessCreationPanel.DefaultDescription;
+            }
+            if (!_ColorPicker.SelectedColor.HasValue) {
+                ColorBrush = QuickAccessCreationPanel.DefaultColor;
+            }
+        }
+
+
+        public QuickAccess GetQuickAccess() {
+            Group group = new Group(GroupText, new SolidColorBrush(ColorBrush));
+            return new QuickAccess(PathText, NameText, DescriptionText, group);
+        }
     }
 }

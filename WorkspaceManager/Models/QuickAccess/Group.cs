@@ -23,8 +23,6 @@ namespace WorkspaceManagerTool.Models.QuickAccess {
 
         public override bool Equals(object obj) {
             Group gr = obj as Group;
-
-
             SolidColorBrushComparer colorComparer = new SolidColorBrushComparer();
             return gr != null
                 && (Name ?? "").Equals(gr.Name)
