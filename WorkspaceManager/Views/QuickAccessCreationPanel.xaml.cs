@@ -29,6 +29,9 @@ namespace WorkspaceManagerTool.Views {
         private string description;
         private string group;
         private Color color;
+        private Group selectedGroup;
+        private ObservableCollection<Group> groups;
+
 
         public string NameText {
             get => name;
@@ -50,6 +53,16 @@ namespace WorkspaceManagerTool.Views {
             get => color;
             set => SetProperty(ref color, value);
         }
+        public Group SelectedGroup {
+            get => selectedGroup;
+            set {
+                SetProperty(ref selectedGroup, value);
+            }
+        }
+        public ObservableCollection<Group> GroupOptions {
+            get => groups;
+            set => SetProperty(ref groups, value);
+        }
 
         public static string DefaultName => "Nuevo acceso directo";
         public static string DefaultPath => "Ruta sin definir";
@@ -57,7 +70,7 @@ namespace WorkspaceManagerTool.Views {
         public static string DefaultGroup => "Nuevo";
         public static Color DefaultColor => Color.FromRgb(17, 166, 143);
 
-        public QuickAccessCreationPanel() {
+        public QuickAccessCreationPanel(ObservableCollection<Group> groups) {
             DataContext = this;
             InitializeComponent();
 
@@ -66,10 +79,12 @@ namespace WorkspaceManagerTool.Views {
             DescriptionText = DefaultDescription;
             GroupText = DefaultGroup;
             ColorBrush = DefaultColor;
-            _ColorPicker.SelectedColor = ColorBrush;
+            //_ColorPicker.SelectedColor = ColorBrush;
+
+            GroupOptions = groups;
         }
 
-        public QuickAccessCreationPanel(QuickAccess qa) {
+        public QuickAccessCreationPanel(QuickAccess qa, ObservableCollection<Group> groups) {
             DataContext = this;
             InitializeComponent();
 
@@ -82,7 +97,9 @@ namespace WorkspaceManagerTool.Views {
             DescriptionText = qa.Description;
             GroupText = qa.Group.Name;
             ColorBrush = Color.FromRgb(qa.Group.Color.Color.R, qa.Group.Color.Color.G, qa.Group.Color.Color.B);
-            _ColorPicker.SelectedColor = ColorBrush;
+            //_ColorPicker.SelectedColor = ColorBrush;
+
+            GroupOptions = groups;
         }
 
         #region Events handlers
@@ -123,12 +140,12 @@ namespace WorkspaceManagerTool.Views {
         }
 
         private void SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e) {
-            if (_ColorPicker.SelectedColor.HasValue) {
-                ColorBrush = _ColorPicker.SelectedColor.Value;
-            }
+            //if (_ColorPicker.SelectedColor.HasValue) {
+            //    ColorBrush = _ColorPicker.SelectedColor.Value;
+            //}
         }
 
-        private void BrowseClick(object sender, EventArgs e) {
+        private void Browse_Click(object sender, EventArgs e) {
 
             VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
             fbd.Description = "Selecciona la ruta para crear el acceso directo";
@@ -140,6 +157,11 @@ namespace WorkspaceManagerTool.Views {
             if (result == System.Windows.Forms.DialogResult.OK) {
                 PathText = fbd.SelectedPath;
             }
+
+        }
+
+        private void NewGroup_Click(object sender, EventArgs e) {
+
 
         }
 
@@ -157,9 +179,9 @@ namespace WorkspaceManagerTool.Views {
             if (string.IsNullOrWhiteSpace(DescriptionText)) {
                 DescriptionText = QuickAccessCreationPanel.DefaultDescription;
             }
-            if (!_ColorPicker.SelectedColor.HasValue) {
-                ColorBrush = QuickAccessCreationPanel.DefaultColor;
-            }
+            //if (!_ColorPicker.SelectedColor.HasValue) {
+            //    ColorBrush = QuickAccessCreationPanel.DefaultColor;
+            //}
         }
 
 

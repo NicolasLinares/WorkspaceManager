@@ -158,31 +158,27 @@ namespace WorkspaceManagerTool.Views {
             QuickAccessPanel.ValidateInputs();
             QuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
 
-            if (EditingMode) {
-                Remove(SelectedQAToEdit);
-            }
-
             var list = GetCurrentList();
 
-            // Comprueba que existe para evitar duplicidad
-            if (!list.Contains(new_qa)) {
-                // comprueba si el grupo ha cambiado para actualizar el color si el usuario quiere
-                if (EditingMode && !SelectedQAToEdit.Group.Equals(new_qa.Group) && list.Select(qa => qa.Group).Any(gr => gr.Name == new_qa.Group.Name)) {
-                    FilterApplied = new_qa.Group;
-                    MessageBoxResult result = MessageBox.Show("¿Desea actualizar el color del grupo \"" + new_qa.Group.Name + "\" en el resto de accesos directos?", "Grupo modificado", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes) {
-                        foreach (var it in list) {
-                            if (it.Group.Name == new_qa.Group.Name) {
-                                it.Group.Color = new_qa.Group.Color;
-                            }
+            if (list.Contains(new_qa)) {
+                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // comprueba si el grupo ha cambiado para actualizar el color si el usuario quiere
+            if (EditingMode && !SelectedQAToEdit.Group.Equals(new_qa.Group) && list.Select(qa => qa.Group).Any(gr => gr.Name == new_qa.Group.Name)) {
+                MessageBoxResult result = MessageBox.Show("¿Desea actualizar el color del grupo \"" + new_qa.Group.Name + "\" en el resto de accesos directos?", "Grupo modificado", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes) {
+                    foreach (var it in list) {
+                        if (it.Group.Name == new_qa.Group.Name) {
+                            it.Group.Color = new_qa.Group.Color;
                         }
                     }
                 }
-                AddAndUpdate(new_qa);
-                CloseCreationPanel();
-            } else {
-                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+            AddItem(new_qa);
+            CloseCreationPanel();
+            
         }
 
         private void CancelButton_Click(object sender, EventArgs e) {
@@ -208,9 +204,9 @@ namespace WorkspaceManagerTool.Views {
         #region Interface methods
         private void OpenCreationPanel(QuickAccess qa = null) {
             if (EditingMode) {
-                QuickAccessPanel = new QuickAccessCreationPanel(qa);
+                QuickAccessPanel = new QuickAccessCreationPanel(qa, GroupItems);
             } else {
-                QuickAccessPanel = new QuickAccessCreationPanel();
+                QuickAccessPanel = new QuickAccessCreationPanel(GroupItems);
             }
             _CreationQuickAcess_Container.Children.Add(QuickAccessPanel);
             _CreationPanel_Buttons.Visibility = Visibility.Visible;
@@ -243,7 +239,12 @@ namespace WorkspaceManagerTool.Views {
             }
         }
 
-        private void AddAndUpdate(QuickAccess newItem) {
+        private void AddItem(QuickAccess newItem) {
+
+            if (EditingMode) {
+                var list = GetCurrentList().Remove(SelectedQAToEdit);
+                //AuxiliarItems.Select(qa => qa)
+            }
 
             QuickAccessItems.Add(newItem);
 
@@ -275,7 +276,9 @@ namespace WorkspaceManagerTool.Views {
 
         private void UpdateGroupList() {
             var qa_list = GetCurrentList();
-            GroupItems = new ObservableCollection<Group>(qa_list.Select(qa => qa.Group).Distinct().OrderBy(gr => gr.Name));
+
+            if (SelectedGroup == null || !SelectedGroup.Equals(FilterApplied))
+                GroupItems = new ObservableCollection<Group>(qa_list.Select(qa => qa.Group).Distinct().OrderBy(gr => gr.Name));
         }
 
         private void ApplyFilter(Group filter) {
