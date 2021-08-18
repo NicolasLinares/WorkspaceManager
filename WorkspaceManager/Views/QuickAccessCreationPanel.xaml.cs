@@ -100,6 +100,7 @@ namespace WorkspaceManagerTool.Views {
             //_ColorPicker.SelectedColor = ColorBrush;
 
             GroupOptions = groups;
+            SelectedGroup = qa.Group;
         }
 
         #region Events handlers
@@ -144,6 +145,11 @@ namespace WorkspaceManagerTool.Views {
             //    ColorBrush = _ColorPicker.SelectedColor.Value;
             //}
         }
+
+        private void ComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            SelectedGroup = (sender as ComboBox).SelectedItem as Group;
+        }
+
 
         private void Browse_Click(object sender, EventArgs e) {
 
