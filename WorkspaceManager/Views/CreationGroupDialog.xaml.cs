@@ -9,7 +9,7 @@ namespace WorkspaceManagerTool.Views {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class NewFolderDialog : Window {
+    public partial class CreationGroupDialog : Window {
 
         public string NameText {
             get { return _NameTextBox.Text; }
@@ -17,10 +17,6 @@ namespace WorkspaceManagerTool.Views {
                 _NameTextBox.Text = value;
                 _NameTextBox.ClearValue(TextBox.BorderBrushProperty);
             }
-        }
-        public string DescriptionText {
-            get { return _DescriptionTextBox.Text; }
-            private set { _DescriptionTextBox.Text = value; }
         }
 
         private SolidColorBrush color;
@@ -30,11 +26,11 @@ namespace WorkspaceManagerTool.Views {
             private set { color = value; }
         }
 
-        public NewFolderDialog() {
+        public CreationGroupDialog() {
             InitializeComponent();            
         }
 
-        public NewFolderDialog(Group folder) {
+        public CreationGroupDialog(Group folder) {
             InitializeComponent();
             NameText = folder.Name;
         }
@@ -60,38 +56,23 @@ namespace WorkspaceManagerTool.Views {
             }
         }
 
-
-        private void ValidateName_TextBox(object sender, TextChangedEventArgs e) {
-            if (string.IsNullOrWhiteSpace(NameText)) {
-                _NameTextBox.Background = Brushes.Salmon;
-                _AcceptButton.IsEnabled = false;
-                return;
-            }
-
-            _NameTextBox.ClearValue(TextBox.BackgroundProperty);
-            _AcceptButton.IsEnabled = true;
-        }
-
         private void SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e) {
             if (_ColorPicker.SelectedColor.HasValue) {
                 Color = new SolidColorBrush(_ColorPicker.SelectedColor.Value);
             }
         }
 
-        private void AcceptClick(object sender, EventArgs e) {
+        private void Create_Click(object sender, EventArgs e) {
 
             // Validación de inputs
             if (string.IsNullOrWhiteSpace(NameText)) {
-                _NameTextBox.BorderBrush = Brushes.Red;
                 this.DialogResult = false;
-
             } else {
                 this.DialogResult = true;
             }
-
         }
 
-        private void CancelClick(object sender, EventArgs e) {
+        private void Cancel_Click(object sender, EventArgs e) {
             this.DialogResult = false;
         }
     }

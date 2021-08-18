@@ -81,7 +81,7 @@ namespace WorkspaceManagerTool.Views {
             ColorBrush = DefaultColor;
             //_ColorPicker.SelectedColor = ColorBrush;
 
-            GroupOptions = groups;
+            GroupOptions = new ObservableCollection<Group>(groups);
         }
 
         public QuickAccessCreationPanel(QuickAccess qa, ObservableCollection<Group> groups) {
@@ -168,6 +168,14 @@ namespace WorkspaceManagerTool.Views {
 
         private void NewGroup_Click(object sender, EventArgs e) {
 
+            CreationGroupDialog dialog = new CreationGroupDialog();
+
+            if (dialog.ShowDialog() == true) {
+                Group gr = new Group(dialog.NameText, dialog.Color);
+
+                SelectedGroup = gr;
+                GroupOptions.Add(gr);
+            } 
 
         }
 

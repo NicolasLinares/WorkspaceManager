@@ -43,8 +43,32 @@
             <Setter Property="Background" Value="{Binding Color}" />
             <Setter Property="Padding" Value="10px 2px" />
             <Setter Property="Content" Value="{Binding Name}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderBrush" Value="{Binding Color}" />
+            <Setter Property="Foreground" Value="Black" />
+
             <Setter Property="BorderBrush" Value="{StaticResource LightDarkBlue}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="WhiteSmoke" />
+                                <Setter Property="BorderThickness" Value="1" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
             <Grid>
@@ -55,7 +79,7 @@
                 <Border
                     x:Name="Border"
                   Grid.ColumnSpan="2"
-                  CornerRadius="2"
+                  CornerRadius="1"
                   Background="{StaticResource MediumDarkBlue}"
                   BorderBrush="#FF97A0A5"
                   BorderThickness="1" />
@@ -69,7 +93,7 @@
                 <Path 
                   x:Name="Arrow"
                   Grid.Column="1"     
-                  Fill="White"
+                  Fill="WhiteSmoke"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
@@ -77,7 +101,7 @@
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                    <Setter TargetName="Border" Property="Background" Value="#808080" />
+                    <Setter TargetName="Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
                 </Trigger>
                 <Trigger Property="ToggleButton.IsChecked" Value="true">
                     <Setter TargetName="Border" Property="Background" Value="#E0E0E0" />
@@ -102,7 +126,7 @@
             <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
             <Setter Property="MinWidth" Value="120"/>
             <Setter Property="MinHeight" Value="20"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
             <Setter Property="ItemContainerStyle" Value="{DynamicResource _ComboBoxItem}"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
@@ -123,7 +147,7 @@
                                 HorizontalAlignment="Stretch" >
                                 <ContentPresenter.ContentTemplate>
                                     <DataTemplate>
-                                        <Border BorderThickness="1 2 0 1.5" CornerRadius="2 0 0 2" BorderBrush="{Binding Color}">
+                                        <Border BorderThickness="0 1.5 0 1" CornerRadius="1 0 0 1" BorderBrush="{Binding Color}">
                                             <TextBlock Background="{Binding Color}" Foreground="Black" Padding="10,0" Text="{Binding Name}"  />
                                         </Border>
                                     </DataTemplate>
@@ -181,7 +205,7 @@
 
 
         <TextBlock Text="Nombre" Grid.Row="1" Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Bottom" />
-        <TextBox Name="_NameTextBox" Text="{Binding Path=NameText, Mode=TwoWay}"  Grid.Row="2" Grid.ColumnSpan="1" Foreground="White" BorderBrush="Transparent" Background="{StaticResource MediumDarkBlue}"  Height="22px" Margin="20px 0px 0px 0px" 
+        <TextBox Name="_NameTextBox" Text="{Binding Path=NameText, Mode=TwoWay}"  Grid.Row="2" Grid.ColumnSpan="1" Foreground="WhiteSmoke" BorderBrush="Transparent" Background="{StaticResource MediumDarkBlue}"  Height="22px" Margin="20px 0px 0px 0px" 
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>
 
 
@@ -200,16 +224,16 @@
         </Button>
 
 
-        <!--<TextBox Name="_GroupTextBox" Text="{Binding Path=GroupText, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" BorderBrush="Transparent" Foreground="White" Background="{StaticResource MediumDarkBlue}" Height="22px" Margin="20px 0px 0px 0px"
+        <!--<TextBox Name="_GroupTextBox" Text="{Binding Path=GroupText, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" BorderBrush="Transparent" Foreground="WhiteSmoke" Background="{StaticResource MediumDarkBlue}" Height="22px" Margin="20px 0px 0px 0px"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>-->
 
-        <!--<TextBlock Text="Color" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3"  Foreground="White" Margin="20px 0px" VerticalAlignment="Bottom"  />
+        <!--<TextBlock Text="Color" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3"  Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Bottom"  />
         <xctk:ColorPicker Name="_ColorPicker"  Grid.Row="2"  Grid.Column="2" Grid.ColumnSpan="3" BorderBrush="Transparent" Background="{StaticResource MediumDarkBlue}" Height="22px" Margin="20px 0px" DisplayColorTooltip="True" DisplayColorAndName="False"  SelectedColorChanged="SelectedColorChanged" 
                           AvailableColorsSortingMode="HueSaturationBrightness" />-->
 
 
         <TextBlock Text="Ruta" Grid.Row="3" Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Bottom" />
-        <TextBox Name="_PathTextBox" Text="{Binding Path=PathText, Mode=TwoWay}"  Grid.Row="4" Grid.ColumnSpan="3" BorderBrush="Transparent" Foreground="White" Background="{StaticResource MediumDarkBlue}"  Height="22px" Margin="20px 0px 0px 0px"
+        <TextBox Name="_PathTextBox" Text="{Binding Path=PathText, Mode=TwoWay}"  Grid.Row="4" Grid.ColumnSpan="3" BorderBrush="Transparent" Foreground="WhiteSmoke" Background="{StaticResource MediumDarkBlue}"  Height="22px" Margin="20px 0px 0px 0px"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
         <Button Name="_BrowseButton" Grid.Row="4" Grid.Column="3" Style="{DynamicResource _ButtonStyle}" Foreground="Black" Background="LightGray" IsCancel="True" Margin="0px 0px 10px 0px"
                     VerticalAlignment="Center" HorizontalAlignment="Left" Height="22px" Width="30" Click="Browse_Click">
@@ -218,7 +242,7 @@
 
 
         <TextBlock Text="Descripción" Grid.Row="5" Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Bottom"  />
-        <TextBox Name="_DescriptionTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Grid.Row="6" Grid.ColumnSpan="4" TextWrapping="Wrap" BorderBrush="Transparent" Foreground="White" Background="{StaticResource MediumDarkBlue}" Height="44px" Margin="20px 0px" Padding="3"
+        <TextBox Name="_DescriptionTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Grid.Row="6" Grid.ColumnSpan="4" TextWrapping="Wrap" BorderBrush="Transparent" Foreground="WhiteSmoke" Background="{StaticResource MediumDarkBlue}" Height="44px" Margin="20px 0px" Padding="3"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown"/>
     </Grid>
 </UserControl>

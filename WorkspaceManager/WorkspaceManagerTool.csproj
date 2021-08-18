@@ -143,8 +143,8 @@
     <Compile Include="Utils\JSONManager.cs" />
     <Compile Include="Utils\Notifier.cs" />
     <Compile Include="Models\QuickAccess\Group.cs" />
-    <Compile Include="Views\NewFolderDialog.xaml.cs">
-      <DependentUpon>NewFolderDialog.xaml</DependentUpon>
+    <Compile Include="Views\CreationGroupDialog.xaml.cs">
+      <DependentUpon>CreationGroupDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QuickAccessCreationPanel.xaml.cs">
       <DependentUpon>QuickAccessCreationPanel.xaml</DependentUpon>
@@ -153,7 +153,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NewFolderDialog.xaml">
+    <Page Include="Views\CreationGroupDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
