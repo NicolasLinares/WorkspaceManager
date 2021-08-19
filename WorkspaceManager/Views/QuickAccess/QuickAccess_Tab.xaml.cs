@@ -32,6 +32,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             get => groups;
             set => SetProperty(ref groups, value);
         }
+
         public ObservableCollection<FolderQuickAccess> QuickAccessItems {
             get => quickAccess;
             set => SetProperty(ref quickAccess, value);
@@ -70,18 +71,11 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             InitializeComponent();
 
             QuickAccessController = new QuickAccessController();
+            QuickAccessController.Init();
 
-            // Read file
-            var data = QuickAccessController.ReadLocalList();
-
-            if (data == null) {
-                QuickAccessItems = new ObservableCollection<FolderQuickAccess>();
-                GroupItems = new ObservableCollection<Group>();
-            } else {
-                QuickAccessItems = new ObservableCollection<FolderQuickAccess>(OrderList(data));
-                UpdateGroupList();
-                _FiltersListBox.UnselectAll();
-            }
+            QuickAccessItems = QuickAccessController.QAItems;
+            GroupItems = QuickAccessController.GroupItems;
+            _FiltersListBox.UnselectAll();
         }
         #endregion
 
@@ -127,7 +121,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             }
 
             try {
-                QuickAccessController.Open((FolderQuickAccess)listBox.SelectedValue);
+                QuickAccessController.OpenQuickAccess((FolderQuickAccess)listBox.SelectedValue);
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -255,7 +249,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
                 ApplyFilter(FilterApplied);
             } else {
                 UpdateGroupList();
-                QuickAccessItems = new ObservableCollection<FolderQuickAccess>(OrderList(GetCurrentList()));
+                QuickAccessItems = new ObservableCollection<FolderQuickAccess>(GetCurrentList());
             }
 
             //UpdateGroupList();
@@ -297,9 +291,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             QuickAccessController.SaveChanges(list);
         }
 
-        private IOrderedEnumerable<FolderQuickAccess> OrderList(IList<FolderQuickAccess> list) {
-            return list.OrderBy(qa => qa.Group.Name).ThenBy(qa => qa.Name);
-        }
+
 
         private ObservableCollection<FolderQuickAccess> GetCurrentList() {
             return FilterMode ? AuxiliarItems : QuickAccessItems;
