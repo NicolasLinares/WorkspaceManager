@@ -11,31 +11,32 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Ookii.Dialogs.WinForms;
+using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess.QuickAccess;
 
-namespace WorkspaceManagerTool.Views {
+namespace WorkspaceManagerTool.Views.QuickAccess {
 
     /// <summary>
     /// Interaction logic for QuickAccessTabWindow.xaml
     /// </summary>
-    public partial class QuickAccessTabWindow : UserControl, INotifyPropertyChanged {
+    public partial class QuickAccess_Tab : UserControl, INotifyPropertyChanged {
 
         #region Properties and Constructor method
 
         private ObservableCollection<Group> groups;
-        private ObservableCollection<QuickAccess> quickAccess;
-        private ObservableCollection<QuickAccess> auxiliar;
+        private ObservableCollection<FolderQuickAccess> quickAccess;
+        private ObservableCollection<FolderQuickAccess> auxiliar;
         private Group selectedGroup;
-        private QuickAccess selectedQuickAccess;
+        private FolderQuickAccess selectedQuickAccess;
 
         public ObservableCollection<Group> GroupItems {
             get => groups;
             set => SetProperty(ref groups, value);
         }
-        public ObservableCollection<QuickAccess> QuickAccessItems {
+        public ObservableCollection<FolderQuickAccess> QuickAccessItems {
             get => quickAccess;
             set => SetProperty(ref quickAccess, value);
         }
-        public ObservableCollection<QuickAccess> AuxiliarItems {
+        public ObservableCollection<FolderQuickAccess> AuxiliarItems {
             get => auxiliar;
             set => SetProperty(ref auxiliar, value);
         }
@@ -47,24 +48,24 @@ namespace WorkspaceManagerTool.Views {
         }
         public Group FilterApplied { get; private set; }
 
-        public QuickAccess SelectedQuickAccessItem {
+        public FolderQuickAccess SelectedQuickAccessItem {
             get => selectedQuickAccess;
             set {
                 SetProperty(ref selectedQuickAccess, value);
             }
         }
-        public QuickAccess SelectedQAToEdit { get; private set; }
+        public FolderQuickAccess SelectedQAToEdit { get; private set; }
 
         public bool EditingMode { get; private set; }
         public bool FilterMode { get; private set; }
 
         private QuickAccessController QuickAccessController { get; set; }
 
-        public QuickAccessCreationPanel QuickAccessPanel { get; set; }
+        public QuickAccess_CreationPanel QuickAccessPanel { get; set; }
 
 
 
-        public QuickAccessTabWindow() {
+        public QuickAccess_Tab() {
             DataContext = this;
             InitializeComponent();
 
@@ -74,10 +75,10 @@ namespace WorkspaceManagerTool.Views {
             var data = QuickAccessController.ReadLocalList();
 
             if (data == null) {
-                QuickAccessItems = new ObservableCollection<QuickAccess>();
+                QuickAccessItems = new ObservableCollection<FolderQuickAccess>();
                 GroupItems = new ObservableCollection<Group>();
             } else {
-                QuickAccessItems = new ObservableCollection<QuickAccess>(OrderList(data));
+                QuickAccessItems = new ObservableCollection<FolderQuickAccess>(OrderList(data));
                 UpdateGroupList();
                 _FiltersListBox.UnselectAll();
             }
@@ -126,7 +127,7 @@ namespace WorkspaceManagerTool.Views {
             }
 
             try {
-                QuickAccessController.Open((QuickAccess)listBox.SelectedValue);
+                QuickAccessController.Open((FolderQuickAccess)listBox.SelectedValue);
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -156,7 +157,7 @@ namespace WorkspaceManagerTool.Views {
         private void AcceptButton_Click(object sender, EventArgs e) {
 
             QuickAccessPanel.ValidateInputs();
-            QuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
+            FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
 
             var list = GetCurrentList();
 
@@ -202,11 +203,11 @@ namespace WorkspaceManagerTool.Views {
         #endregion
 
         #region Interface methods
-        private void OpenCreationPanel(QuickAccess qa = null) {
+        private void OpenCreationPanel(FolderQuickAccess qa = null) {
             if (EditingMode) {
-                QuickAccessPanel = new QuickAccessCreationPanel(qa, GroupItems);
+                QuickAccessPanel = new QuickAccess_CreationPanel(qa, GroupItems);
             } else {
-                QuickAccessPanel = new QuickAccessCreationPanel(GroupItems);
+                QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems);
             }
             _CreationQuickAcess_Container.Children.Add(QuickAccessPanel);
             _CreationPanel_Buttons.Visibility = Visibility.Visible;
@@ -239,7 +240,7 @@ namespace WorkspaceManagerTool.Views {
             }
         }
 
-        private void AddItem(QuickAccess newItem) {
+        private void AddItem(FolderQuickAccess newItem) {
 
             if (EditingMode) {
                 var list = GetCurrentList().Remove(SelectedQAToEdit);
@@ -254,20 +255,20 @@ namespace WorkspaceManagerTool.Views {
                 ApplyFilter(FilterApplied);
             } else {
                 UpdateGroupList();
-                QuickAccessItems = new ObservableCollection<QuickAccess>(OrderList(GetCurrentList()));
+                QuickAccessItems = new ObservableCollection<FolderQuickAccess>(OrderList(GetCurrentList()));
             }
 
             //UpdateGroupList();
             SaveChanges();
         }
 
-        private void RemoveAndUpdate(QuickAccess item) {
+        private void RemoveAndUpdate(FolderQuickAccess item) {
             Remove(item);
             UpdateGroupList();
             SaveChanges();
         }
 
-        private void Remove(QuickAccess item) {
+        private void Remove(FolderQuickAccess item) {
             if (FilterMode) {
                 AuxiliarItems.Remove(item);
             }
@@ -287,7 +288,7 @@ namespace WorkspaceManagerTool.Views {
                 FilterMode = true;
             }
             _FiltersListBox.SelectedItem = FilterApplied;
-            QuickAccessItems = new ObservableCollection<QuickAccess>(AuxiliarItems.Where(qa => qa.Group.Equals(filter)));
+            QuickAccessItems = new ObservableCollection<FolderQuickAccess>(AuxiliarItems.Where(qa => qa.Group.Equals(filter)));
         }
 
 
@@ -296,11 +297,11 @@ namespace WorkspaceManagerTool.Views {
             QuickAccessController.SaveChanges(list);
         }
 
-        private IOrderedEnumerable<QuickAccess> OrderList(IList<QuickAccess> list) {
+        private IOrderedEnumerable<FolderQuickAccess> OrderList(IList<FolderQuickAccess> list) {
             return list.OrderBy(qa => qa.Group.Name).ThenBy(qa => qa.Name);
         }
 
-        private ObservableCollection<QuickAccess> GetCurrentList() {
+        private ObservableCollection<FolderQuickAccess> GetCurrentList() {
             return FilterMode ? AuxiliarItems : QuickAccessItems;
         }
 

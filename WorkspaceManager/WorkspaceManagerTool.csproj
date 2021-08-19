@@ -143,25 +143,25 @@
     <Compile Include="Utils\JSONManager.cs" />
     <Compile Include="Utils\Notifier.cs" />
     <Compile Include="Models\QuickAccess\Group.cs" />
-    <Compile Include="Views\CreationGroupDialog.xaml.cs">
-      <DependentUpon>CreationGroupDialog.xaml</DependentUpon>
+    <Compile Include="Views\QuickAccess\Group_CreationDialog.xaml.cs">
+      <DependentUpon>Group_CreationDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\QuickAccessCreationPanel.xaml.cs">
-      <DependentUpon>QuickAccessCreationPanel.xaml</DependentUpon>
+    <Compile Include="Views\QuickAccess\QuickAccess_CreationPanel.xaml.cs">
+      <DependentUpon>QuickAccess_CreationPanel.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\ConfigurationDeploy.xaml">
+    <Page Include="Views\Deploys\ConfigurationDeploy.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\CreationGroupDialog.xaml">
+    <Page Include="Views\QuickAccess\Group_CreationDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\QuickAccessTabWindow.xaml">
+    <Page Include="Views\QuickAccess\QuickAccess_Tab.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DeployTabWindow.xaml">
+    <Page Include="Views\Deploys\DeployTabWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,20 +175,20 @@
     </Compile>
     <Compile Include="Controllers\DeploymentsController.cs" />
     <Compile Include="Exceptions\NotScriptsInWorkspaceException.cs" />
-    <Compile Include="Views\ConfigurationDeploy.xaml.cs">
+    <Compile Include="Views\Deploys\ConfigurationDeploy.xaml.cs">
       <DependentUpon>ConfigurationDeploy.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\QuickAccessTabWindow.xaml.cs">
-      <DependentUpon>QuickAccessTabWindow.xaml</DependentUpon>
+    <Compile Include="Views\QuickAccess\QuickAccess_Tab.xaml.cs">
+      <DependentUpon>QuickAccess_Tab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DeployTabWindow.xaml.cs">
+    <Compile Include="Views\Deploys\DeployTabWindow.xaml.cs">
       <DependentUpon>DeployTabWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\QuickAccessCreationPanel.xaml">
+    <Page Include="Views\QuickAccess\QuickAccess_CreationPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

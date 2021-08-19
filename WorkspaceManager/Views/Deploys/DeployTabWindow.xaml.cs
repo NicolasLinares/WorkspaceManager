@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WorkspaceManagerTool.Views {
+namespace WorkspaceManagerTool.Views.Deploys {
     /// <summary>
     /// Interaction logic for DeployTabWindow.xaml
     /// </summary>

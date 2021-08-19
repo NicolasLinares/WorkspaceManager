@@ -5,11 +5,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
  
-namespace WorkspaceManagerTool.Views {
+namespace WorkspaceManagerTool.Views.QuickAccess {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class CreationGroupDialog : Window {
+    public partial class Group_CreationDialog : Window {
 
         public string NameText {
             get { return _NameTextBox.Text; }
@@ -26,11 +26,11 @@ namespace WorkspaceManagerTool.Views {
             private set { color = value; }
         }
 
-        public CreationGroupDialog() {
+        public Group_CreationDialog() {
             InitializeComponent();            
         }
 
-        public CreationGroupDialog(Group folder) {
+        public Group_CreationDialog(Group folder) {
             InitializeComponent();
             NameText = folder.Name;
         }

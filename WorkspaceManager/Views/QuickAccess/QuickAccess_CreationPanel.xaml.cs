@@ -18,11 +18,12 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Ookii.Dialogs.WinForms;
+using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess.QuickAccess;
 
-namespace WorkspaceManagerTool.Views {
+namespace WorkspaceManagerTool.Views.QuickAccess {
 
 
-    public partial class QuickAccessCreationPanel : UserControl, INotifyPropertyChanged {
+    public partial class QuickAccess_CreationPanel : UserControl, INotifyPropertyChanged {
 
         private string name;
         private string path;
@@ -70,7 +71,7 @@ namespace WorkspaceManagerTool.Views {
         public static string DefaultGroup => "Nuevo";
         public static Color DefaultColor => Color.FromRgb(17, 166, 143);
 
-        public QuickAccessCreationPanel(ObservableCollection<Group> groups) {
+        public QuickAccess_CreationPanel(ObservableCollection<Group> groups) {
             DataContext = this;
             InitializeComponent();
 
@@ -84,7 +85,7 @@ namespace WorkspaceManagerTool.Views {
             GroupOptions = new ObservableCollection<Group>(groups);
         }
 
-        public QuickAccessCreationPanel(QuickAccess qa, ObservableCollection<Group> groups) {
+        public QuickAccess_CreationPanel(FolderQuickAccess qa, ObservableCollection<Group> groups) {
             DataContext = this;
             InitializeComponent();
 
@@ -168,7 +169,7 @@ namespace WorkspaceManagerTool.Views {
 
         private void NewGroup_Click(object sender, EventArgs e) {
 
-            CreationGroupDialog dialog = new CreationGroupDialog();
+            Group_CreationDialog dialog = new Group_CreationDialog();
 
             if (dialog.ShowDialog() == true) {
                 Group gr = new Group(dialog.NameText, dialog.Color);
@@ -181,17 +182,17 @@ namespace WorkspaceManagerTool.Views {
 
         public void ValidateInputs() {
             if (string.IsNullOrWhiteSpace(NameText)) {
-                NameText = QuickAccessCreationPanel.DefaultName;
+                NameText = QuickAccess_CreationPanel.DefaultName;
             }
             if (string.IsNullOrWhiteSpace(PathText)) {
-                PathText = QuickAccessCreationPanel.DefaultPath;
+                PathText = QuickAccess_CreationPanel.DefaultPath;
             }
             if (string.IsNullOrWhiteSpace(GroupText)) {
-                GroupText = QuickAccessCreationPanel.DefaultGroup;
-                ColorBrush = QuickAccessCreationPanel.DefaultColor;
+                GroupText = QuickAccess_CreationPanel.DefaultGroup;
+                ColorBrush = QuickAccess_CreationPanel.DefaultColor;
             }
             if (string.IsNullOrWhiteSpace(DescriptionText)) {
-                DescriptionText = QuickAccessCreationPanel.DefaultDescription;
+                DescriptionText = QuickAccess_CreationPanel.DefaultDescription;
             }
             //if (!_ColorPicker.SelectedColor.HasValue) {
             //    ColorBrush = QuickAccessCreationPanel.DefaultColor;
@@ -199,9 +200,9 @@ namespace WorkspaceManagerTool.Views {
         }
 
 
-        public QuickAccess GetQuickAccess() {
+        public FolderQuickAccess GetQuickAccess() {
             Group group = new Group(GroupText, new SolidColorBrush(ColorBrush));
-            return new QuickAccess(PathText, NameText, DescriptionText, group);
+            return new FolderQuickAccess(PathText, NameText, DescriptionText, group);
         }
     }
 }

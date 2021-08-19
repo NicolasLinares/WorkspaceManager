@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
+using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess.QuickAccess;
 
 namespace WorkspaceManagerTool.Controllers
 {
@@ -23,17 +24,17 @@ namespace WorkspaceManagerTool.Controllers
             }
         }
 
-        public void Open(QuickAccess qa) {
+        public void Open(FolderQuickAccess qa) {
             Process process = Process.Start(qa.Path);
         }
 
-        public void SaveChanges(IList<QuickAccess> list) {
+        public void SaveChanges(IList<FolderQuickAccess> list) {
             JSONManager.SaveJSON(QuickAccessDirectory,  list);
         }
 
-        public IList<QuickAccess> ReadLocalList() {
+        public IList<FolderQuickAccess> ReadLocalList() {
             try {
-                return JSONManager.ReadJSON<IList<QuickAccess>>(QuickAccessDirectory);
+                return JSONManager.ReadJSON<IList<FolderQuickAccess>>(QuickAccessDirectory);
             } catch(DirectoryNotFoundException ex) {
                 return null;
             }

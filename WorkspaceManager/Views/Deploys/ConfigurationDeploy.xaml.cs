@@ -8,7 +8,7 @@ using Ookii.Dialogs.WinForms;
 using WorkspaceManagerTool.Models.Deploys.Scripts;
 using System.Windows.Controls;
 
-namespace WorkspaceManagerTool.Views {
+namespace WorkspaceManagerTool.Views.Deploys {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
