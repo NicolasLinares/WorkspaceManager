@@ -18,28 +18,22 @@
         <SolidColorBrush x:Key="MediumDarkBlue" Color="#4e5b6e"/>
         <SolidColorBrush x:Key="LightDarkBlue" Color="#677487"/>
 
-
         <Style x:Key="_Filters_ListBoxStyle" TargetType="ListBoxItem">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
                         <Border x:Name="_Border"
                                 Padding="2px 5px"
-                                SnapsToDevicePixels="true">
+                                SnapsToDevicePixels="true" >
                             <ContentPresenter />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver"
                                      Value="True">
-                                <Setter TargetName="_Border"
-                                        Property="Background"
-                                        Value="{StaticResource LightDarkBlue}" />
+                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
                             </Trigger>
-                            <Trigger Property="IsSelected"
-                                     Value="True">
-                                <Setter TargetName="_Border"
-                                        Property="Background"
-                                        Value="{StaticResource LightDarkBlue}" />
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -112,10 +106,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
     </Control.Resources>
 
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -126,17 +119,17 @@
         <ListBox Grid.Row="0" 
                  Name="_FiltersListBox" 
                  VerticalAlignment="Center"
-                 Background="Transparent"
-                 BorderBrush="Transparent"
+                 Background="{StaticResource DarkBlue}"
+                 BorderThickness="0"
                  ItemsSource="{Binding Source={StaticResource filter}}"
                  SelectedValue="{Binding SelectedGroup}"
                  MouseUp="ApplyFilter_Click"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  IsSynchronizedWithCurrentItem="True"
-                 Focusable="False"  ItemContainerStyle="{StaticResource _Filters_ListBoxStyle}">
+                 ItemContainerStyle="{StaticResource _Filters_ListBoxStyle}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" Background="Transparent"/>
+                    <WrapPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
 
@@ -164,8 +157,11 @@
                     Focusable="False" ItemContainerStyle="{StaticResource _QA_ListBoxStyle}">
             <ListBox.ContextMenu>
                 <ContextMenu Opacity="0.8">
+                    <MenuItem Header="Abrir carpeta" Click="OpenQuickAccess_MenuClick"/>
+                    <MenuItem Header="Copiar ruta" Click="CopyToClipboard_MenuClick"/>
                     <MenuItem Header="Editar" Click="EditQuickAccess_MenuClick"/>
                     <MenuItem Header="Eliminar" Click="RemoveQuickAccess_MenuClick"/>
+                    
                     <ContextMenu.Style>
                         <Style TargetType="{x:Type ContextMenu}">
                             <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -176,9 +172,9 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type ContextMenu}">
-                                        <Border x:Name="Border" Background="#000" BorderThickness="1">
+                                        <Border x:Name="Border" Background="{StaticResource Dark}" BorderThickness="1">
                                             <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Disabled">
-                                                <ItemsPresenter />
+                                                <ItemsPresenter/>
                                             </ScrollViewer>
                                         </Border>
                                     </ControlTemplate>

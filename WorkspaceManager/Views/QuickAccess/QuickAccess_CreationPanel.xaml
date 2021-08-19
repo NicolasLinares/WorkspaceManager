@@ -212,8 +212,8 @@
         <TextBlock Text="Grupo" Grid.Row="1" Grid.Column="1" Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Bottom"  />
 
         <Border Padding="5px 5px 0px 5px" Background="Transparent" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="20px 0px 0px 0px" VerticalAlignment="Center">
-            <ComboBox ItemsSource="{Binding GroupOptions, Mode=TwoWay}"  BorderThickness="0" Style="{DynamicResource _ComboBox}" 
-                      IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding SelectedGroup}" SelectionChanged="ComboBoxSelectionChanged">
+            <ComboBox ItemsSource="{Binding ComboBoxGroupOptions, Mode=TwoWay}"  BorderThickness="0" Style="{DynamicResource _ComboBox}" 
+                      IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding SelectedGroupOption}" SelectionChanged="ComboBoxSelectionChanged">
                 <!--SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"-->
                 <!--ItemContainerStyle="{DynamicResource _ComboBoxItem}"-->
             </ComboBox>

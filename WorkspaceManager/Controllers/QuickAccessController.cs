@@ -57,11 +57,11 @@ namespace WorkspaceManagerTool.Controllers {
             var gr_list = QAItems.Select(qa => qa.Group).Distinct();
             GroupItems = OrderGroups(gr_list);
         }
-        private ObservableCollection<FolderQuickAccess> OrderFolders(IEnumerable<FolderQuickAccess> qa_list) {
-            return (ObservableCollection<FolderQuickAccess>) qa_list.OrderBy(qa => qa.Group.Name).ThenBy(qa => qa.Name);
+        private ObservableCollection<FolderQuickAccess> OrderFolders(IList<FolderQuickAccess> qa_list) {
+            return new ObservableCollection<FolderQuickAccess>(qa_list.OrderBy(qa => qa.Group.Name).ThenBy(qa => qa.Name));
         }
         private ObservableCollection<Group> OrderGroups(IEnumerable<Group> gr_list) {
-            return (ObservableCollection<Group>)gr_list.OrderBy(gr => gr.Name);
+            return new ObservableCollection<Group>(gr_list.OrderBy(gr => gr.Name));
         }
 
         public void OpenQuickAccess(FolderQuickAccess qa) {

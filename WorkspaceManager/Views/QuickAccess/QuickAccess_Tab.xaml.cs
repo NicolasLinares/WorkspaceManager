@@ -93,23 +93,32 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
         private void CreateQuickAccess_Click(object sender, EventArgs e) {
+            // new item, so empty values
+            QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems);
             OpenCreationPanel();
         }
         private void EditQuickAccess_MenuClick(object sender, RoutedEventArgs e) {
-            SelectedQAToEdit = SelectedQuickAccessItem;
+            // set current values to edit
+            QuickAccessPanel = new QuickAccess_CreationPanel(SelectedQuickAccessItem, GroupItems);
+            OpenCreationPanel();
             EditingMode = true;
-            OpenCreationPanel(SelectedQAToEdit);
         }
         private void RemoveQuickAccess_MenuClick(object sender, RoutedEventArgs e) {
-
             MessageBoxResult result = MessageBox.Show("¿Desea eliminar el acceso directo de forma permanente?", "Eliminar acceso directo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
                 var removedItem = SelectedQuickAccessItem;
                 RemoveAndUpdate(removedItem);
             }
         }
+        private void CopyToClipboard_MenuClick(object sender, RoutedEventArgs e) {
+            Clipboard.SetText(SelectedQuickAccessItem.Path);
+        }
+
+        private void OpenQuickAccess_MenuClick(object sender, RoutedEventArgs e) {
+            OpenLink();
+        }
+
         private void OpenQuickAccess_DoubleClick(object sender, MouseButtonEventArgs e) {
             if (!this.IsInitialized) {
                 return;
@@ -120,12 +129,15 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
                 return;
             }
 
+            OpenLink();
+        }
+
+        private void OpenLink() {
             try {
-                QuickAccessController.OpenQuickAccess((FolderQuickAccess)listBox.SelectedValue);
+                QuickAccessController.OpenQuickAccess(SelectedQuickAccessItem);
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
         private void ApplyFilter_Click(object sender, MouseButtonEventArgs e) {
@@ -150,7 +162,6 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
         private void AcceptButton_Click(object sender, EventArgs e) {
 
-            QuickAccessPanel.ValidateInputs();
             FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
 
             var list = GetCurrentList();
@@ -196,28 +207,24 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
         #endregion
 
-        #region Interface methods
-        private void OpenCreationPanel(FolderQuickAccess qa = null) {
-            if (EditingMode) {
-                QuickAccessPanel = new QuickAccess_CreationPanel(qa, GroupItems);
-            } else {
-                QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems);
-            }
+        #region GUI methods
+        private void OpenCreationPanel() {
             _CreationQuickAcess_Container.Children.Add(QuickAccessPanel);
             _CreationPanel_Buttons.Visibility = Visibility.Visible;
             _CreationQuickAccess_Button.Visibility = Visibility.Collapsed;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
+            // Disable list interactions
+            _FiltersListBox.IsHitTestVisible = false;
+            _QuickAcessListBox.IsHitTestVisible = false;
+
         }
 
         private void CloseCreationPanel() {
             _CreationQuickAcess_Container.Children.RemoveAt(_CreationQuickAcess_Container.Children.Count - 1);
             _CreationPanel_Buttons.Visibility = Visibility.Collapsed;
-
-            if (FilterMode) {
-                _RemoveFilter_Button.Visibility = Visibility.Visible;
-            } else {
-                _CreationQuickAccess_Button.Visibility = Visibility.Visible;
-            }
+            // Enable list interactions
+            _FiltersListBox.IsHitTestVisible = true;
+            _QuickAcessListBox.IsHitTestVisible = true;
 
         }
 

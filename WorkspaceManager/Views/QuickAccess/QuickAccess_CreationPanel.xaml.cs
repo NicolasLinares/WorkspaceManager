@@ -54,13 +54,13 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             get => color;
             set => SetProperty(ref color, value);
         }
-        public Group SelectedGroup {
+        public Group SelectedGroupOption {
             get => selectedGroup;
             set {
                 SetProperty(ref selectedGroup, value);
             }
         }
-        public ObservableCollection<Group> GroupOptions {
+        public ObservableCollection<Group> ComboBoxGroupOptions {
             get => groups;
             set => SetProperty(ref groups, value);
         }
@@ -80,9 +80,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             DescriptionText = DefaultDescription;
             GroupText = DefaultGroup;
             ColorBrush = DefaultColor;
-            //_ColorPicker.SelectedColor = ColorBrush;
-
-            GroupOptions = new ObservableCollection<Group>(groups);
+            ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
         }
 
         public QuickAccess_CreationPanel(FolderQuickAccess qa, ObservableCollection<Group> groups) {
@@ -98,10 +96,9 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             DescriptionText = qa.Description;
             GroupText = qa.Group.Name;
             ColorBrush = Color.FromRgb(qa.Group.Color.Color.R, qa.Group.Color.Color.G, qa.Group.Color.Color.B);
-            //_ColorPicker.SelectedColor = ColorBrush;
 
-            GroupOptions = groups;
-            SelectedGroup = qa.Group;
+            ComboBoxGroupOptions = groups;
+            SelectedGroupOption = qa.Group;
         }
 
         #region Events handlers
@@ -141,26 +138,18 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             }
         }
 
-        private void SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e) {
-            //if (_ColorPicker.SelectedColor.HasValue) {
-            //    ColorBrush = _ColorPicker.SelectedColor.Value;
-            //}
-        }
 
         private void ComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            SelectedGroup = (sender as ComboBox).SelectedItem as Group;
+            SelectedGroupOption = (sender as ComboBox).SelectedItem as Group;
         }
 
 
         private void Browse_Click(object sender, EventArgs e) {
-
             VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
-            fbd.Description = "Selecciona la ruta para crear el acceso directo";
+            fbd.Description = "Seleccionar carpeta";
             fbd.UseDescriptionForTitle = true;
             fbd.ShowNewFolderButton = true;
-
             var result = fbd.ShowDialog();
-
             if (result == System.Windows.Forms.DialogResult.OK) {
                 PathText = fbd.SelectedPath;
             }
@@ -172,37 +161,30 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             Group_CreationDialog dialog = new Group_CreationDialog();
 
             if (dialog.ShowDialog() == true) {
-                Group gr = new Group(dialog.NameText, dialog.Color);
-
-                SelectedGroup = gr;
-                GroupOptions.Add(gr);
+                SelectedGroupOption = new Group(dialog.NameText, dialog.Color);
+                ComboBoxGroupOptions.Add(SelectedGroupOption);
             } 
 
         }
 
-        public void ValidateInputs() {
+        public FolderQuickAccess GetQuickAccess() {
+            // Set default values if empty
             if (string.IsNullOrWhiteSpace(NameText)) {
-                NameText = QuickAccess_CreationPanel.DefaultName;
+                NameText = DefaultName;
             }
             if (string.IsNullOrWhiteSpace(PathText)) {
-                PathText = QuickAccess_CreationPanel.DefaultPath;
+                PathText = DefaultPath;
             }
             if (string.IsNullOrWhiteSpace(GroupText)) {
-                GroupText = QuickAccess_CreationPanel.DefaultGroup;
-                ColorBrush = QuickAccess_CreationPanel.DefaultColor;
+                GroupText = DefaultGroup;
+                ColorBrush = DefaultColor;
             }
             if (string.IsNullOrWhiteSpace(DescriptionText)) {
-                DescriptionText = QuickAccess_CreationPanel.DefaultDescription;
+                DescriptionText = DefaultDescription;
             }
-            //if (!_ColorPicker.SelectedColor.HasValue) {
-            //    ColorBrush = QuickAccessCreationPanel.DefaultColor;
-            //}
-        }
-
-
-        public FolderQuickAccess GetQuickAccess() {
             Group group = new Group(GroupText, new SolidColorBrush(ColorBrush));
             return new FolderQuickAccess(PathText, NameText, DescriptionText, group);
         }
+
     }
 }
