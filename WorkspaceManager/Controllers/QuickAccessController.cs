@@ -17,6 +17,24 @@ using System.Linq;
 namespace WorkspaceManagerTool.Controllers {
     class QuickAccessController : IController {
 
+        private ObservableCollection<FolderQuickAccess> qaItems;
+        private ObservableCollection<Group> grItems;
+
+        public ObservableCollection<FolderQuickAccess> QAItems {
+            get {
+                return OrderFolders(qaItems);
+            }
+            set {
+                qaItems = value;
+            }
+        }
+        public ObservableCollection<Group> GroupItems {
+            get {
+                var gr_list = qaItems.Select(qa => qa.Group).Distinct();
+                return OrderGroups(gr_list);
+            }
+        }
+
         private string QuickAccessDirectory {
             get {
                 string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -25,13 +43,9 @@ namespace WorkspaceManagerTool.Controllers {
             }
         }
 
-        public ObservableCollection<FolderQuickAccess> QAItems { get; set; }
-        public ObservableCollection<Group> GroupItems { get; set; }
-
 
         public void Init() {
             ReadData();
-            UpdateGroupList();
         }
 
         public void ReadData() {
@@ -41,22 +55,28 @@ namespace WorkspaceManagerTool.Controllers {
                 QAItems = new ObservableCollection<FolderQuickAccess>();
             }
 
-            QAItems = OrderFolders(data);
+            QAItems = new ObservableCollection<FolderQuickAccess>(data);
         }
 
         public void WriteData() {
             JSONManager.SaveJSON(QuickAccessDirectory, QAItems);
         }
 
-        public void SaveChanges(ObservableCollection<FolderQuickAccess> qa_list) {
-            QAItems = qa_list;
+        public void AddQA(FolderQuickAccess qa) {
+            qaItems.Add(qa);
+            WriteData();
+        }
+        public void ReplaceQA(FolderQuickAccess old_qa, FolderQuickAccess new_qa) {
+            qaItems.Remove(old_qa);
+            qaItems.Add(new_qa);
             WriteData();
         }
 
-        public void UpdateGroupList() {
-            var gr_list = QAItems.Select(qa => qa.Group).Distinct();
-            GroupItems = OrderGroups(gr_list);
+        public void RemoveQA(FolderQuickAccess qa) {
+            qaItems.Remove(qa);
+            WriteData();
         }
+
         private ObservableCollection<FolderQuickAccess> OrderFolders(IList<FolderQuickAccess> qa_list) {
             return new ObservableCollection<FolderQuickAccess>(qa_list.OrderBy(qa => qa.Group.Name).ThenBy(qa => qa.Name));
         }
@@ -67,5 +87,7 @@ namespace WorkspaceManagerTool.Controllers {
         public void OpenQuickAccess(FolderQuickAccess qa) {
             Process process = Process.Start(qa.Path);
         }
+
+
     }
 }

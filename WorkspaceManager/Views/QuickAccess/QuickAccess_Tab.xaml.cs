@@ -57,8 +57,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         }
         public FolderQuickAccess SelectedQAToEdit { get; private set; }
 
-        public bool EditingMode { get; private set; }
-        public bool FilterMode { get; private set; }
+        public ViewMode CurrentViewMode { get; private set; }
 
         private QuickAccessController QuickAccessController { get; set; }
 
@@ -108,8 +107,8 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         private void RemoveQuickAccess_Action(object sender, RoutedEventArgs e) {
             MessageBoxResult result = MessageBox.Show("¿Desea eliminar el acceso directo de forma permanente?", "Eliminar acceso directo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
-                var removedItem = SelectedQuickAccessItem;
-                RemoveAndUpdate(removedItem);
+                QuickAccessController.RemoveQA(SelectedQuickAccessItem);
+                UpdateLists();
             }
         }
         private void CopyToClipboard_Action(object sender, RoutedEventArgs e) {
@@ -127,86 +126,62 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             }
         }
 
+
         private void ApplyFilter_Action(object sender, MouseButtonEventArgs e) {
-            if (_FiltersListBox.Items.Count <= 1 || _FiltersListBox.SelectedValue == null) {
+            ChangeViewMode(ViewMode.FILTER);
+        }
+        private void RemoveFilter_Action(object sender, EventArgs e) {
+            ChangeViewMode(ViewMode.NORMAL);
+        }
+
+
+        private void AcceptButton_Click(object sender, EventArgs e) {
+            FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
+            if (QuickAccessController.QAItems.Contains(new_qa)) {
+                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            ChangeViewMode(ViewMode.FILTER);
-
-            FilterApplied = SelectedGroup;
-            ApplyFilter(FilterApplied);
-        }
-
-        private void RemoveFilter_Action(object sender, EventArgs e) {
-            QuickAccessItems = AuxiliarItems;
-            AuxiliarItems = null;
-            FilterMode = false;
-
+            if (CurrentViewMode == ViewMode.EDITION) {
+                QuickAccessController.ReplaceQA(SelectedQAToEdit, new_qa);
+                SelectedQAToEdit = null;
+            } else {
+                QuickAccessController.AddQA(new_qa);
+            }
             ChangeViewMode(ViewMode.NORMAL);
         }
+        private void CancelButton_Click(object sender, EventArgs e) {
+            ChangeViewMode(ViewMode.NORMAL);
+        }
+        #endregion
+
+
+
+        #region GUI methods
 
         private void ChangeViewMode(ViewMode mode) {
             switch (mode) {
                 case ViewMode.EDITION:
-                    EditingMode = true;
+                    SelectedQAToEdit = SelectedQuickAccessItem;
                     OpenCreationPanel();
                     break;
                 case ViewMode.CREATION:
                     OpenCreationPanel();
                     break;
                 case ViewMode.FILTER:
+                    ApplyFilter(SelectedGroup);
                     EnableFilterMode();
                     break;
                 case (ViewMode.NORMAL):
+                    UpdateLists();
                     DisableFilterMode();
                     CloseCreationPanel();
                     break;
             }
+
+            CurrentViewMode = mode;
         }
 
-
-
-        private void AcceptButton_Click(object sender, EventArgs e) {
-
-            FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
-
-            var list = GetCurrentList();
-
-            if (list.Contains(new_qa)) {
-                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            // comprueba si el grupo ha cambiado para actualizar el color si el usuario quiere
-            if (EditingMode && !SelectedQAToEdit.Group.Equals(new_qa.Group) && list.Select(qa => qa.Group).Any(gr => gr.Name == new_qa.Group.Name)) {
-                MessageBoxResult result = MessageBox.Show("¿Desea actualizar el color del grupo \"" + new_qa.Group.Name + "\" en el resto de accesos directos?", "Grupo modificado", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes) {
-                    foreach (var it in list) {
-                        if (it.Group.Name == new_qa.Group.Name) {
-                            it.Group.Color = new_qa.Group.Color;
-                        }
-                    }
-                }
-            }
-            AddItem(new_qa);
-
-            ChangeViewMode(ViewMode.NORMAL);
-        }
-
-        private void CancelButton_Click(object sender, EventArgs e) {
-            ChangeViewMode(ViewMode.NORMAL);
-
-            EditingMode = false;
-            SelectedQAToEdit = null;
-        }
-
-
-
-
-        #endregion
-
-        #region GUI methods
         private void OpenCreationPanel() {
             _CreationQuickAcess_Container.Children.Add(QuickAccessPanel);
             _CreationPanel_Buttons.Visibility = Visibility.Visible;
@@ -237,7 +212,6 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         private void DisableFilterMode() {
             _CreationQuickAccess_Button.Visibility = Visibility.Visible;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
-            _FiltersListBox.UnselectAll();
         }
 
         #endregion
@@ -245,73 +219,16 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
         #region Auxiliar methods
 
-        private void RemoveGroupIfNotExists(Group item) {
-            if (!QuickAccessItems.Any(qa => qa.Group.Equals(item))) {
-                GroupItems.Remove(item);
-            }
-        }
-
-        private void AddItem(FolderQuickAccess newItem) {
-
-            if (EditingMode) {
-                var list = GetCurrentList().Remove(SelectedQAToEdit);
-                //AuxiliarItems.Select(qa => qa)
-            }
-
-            QuickAccessItems.Add(newItem);
-
-            if (FilterMode) {
-                AuxiliarItems.Add(newItem);
-                UpdateGroupList();
-                ApplyFilter(FilterApplied);
-            } else {
-                UpdateGroupList();
-                QuickAccessItems = new ObservableCollection<FolderQuickAccess>(GetCurrentList());
-            }
-
-            //UpdateGroupList();
-            SaveChanges();
-        }
-
-        private void RemoveAndUpdate(FolderQuickAccess item) {
-            Remove(item);
-            UpdateGroupList();
-            SaveChanges();
-        }
-
-        private void Remove(FolderQuickAccess item) {
-            if (FilterMode) {
-                AuxiliarItems.Remove(item);
-            }
-            QuickAccessItems.Remove(item);
-        }
-
-        private void UpdateGroupList() {
-            var qa_list = GetCurrentList();
-
-            if (SelectedGroup == null || !SelectedGroup.Equals(FilterApplied))
-                GroupItems = new ObservableCollection<Group>(qa_list.Select(qa => qa.Group).Distinct().OrderBy(gr => gr.Name));
+        private void UpdateLists() {
+            QuickAccessItems = QuickAccessController.QAItems;
+            GroupItems = QuickAccessController.GroupItems;
+            _FiltersListBox.UnselectAll();
+            _QuickAcessListBox.UnselectAll();
         }
 
         private void ApplyFilter(Group filter) {
-            if (!FilterMode) {
-                AuxiliarItems = QuickAccessItems;
-                FilterMode = true;
-            }
-            _FiltersListBox.SelectedItem = FilterApplied;
-            QuickAccessItems = new ObservableCollection<FolderQuickAccess>(AuxiliarItems.Where(qa => qa.Group.Equals(filter)));
-        }
-
-
-        private void SaveChanges() {
-            var list = GetCurrentList();
-            QuickAccessController.SaveChanges(list);
-        }
-
-
-
-        private ObservableCollection<FolderQuickAccess> GetCurrentList() {
-            return FilterMode ? AuxiliarItems : QuickAccessItems;
+            var list = QuickAccessController.QAItems;
+            QuickAccessItems = new ObservableCollection<FolderQuickAccess>(list.Where(qa => qa.Group.Equals(filter)));
         }
 
         #endregion

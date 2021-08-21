@@ -47,6 +47,7 @@ namespace WorkspaceManagerTool.Models.QuickAccess
         public override bool Equals(object obj) {
             QuickAccess qa = obj as QuickAccess;
             return qa != null
+                && Id.Equals(qa.Id)
                 && (Path ?? "").Equals(qa.Path)
                 && (Name ?? "").Equals(qa.Name)
                 && (Description ?? "").Equals(qa.Description)

@@ -28,10 +28,8 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         private string name;
         private string path;
         private string description;
-        private string group;
-        private Color color;
-        private Group selectedGroup;
-        private ObservableCollection<Group> groups;
+        private Group selectedGroupOption;
+        private ObservableCollection<Group> groupsOptions;
 
 
         public string NameText {
@@ -46,30 +44,21 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             get => description;
             set => SetProperty(ref description, value);
         }
-        public string GroupText {
-            get => group;
-            set => SetProperty(ref group, value);
-        }
-        public Color ColorBrush {
-            get => color;
-            set => SetProperty(ref color, value);
-        }
         public Group SelectedGroupOption {
-            get => selectedGroup;
+            get => selectedGroupOption;
             set {
-                SetProperty(ref selectedGroup, value);
+                SetProperty(ref selectedGroupOption, value);
             }
         }
         public ObservableCollection<Group> ComboBoxGroupOptions {
-            get => groups;
-            set => SetProperty(ref groups, value);
+            get => groupsOptions;
+            set => SetProperty(ref groupsOptions, value);
         }
 
-        public static string DefaultName => "Nuevo acceso directo";
-        public static string DefaultPath => "Ruta sin definir";
-        public static string DefaultDescription => "";
-        public static string DefaultGroup => "Nuevo";
-        public static Color DefaultColor => Color.FromRgb(17, 166, 143);
+        private string DefaultName => "Nuevo acceso directo";
+        private string DefaultPath => "Ruta sin definir";
+        private string DefaultDescription => "";
+        private Group DefaultGroup => new Group("Nuevo", new SolidColorBrush(Color.FromRgb(17, 166, 143)));
 
         public QuickAccess_CreationPanel(ObservableCollection<Group> groups) {
             DataContext = this;
@@ -78,11 +67,9 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             PathText = DefaultPath;
             NameText = DefaultName;
             DescriptionText = DefaultDescription;
-            GroupText = DefaultGroup;
-            ColorBrush = DefaultColor;
+            SelectedGroupOption = DefaultGroup;
             ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
         }
-
         public QuickAccess_CreationPanel(FolderQuickAccess qa, ObservableCollection<Group> groups) {
             DataContext = this;
             InitializeComponent();
@@ -94,11 +81,8 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             PathText = qa.Path;
             NameText = qa.Name;
             DescriptionText = qa.Description;
-            GroupText = qa.Group.Name;
-            ColorBrush = Color.FromRgb(qa.Group.Color.Color.R, qa.Group.Color.Color.G, qa.Group.Color.Color.B);
-
-            ComboBoxGroupOptions = groups;
             SelectedGroupOption = qa.Group;
+            ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
         }
 
         #region Events handlers
@@ -153,18 +137,14 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             if (result == System.Windows.Forms.DialogResult.OK) {
                 PathText = fbd.SelectedPath;
             }
-
         }
 
         private void NewGroup_Click(object sender, EventArgs e) {
-
             Group_CreationDialog dialog = new Group_CreationDialog();
-
             if (dialog.ShowDialog() == true) {
                 SelectedGroupOption = new Group(dialog.NameText, dialog.Color);
                 ComboBoxGroupOptions.Add(SelectedGroupOption);
             } 
-
         }
 
         public FolderQuickAccess GetQuickAccess() {
@@ -175,15 +155,13 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             if (string.IsNullOrWhiteSpace(PathText)) {
                 PathText = DefaultPath;
             }
-            if (string.IsNullOrWhiteSpace(GroupText)) {
-                GroupText = DefaultGroup;
-                ColorBrush = DefaultColor;
+            if (SelectedGroupOption == null) {
+                SelectedGroupOption = DefaultGroup;
             }
             if (string.IsNullOrWhiteSpace(DescriptionText)) {
                 DescriptionText = DefaultDescription;
             }
-            Group group = new Group(GroupText, new SolidColorBrush(ColorBrush));
-            return new FolderQuickAccess(PathText, NameText, DescriptionText, group);
+            return new FolderQuickAccess(PathText, NameText, DescriptionText, SelectedGroupOption);
         }
 
     }

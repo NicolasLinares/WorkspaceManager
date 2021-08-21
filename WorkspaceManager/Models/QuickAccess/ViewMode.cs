@@ -8,9 +8,9 @@ namespace WorkspaceManagerTool.Models.QuickAccess
 {
     public enum ViewMode
     {
-        NORMAL,
-        CREATION,
-        EDITION,
-        FILTER,
+        NORMAL = 0,
+        CREATION = 1,
+        EDITION = 2,
+        FILTER = 3,
     }
 }

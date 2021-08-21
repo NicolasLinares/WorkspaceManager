@@ -7,10 +7,8 @@
              mc:Ignorable="d" d:DesignHeight="500" >
 
     <Control.Resources>
-        <CollectionViewSource x:Key="filter" Source="{Binding GroupItems, Mode=TwoWay}">
-        </CollectionViewSource>
-        <CollectionViewSource x:Key="quickaccess" Source="{Binding QuickAccessItems, Mode=TwoWay}">
-        </CollectionViewSource>
+        <CollectionViewSource x:Key="filter" Source="{Binding GroupItems, Mode=TwoWay}"/>
+        <CollectionViewSource x:Key="quickaccess" Source="{Binding QuickAccessItems, Mode=TwoWay}"/>
 
 
         <SolidColorBrush x:Key="Dark" Color="#272f3b"/>
