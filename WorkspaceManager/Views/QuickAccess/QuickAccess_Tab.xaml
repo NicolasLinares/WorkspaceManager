@@ -20,14 +20,11 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
-                        <Border x:Name="_Border"
-                                Padding="2px 5px"
-                                SnapsToDevicePixels="true" >
+                        <Border x:Name="_Border" Padding="2px 5px" SnapsToDevicePixels="true" >
                             <ContentPresenter />
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver"
-                                     Value="True">
+                            <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
@@ -43,17 +40,18 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
-                        <Border x:Name="_Border" CornerRadius="7"
-                                Padding="1px 1.5px" Margin="0 1"
-                                SnapsToDevicePixels="true">
+                        <Border x:Name="_Border" CornerRadius="7" Padding="1px 1.5px" Margin="0 1" SnapsToDevicePixels="true">
                             <ContentPresenter />
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver"
-                                     Value="True">
-                                <Setter TargetName="_Border"
-                                        Property="Background"
-                                        Value="{StaticResource LightDarkBlue}" />
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="_Border" Property="Background" Value="Transparent" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -66,15 +64,11 @@
                 <Style TargetType="ToolTip">
                     <Setter Property="Background" Value="GhostWhite" />
                     <Style.Triggers>
-                        <Trigger Property="Content"
-                         Value="{x:Static sys:String.Empty}">
-                            <Setter Property="Visibility"
-                            Value="Collapsed" />
+                        <Trigger Property="Content" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Visibility" Value="Collapsed" />
                         </Trigger>
-                        <Trigger Property="Content"
-                         Value="{x:Null}">
-                            <Setter Property="Visibility"
-                            Value="Collapsed" />
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
@@ -204,6 +198,7 @@
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+
         </ListBox>
 
 
@@ -211,11 +206,11 @@
 
         <StackPanel Name="_CreationPanel_Buttons" Grid.Row="3" Width="220" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Visibility="Collapsed">
             <Button Name="_AcceptButton"  Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Background="{StaticResource Dark}" IsCancel="True" Margin="20px 0" 
-                    VerticalAlignment="Center" Width="80" Height="30px" Click="AcceptButton_Click">
+                    VerticalAlignment="Center" Width="80" Height="30px" Click="CreateQA_Click">
                 Aceptar
             </Button>
             <Button Name="_CancelButton" Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Background="{StaticResource Dark}" IsCancel="True"  Padding="20px 0" 
-                        VerticalAlignment="Center" Width="80" Height="30px" Click="CancelButton_Click">
+                        VerticalAlignment="Center" Width="80" Height="30px" Click="Cancel_Click">
                 Cancelar
             </Button>
         </StackPanel>

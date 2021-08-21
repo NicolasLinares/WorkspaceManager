@@ -58,6 +58,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         public FolderQuickAccess SelectedQAToEdit { get; private set; }
 
         public ViewMode CurrentViewMode { get; private set; }
+        public ViewMode PreviousViewMode { get; private set; }
 
         private QuickAccessController QuickAccessController { get; set; }
 
@@ -75,6 +76,8 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             QuickAccessItems = QuickAccessController.QAItems;
             GroupItems = QuickAccessController.GroupItems;
             _FiltersListBox.UnselectAll();
+            _QuickAcessListBox.UnselectAll();
+
         }
         #endregion
 
@@ -100,22 +103,31 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             ChangeViewMode(ViewMode.CREATION);
         }
         private void EditQuickAccess_Action(object sender, RoutedEventArgs e) {
+            if (_QuickAcessListBox.SelectedItem == null) {
+                return;
+            }
             // set current values to edit
             QuickAccessPanel = new QuickAccess_CreationPanel(SelectedQuickAccessItem, GroupItems);
             ChangeViewMode(ViewMode.EDITION);
         }
         private void RemoveQuickAccess_Action(object sender, RoutedEventArgs e) {
+            if (_QuickAcessListBox.SelectedItem == null) {
+                return;
+            }
             MessageBoxResult result = MessageBox.Show("¿Desea eliminar el acceso directo de forma permanente?", "Eliminar acceso directo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
                 QuickAccessController.RemoveQA(SelectedQuickAccessItem);
-                UpdateLists();
+                ChangeViewMode(CurrentViewMode);
             }
         }
         private void CopyToClipboard_Action(object sender, RoutedEventArgs e) {
+            if (_QuickAcessListBox.SelectedItem == null) {
+                return;
+            }
             Clipboard.SetText(SelectedQuickAccessItem.Path);
         }
         private void OpenQuickAccess_Action(object sender, EventArgs e) {
-            if (_QuickAcessListBox.Items.Count == 0 || _QuickAcessListBox.SelectedValue == null) {
+            if (_QuickAcessListBox.SelectedItem == null) {
                 return;
             }
 
@@ -128,6 +140,9 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
 
         private void ApplyFilter_Action(object sender, MouseButtonEventArgs e) {
+            if (_FiltersListBox.SelectedItem == null) {
+                return;
+            }
             ChangeViewMode(ViewMode.FILTER);
         }
         private void RemoveFilter_Action(object sender, EventArgs e) {
@@ -135,7 +150,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         }
 
 
-        private void AcceptButton_Click(object sender, EventArgs e) {
+        private void CreateQA_Click(object sender, EventArgs e) {
             FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
             if (QuickAccessController.QAItems.Contains(new_qa)) {
                 MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -144,14 +159,32 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
             if (CurrentViewMode == ViewMode.EDITION) {
                 QuickAccessController.ReplaceQA(SelectedQAToEdit, new_qa);
+                GroupItems = QuickAccessController.GroupItems;
+                SelectedGroup = SelectedQAToEdit.Group;
                 SelectedQAToEdit = null;
             } else {
                 QuickAccessController.AddQA(new_qa);
             }
-            ChangeViewMode(ViewMode.NORMAL);
+
+            ChangeViewMode(PreviousViewMode);
         }
-        private void CancelButton_Click(object sender, EventArgs e) {
-            ChangeViewMode(ViewMode.NORMAL);
+
+
+        private void ReplaceQA_Action(object sender, EventArgs e) {
+            FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
+            if (QuickAccessController.QAItems.Contains(new_qa)) {
+                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            QuickAccessController.ReplaceQA(SelectedQAToEdit, new_qa);
+            SelectedQAToEdit = null;
+
+            ChangeViewMode(PreviousViewMode);
+        }
+
+        private void Cancel_Click(object sender, EventArgs e) {
+            ChangeViewMode(PreviousViewMode);
         }
         #endregion
 
@@ -161,16 +194,17 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
         private void ChangeViewMode(ViewMode mode) {
             switch (mode) {
-                case ViewMode.EDITION:
-                    SelectedQAToEdit = SelectedQuickAccessItem;
+                case ViewMode.CREATION:
                     OpenCreationPanel();
                     break;
-                case ViewMode.CREATION:
+                case ViewMode.EDITION:
+                    SelectedQAToEdit = SelectedQuickAccessItem;
                     OpenCreationPanel();
                     break;
                 case ViewMode.FILTER:
                     ApplyFilter(SelectedGroup);
                     EnableFilterMode();
+                    CloseCreationPanel();
                     break;
                 case (ViewMode.NORMAL):
                     UpdateLists();
@@ -179,7 +213,9 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
                     break;
             }
 
+            PreviousViewMode = CurrentViewMode;
             CurrentViewMode = mode;
+
         }
 
         private void OpenCreationPanel() {
