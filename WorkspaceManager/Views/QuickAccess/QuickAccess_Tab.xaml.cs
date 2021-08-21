@@ -69,10 +69,10 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         public QuickAccess_Tab() {
             DataContext = this;
             InitializeComponent();
-
+            // Create controller and initialize data
             QuickAccessController = new QuickAccessController();
             QuickAccessController.Init();
-
+            // Set observable data from controller
             QuickAccessItems = QuickAccessController.QAItems;
             GroupItems = QuickAccessController.GroupItems;
             _FiltersListBox.UnselectAll();
@@ -80,8 +80,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         #endregion
 
 
-        #region Events handlers
-
+        #region Property Changes
         public event PropertyChangedEventHandler PropertyChanged;
         private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null) {
             if (!EqualityComparer<T>.Default.Equals(field, value)) {
@@ -92,47 +91,35 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         private void OnPropertyChanged([CallerMemberName]string propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
-        private void CreateQuickAccess_Click(object sender, EventArgs e) {
+        #region Actions
+
+        private void CreateQuickAccess_Action(object sender, EventArgs e) {
             // new item, so empty values
             QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems);
-            OpenCreationPanel();
+            ChangeViewMode(ViewMode.CREATION);
         }
-        private void EditQuickAccess_MenuClick(object sender, RoutedEventArgs e) {
+        private void EditQuickAccess_Action(object sender, RoutedEventArgs e) {
             // set current values to edit
             QuickAccessPanel = new QuickAccess_CreationPanel(SelectedQuickAccessItem, GroupItems);
-            OpenCreationPanel();
-            EditingMode = true;
+            ChangeViewMode(ViewMode.EDITION);
         }
-        private void RemoveQuickAccess_MenuClick(object sender, RoutedEventArgs e) {
+        private void RemoveQuickAccess_Action(object sender, RoutedEventArgs e) {
             MessageBoxResult result = MessageBox.Show("¿Desea eliminar el acceso directo de forma permanente?", "Eliminar acceso directo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
                 var removedItem = SelectedQuickAccessItem;
                 RemoveAndUpdate(removedItem);
             }
         }
-        private void CopyToClipboard_MenuClick(object sender, RoutedEventArgs e) {
+        private void CopyToClipboard_Action(object sender, RoutedEventArgs e) {
             Clipboard.SetText(SelectedQuickAccessItem.Path);
         }
-
-        private void OpenQuickAccess_MenuClick(object sender, RoutedEventArgs e) {
-            OpenLink();
-        }
-
-        private void OpenQuickAccess_DoubleClick(object sender, MouseButtonEventArgs e) {
-            if (!this.IsInitialized) {
+        private void OpenQuickAccess_Action(object sender, EventArgs e) {
+            if (_QuickAcessListBox.Items.Count == 0 || _QuickAcessListBox.SelectedValue == null) {
                 return;
             }
 
-            ListBox listBox = sender as ListBox;
-            if (listBox.Items.Count == 0 || listBox.SelectedValue == null) {
-                return;
-            }
-
-            OpenLink();
-        }
-
-        private void OpenLink() {
             try {
                 QuickAccessController.OpenQuickAccess(SelectedQuickAccessItem);
             } catch (Exception ex) {
@@ -140,22 +127,42 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             }
         }
 
-        private void ApplyFilter_Click(object sender, MouseButtonEventArgs e) {
-            if (!this.IsInitialized) {
+        private void ApplyFilter_Action(object sender, MouseButtonEventArgs e) {
+            if (_FiltersListBox.Items.Count <= 1 || _FiltersListBox.SelectedValue == null) {
                 return;
             }
 
-            ListBox listBox = sender as ListBox;
-            if (listBox.Items.Count <= 1 || listBox.SelectedValue == null) {
-                return;
-            }
+            ChangeViewMode(ViewMode.FILTER);
 
-            _CreationQuickAccess_Button.Visibility = Visibility.Collapsed;
-            _RemoveFilter_Button.Visibility = Visibility.Visible;
-
-
-            FilterApplied = (Group)listBox.SelectedValue;
+            FilterApplied = SelectedGroup;
             ApplyFilter(FilterApplied);
+        }
+
+        private void RemoveFilter_Action(object sender, EventArgs e) {
+            QuickAccessItems = AuxiliarItems;
+            AuxiliarItems = null;
+            FilterMode = false;
+
+            ChangeViewMode(ViewMode.NORMAL);
+        }
+
+        private void ChangeViewMode(ViewMode mode) {
+            switch (mode) {
+                case ViewMode.EDITION:
+                    EditingMode = true;
+                    OpenCreationPanel();
+                    break;
+                case ViewMode.CREATION:
+                    OpenCreationPanel();
+                    break;
+                case ViewMode.FILTER:
+                    EnableFilterMode();
+                    break;
+                case (ViewMode.NORMAL):
+                    DisableFilterMode();
+                    CloseCreationPanel();
+                    break;
+            }
         }
 
 
@@ -183,27 +190,19 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
                 }
             }
             AddItem(new_qa);
-            CloseCreationPanel();
-            
+
+            ChangeViewMode(ViewMode.NORMAL);
         }
 
         private void CancelButton_Click(object sender, EventArgs e) {
-            CloseCreationPanel();
+            ChangeViewMode(ViewMode.NORMAL);
+
             EditingMode = false;
             SelectedQAToEdit = null;
         }
 
 
-        private void RemoveFilter_Click(object sender, EventArgs e) {
-            QuickAccessItems = AuxiliarItems;
-            AuxiliarItems = null;
 
-            _CreationQuickAccess_Button.Visibility = Visibility.Visible;
-            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
-            _FiltersListBox.UnselectAll();
-
-            FilterMode = false;
-        }
 
         #endregion
 
@@ -220,15 +219,26 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         }
 
         private void CloseCreationPanel() {
-            _CreationQuickAcess_Container.Children.RemoveAt(_CreationQuickAcess_Container.Children.Count - 1);
-            _CreationPanel_Buttons.Visibility = Visibility.Collapsed;
-            // Enable list interactions
-            _FiltersListBox.IsHitTestVisible = true;
-            _QuickAcessListBox.IsHitTestVisible = true;
-
+            if (_CreationQuickAcess_Container.Children.Count > 0) {
+                _CreationQuickAcess_Container.Children.RemoveAt(_CreationQuickAcess_Container.Children.Count - 1);
+                _CreationPanel_Buttons.Visibility = Visibility.Collapsed;
+                // Enable list interactions
+                _FiltersListBox.IsHitTestVisible = true;
+                _QuickAcessListBox.IsHitTestVisible = true;
+                _QuickAcessListBox.UnselectAll();
+            }
         }
 
+        private void EnableFilterMode() {
+            _CreationQuickAccess_Button.Visibility = Visibility.Collapsed;
+            _RemoveFilter_Button.Visibility = Visibility.Visible;
+        }
 
+        private void DisableFilterMode() {
+            _CreationQuickAccess_Button.Visibility = Visibility.Visible;
+            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
+            _FiltersListBox.UnselectAll();
+        }
 
         #endregion
 

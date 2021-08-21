@@ -46,7 +46,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
                         <Border x:Name="_Border" CornerRadius="7"
-                                Padding="1px 1.5px"
+                                Padding="1px 1.5px" Margin="0 1"
                                 SnapsToDevicePixels="true">
                             <ContentPresenter />
                         </Border>
@@ -123,7 +123,7 @@
                  BorderThickness="0"
                  ItemsSource="{Binding Source={StaticResource filter}}"
                  SelectedValue="{Binding SelectedGroup}"
-                 MouseUp="ApplyFilter_Click"
+                 MouseUp="ApplyFilter_Action"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  IsSynchronizedWithCurrentItem="True"
                  ItemContainerStyle="{StaticResource _Filters_ListBoxStyle}">
@@ -150,17 +150,17 @@
                     HorizontalContentAlignment="Stretch"
                     ItemsSource="{Binding Source={StaticResource quickaccess} }"
                     SelectedValue="{Binding SelectedQuickAccessItem}"
-                    MouseDoubleClick="OpenQuickAccess_DoubleClick"
+                    MouseDoubleClick="OpenQuickAccess_Action"
                     IsSynchronizedWithCurrentItem="True"
                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     Focusable="False" ItemContainerStyle="{StaticResource _QA_ListBoxStyle}">
             <ListBox.ContextMenu>
                 <ContextMenu Opacity="0.8">
-                    <MenuItem Header="Abrir carpeta" Click="OpenQuickAccess_MenuClick"/>
-                    <MenuItem Header="Copiar ruta" Click="CopyToClipboard_MenuClick"/>
-                    <MenuItem Header="Editar" Click="EditQuickAccess_MenuClick"/>
-                    <MenuItem Header="Eliminar" Click="RemoveQuickAccess_MenuClick"/>
+                    <MenuItem Header="Abrir carpeta" Click="OpenQuickAccess_Action"/>
+                    <MenuItem Header="Copiar ruta" Click="CopyToClipboard_Action"/>
+                    <MenuItem Header="Editar" Click="EditQuickAccess_Action"/>
+                    <MenuItem Header="Eliminar" Click="RemoveQuickAccess_Action"/>
                     
                     <ContextMenu.Style>
                         <Style TargetType="{x:Type ContextMenu}">
@@ -204,7 +204,6 @@
                             </Border>
                         </Grid>
                     </Border>
-
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
@@ -223,11 +222,11 @@
             </Button>
         </StackPanel>
 
-        <Button Name="_CreationQuickAccess_Button" Grid.Row="3"  Background="{StaticResource Dark}" Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Height="40" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="CreateQuickAccess_Click" Margin="5px 0px" >
+        <Button Name="_CreationQuickAccess_Button" Grid.Row="3"  Background="{StaticResource Dark}" Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Height="40" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="CreateQuickAccess_Action" Margin="5px 0px" >
             Crear acceso directo
         </Button>
 
-        <Button Name="_RemoveFilter_Button" Grid.Row="3"  Background="{StaticResource Dark}" Style="{DynamicResource _ButtonStyle}" Foreground="IndianRed" Height="40" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="RemoveFilter_Click" Margin="5px 0px" Visibility="Collapsed">
+        <Button Name="_RemoveFilter_Button" Grid.Row="3"  Background="{StaticResource Dark}" Style="{DynamicResource _ButtonStyle}" Foreground="IndianRed" Height="40" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="RemoveFilter_Action" Margin="5px 0px" Visibility="Collapsed">
             Quitar filtro
         </Button>
 

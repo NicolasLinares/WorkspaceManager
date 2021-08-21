@@ -9,11 +9,16 @@ namespace WorkspaceManagerTool.Models.QuickAccess
     public class QuickAccess: INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private int id;
         private string path;
         private string name;
         private string description;
         private Group group;
 
+        public int Id {
+            get { return id; }
+            set { SetProperty(ref id, value); }
+        }
         public string Path {
             get { return path; }
             set { SetProperty(ref path, value); }
@@ -36,6 +41,7 @@ namespace WorkspaceManagerTool.Models.QuickAccess
             Path = path;
             Description = description;
             Group = group;
+            Id = GetHashCode();
         }
 
         public override bool Equals(object obj) {
@@ -48,7 +54,7 @@ namespace WorkspaceManagerTool.Models.QuickAccess
         }
 
         public override int GetHashCode() {
-            return (Name != null ? Name.GetHashCode() : 0);
+            return (Path != null ? Path.GetHashCode() : 0);
         }
 
         private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null) {
