@@ -88,6 +88,8 @@ namespace WorkspaceManagerTool.Controllers {
             Process process = Process.Start(qa.Path);
         }
 
-
+        public ObservableCollection<FolderQuickAccess> SearchByName(string text) {
+            return new ObservableCollection<FolderQuickAccess>(QAItems.Where(qa => qa.Name.ToLower().Contains(text.ToLower())));
+        }
     }
 }

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d" Height="Auto" Width="Auto" >
 
 
@@ -17,32 +16,52 @@
         <SolidColorBrush x:Key="MediumDarkBlue" Color="#4e5b6e"/>
         <SolidColorBrush x:Key="LightDarkBlue" Color="#677487"/>
 
-        <Style x:Key="_ButtonStyle" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
-                        BorderThickness="1"
-                        Padding="10,3" 
-                        BorderBrush="{StaticResource Dark}" 
-                        CornerRadius="2" 
-                        Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource MediumDarkBlue}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        
 
-        <Style x:Key="_ComboBoxItem" TargetType="{x:Type ComboBoxItem}">
+        <ControlTemplate x:Key="_ComboBoxToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Border
+                      x:Name="Border"
+                      Grid.ColumnSpan="2"
+                      CornerRadius="1 0 0 1"
+                      Background="{StaticResource Dark}"
+                      BorderBrush="#FF97A0A5"
+                      BorderThickness="1 1 0.5 1" />
+                <Border 
+                      Grid.Column="0"
+                      CornerRadius="0" 
+                      Margin="1" 
+                      Background="{StaticResource MediumDarkBlue}" 
+                      BorderBrush="#FF97A0A5"
+                      BorderThickness="0,0,1,0" />
+                <Path 
+                      x:Name="Arrow"
+                      Grid.Column="1"     
+                      Fill="WhiteSmoke"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+                />
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                    <Setter TargetName="Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="true">
+                    <Setter TargetName="Border" Property="Background" Value="#E0E0E0" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="Border" Property="Background" Value="#EEEEEE" />
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#AAAAAA" />
+                    <Setter Property="Foreground" Value="#888888"/>
+                    <Setter TargetName="Arrow" Property="Fill" Value="#888888" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style x:Key="_ComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
             <Setter Property="Background" Value="{Binding Color}" />
             <Setter Property="Padding" Value="10px 2px" />
             <Setter Property="Content" Value="{Binding Name}" />
@@ -73,55 +92,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="20" />
-                </Grid.ColumnDefinitions>
-                <Border
-                    x:Name="Border"
-                  Grid.ColumnSpan="2"
-                  CornerRadius="1"
-                  Background="{StaticResource MediumDarkBlue}"
-                  BorderBrush="#FF97A0A5"
-                  BorderThickness="1" />
-                <Border 
-                  Grid.Column="0"
-                  CornerRadius="0" 
-                  Margin="1" 
-                  Background="{StaticResource MediumDarkBlue}" 
-                  BorderBrush="#FF97A0A5"
-                  BorderThickness="0,0,1,0" />
-                <Path 
-                  x:Name="Arrow"
-                  Grid.Column="1"     
-                  Fill="WhiteSmoke"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
-                />
-            </Grid>
-            <ControlTemplate.Triggers>
-                <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                    <Setter TargetName="Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
-                </Trigger>
-                <Trigger Property="ToggleButton.IsChecked" Value="true">
-                    <Setter TargetName="Border" Property="Background" Value="#E0E0E0" />
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter TargetName="Border" Property="Background" Value="#EEEEEE" />
-                    <Setter TargetName="Border" Property="BorderBrush" Value="#AAAAAA" />
-                    <Setter Property="Foreground" Value="#888888"/>
-                    <Setter TargetName="Arrow" Property="Fill" Value="#888888" />
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-        <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
-            <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
-        </ControlTemplate>
-        
-        <Style x:Key="_ComboBox" TargetType="{x:Type ComboBox}">
+        <Style x:Key="_ComboBoxStyle" TargetType="{x:Type ComboBox}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
@@ -130,14 +101,14 @@
             <Setter Property="MinWidth" Value="120"/>
             <Setter Property="MinHeight" Value="20"/>
             <Setter Property="Foreground" Value="WhiteSmoke"/>
-            <Setter Property="ItemContainerStyle" Value="{DynamicResource _ComboBoxItem}"></Setter>
+            <Setter Property="ItemContainerStyle" Value="{DynamicResource _ComboBoxItemStyle}"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ComboBox}">
                         <Grid>
                             <ToggleButton 
                                 Name="ToggleButton" 
-                                Template="{StaticResource ComboBoxToggleButton}" 
+                                Template="{StaticResource _ComboBoxToggleButtonStyle}" 
                                 Grid.Column="2" 
                                 Focusable="false"
                                 IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
@@ -173,79 +144,121 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Style.Triggers>
-            </Style.Triggers>
         </Style>
-        <!--
-        https://stackoverflow.com/questions/16392670/custom-combobox-in-wpf-application
-        https://stackoverflow.com/questions/8746306/styling-wpf-combobox-items
-        https://stackoverflow.com/questions/25886392/how-set-style-of-wpf-combobox
-        -->
+        
+        <Style x:Key="_ActionButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border
+                                x:Name="Border"
+                                CornerRadius="0 1 1 0"
+                                Background="{StaticResource Dark}"
+                                BorderBrush="#FF97A0A5"
+                                BorderThickness="0.5 1 1 1">
+                                <ContentPresenter />
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="#EEEEEE" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#AAAAAA" />
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="_TextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Margin" Value="20px 0px"/>
+            <Setter Property="FontSize" Value="11px"/>
+        </Style>
+
+        <Style x:Key="_BorderTextBoxStyle" TargetType="{x:Type Border}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Background" Value="{StaticResource MediumDarkBlue}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="2"/>
+            <Setter Property="Margin" Value="20px 0px 0px 0px"/>
+            <Setter Property="Height" Value="22px"/>
+        </Style>
+
+        <Style x:Key="_TextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="SelectionBrush" Value="AntiqueWhite" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="5px 2px 5px 0px"/>
+            <Setter Property="FontSize" Value="12px"/>
+            <Setter Property="Height" Value="20px" />
+        </Style>
     </Control.Resources>
 
     <Grid Background="{StaticResource DarkBlue}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Row="0" Grid.ColumnSpan="4" Background="{StaticResource Dark}">
-            
-            <TextBlock Text="Nuevo acceso directo" FontWeight="Bold" Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="center" />
-        </Grid>
+            <TextBlock Text="{Binding PanelTitle}" FontWeight="Bold" FontSize="13" Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Center" />
+        </Grid> 
 
-
-        <TextBlock Text="Nombre" Grid.Row="1" Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Bottom" />
-        <TextBox Name="_NameTextBox" Text="{Binding Path=NameText, Mode=TwoWay}"  Grid.Row="2" Grid.ColumnSpan="1" Foreground="WhiteSmoke" BorderBrush="Transparent" Background="{StaticResource MediumDarkBlue}"  Height="22px" Margin="20px 0px 0px 0px" 
-                     GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>
-
-
-        <TextBlock Text="Grupo" Grid.Row="1" Grid.Column="1" Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Bottom"  />
-
-        <Border Padding="5px 5px 0px 5px" Background="Transparent" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="20px 0px 0px 0px" VerticalAlignment="Center">
-            <ComboBox ItemsSource="{Binding Source={StaticResource options}}"  BorderThickness="0" Style="{DynamicResource _ComboBox}" 
-                      IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding SelectedGroupOption}" SelectionChanged="ComboBoxSelectionChanged">
-                <!--SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"-->
-                <!--ItemContainerStyle="{DynamicResource _ComboBoxItem}"-->
-            </ComboBox>
-        </Border>
-        <Button Name="_NewGroupButton" Grid.Row="2" Grid.Column="3" Style="{DynamicResource _ButtonStyle}" Foreground="Black" Background="LightGray" IsCancel="True" Margin="0px 0px 10px 0px"
-                    VerticalAlignment="Center" HorizontalAlignment="Left" Height="22px" Width="30" Click="NewGroup_Click">
-            +                
-        </Button>
-
-
-        <!--<TextBox Name="_GroupTextBox" Text="{Binding Path=GroupText, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" BorderBrush="Transparent" Foreground="WhiteSmoke" Background="{StaticResource MediumDarkBlue}" Height="22px" Margin="20px 0px 0px 0px"
-                     GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>-->
-
-        <!--<TextBlock Text="Color" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3"  Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Bottom"  />
-        <xctk:ColorPicker Name="_ColorPicker"  Grid.Row="2"  Grid.Column="2" Grid.ColumnSpan="3" BorderBrush="Transparent" Background="{StaticResource MediumDarkBlue}" Height="22px" Margin="20px 0px" DisplayColorTooltip="True" DisplayColorAndName="False"  SelectedColorChanged="SelectedColorChanged" 
-                          AvailableColorsSortingMode="HueSaturationBrightness" />-->
-
-
-        <TextBlock Text="Ruta" Grid.Row="3" Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Bottom" />
-        <TextBox Name="_PathTextBox" Text="{Binding Path=PathText, Mode=TwoWay}"  Grid.Row="4" Grid.ColumnSpan="3" BorderBrush="Transparent" Foreground="WhiteSmoke" Background="{StaticResource MediumDarkBlue}"  Height="22px" Margin="20px 0px 0px 0px"
+        <TextBlock Text="Nombre" Grid.Row="1" Style="{DynamicResource _TextBlockStyle}" />
+        <Border Grid.Row="2" Grid.ColumnSpan="1" Style="{DynamicResource _BorderTextBoxStyle}">
+            <TextBox Text="{Binding Path=NameText, Mode=TwoWay}" Style="{DynamicResource _TextBoxStyle}"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
-        <Button Name="_BrowseButton" Grid.Row="4" Grid.Column="3" Style="{DynamicResource _ButtonStyle}" Foreground="Black" Background="LightGray" IsCancel="True" Margin="0px 0px 10px 0px"
-                    VerticalAlignment="Center" HorizontalAlignment="Left" Height="22px" Width="30" Click="Browse_Click">
-            ...
+        </Border>
+
+        <TextBlock Text="Grupo" Grid.Row="1" Grid.Column="1" Style="{DynamicResource _TextBlockStyle}"  />
+        <Border Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Style="{DynamicResource _BorderTextBoxStyle}">
+            <ComboBox ItemsSource="{Binding Source={StaticResource options}}" Style="{DynamicResource _ComboBoxStyle}" IsSynchronizedWithCurrentItem="True" 
+                      SelectedItem="{Binding SelectedGroupOption}" SelectionChanged="ComboBoxSelectionChanged"/>
+        </Border>
+
+        <Button Grid.Row="2" Grid.Column="3" Style="{DynamicResource _ActionButtonStyle}" Background="{StaticResource Dark}" Foreground="WhiteSmoke" IsCancel="True"
+                    VerticalAlignment="Center" HorizontalAlignment="Left" Height="20px" Width="20" Click="CreateGroup_Action">
+            <TextBlock HorizontalAlignment="Center" Margin="0 -3 1 0" FontSize="16" Text="+" Foreground="WhiteSmoke" />
+        </Button>
+
+        <TextBlock Text="Ruta" Grid.Row="3" Style="{DynamicResource _TextBlockStyle}" />
+        <Border  Grid.Row="4" Grid.ColumnSpan="3" Style="{DynamicResource _BorderTextBoxStyle}" Margin="20px 0px 40px 0px">
+            <TextBox Text="{Binding Path=PathText, Mode=TwoWay}"  Style="{DynamicResource _TextBoxStyle}" 
+                     GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
+        </Border>
+        <Button Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" Style="{DynamicResource _ActionButtonStyle}"  IsCancel="True" Margin="0px 0px 20px 0px"
+                    VerticalAlignment="Center" HorizontalAlignment="Right" Height="20.5px" Width="60" Click="Browse_Action">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" Text="Buscar" Foreground="WhiteSmoke" />
         </Button>
 
 
-        <TextBlock Text="Descripción" Grid.Row="5" Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Bottom"  />
-        <TextBox Name="_DescriptionTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Grid.Row="6" Grid.ColumnSpan="4" TextWrapping="Wrap" BorderBrush="Transparent" Foreground="WhiteSmoke" Background="{StaticResource MediumDarkBlue}" Height="44px" Margin="20px 0px" Padding="3"
-                     GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown"/>
+        <TextBlock Text="Descripción" Grid.Row="5" Style="{DynamicResource _TextBlockStyle}"  />
+        <Border  Grid.Row="6" Grid.ColumnSpan="4" Margin="20px 0px"  Style="{DynamicResource _BorderTextBoxStyle}">
+            <TextBox Name="_DescriptionTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Style="{DynamicResource _TextBoxStyle}" 
+                     GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" />
+        </Border>
     </Grid>
 </UserControl>

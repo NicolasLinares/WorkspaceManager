@@ -24,14 +24,17 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
 
     public partial class QuickAccess_CreationPanel : UserControl, INotifyPropertyChanged {
-
+        private string panelTitle;
         private string name;
         private string path;
         private string description;
         private Group selectedGroupOption;
         private ObservableCollection<Group> groupsOptions;
 
-
+        public string PanelTitle {
+            get => panelTitle;
+            set => SetProperty(ref panelTitle, value);
+        }
         public string NameText {
             get => name;
             set => SetProperty(ref name, value);
@@ -64,6 +67,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             DataContext = this;
             InitializeComponent();
 
+            PanelTitle = "Crear acceso directo";
             PathText = DefaultPath;
             NameText = DefaultName;
             DescriptionText = DefaultDescription;
@@ -77,7 +81,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             if (qa == null) {
                 return;
             }
-
+            PanelTitle = "Editar acceso directo";
             PathText = qa.Path;
             NameText = qa.Name;
             DescriptionText = qa.Description;
@@ -128,7 +132,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         }
 
 
-        private void Browse_Click(object sender, EventArgs e) {
+        private void Browse_Action(object sender, EventArgs e) {
             VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
             fbd.Description = "Seleccionar carpeta";
             fbd.UseDescriptionForTitle = true;
@@ -139,10 +143,10 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             }
         }
 
-        private void NewGroup_Click(object sender, EventArgs e) {
+        private void CreateGroup_Action(object sender, EventArgs e) {
             Group_CreationDialog dialog = new Group_CreationDialog();
             if (dialog.ShowDialog() == true) {
-                SelectedGroupOption = new Group(dialog.NameText, dialog.Color);
+                SelectedGroupOption = new Group(dialog.NameText, dialog.ColorSelected);
                 ComboBoxGroupOptions.Add(SelectedGroupOption);
             } 
         }

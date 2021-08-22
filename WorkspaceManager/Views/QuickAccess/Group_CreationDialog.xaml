@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d" ShowInTaskbar="True"
-        Title="Crear nuevo grupo" Height="225" Width="255" ResizeMode="NoResize">
+        Title="Nuevo grupo" Height="200" Width="255" ResizeMode="NoResize">
 
 
     <Control.Resources>
@@ -39,15 +39,43 @@
             </Setter>
         </Style>
 
+        <Style x:Key="_TextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Margin" Value="20px 0px"/>
+            <Setter Property="FontSize" Value="11px"/>
+        </Style>
+
+        <Style x:Key="_BorderTextBoxStyle" TargetType="{x:Type Border}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Background" Value="{StaticResource MediumDarkBlue}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="2"/>
+            <Setter Property="Margin" Value="20px 0px 0px 0px"/>
+            <Setter Property="Height" Value="22px"/>
+        </Style>
+
+        <Style x:Key="_TextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="SelectionBrush" Value="AntiqueWhite" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="5px 2px 5px 0px"/>
+            <Setter Property="FontSize" Value="12px"/>
+            <Setter Property="Height" Value="20px" />
+        </Style>
     </Control.Resources>
 
 
     <Grid Background="{StaticResource DarkBlue}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -55,21 +83,23 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Nombre" Grid.Row="0" Grid.ColumnSpan="2"  Foreground="WhiteSmoke" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
-        <TextBox Name="_NameTextBox" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Path=NameText, Mode=TwoWay}"  Foreground="WhiteSmoke" BorderBrush="Transparent" Background="{StaticResource MediumDarkBlue}"  Height="22px" Width="200"  Margin="20px 0px" 
-                     GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>
+        <TextBlock Text="Nombre" Grid.Row="0" Grid.ColumnSpan="2"  Style="{DynamicResource _TextBlockStyle}" />
+        <Border Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource _BorderTextBoxStyle}" Margin="20px 0px">
+            <TextBox Name="_NameTextBox" Text="{Binding Path=NameText, Mode=TwoWay}" Style="{DynamicResource _TextBoxStyle}"
+                     GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
+        </Border>
 
 
-        <TextBlock Text="Color" Grid.Row="2" Grid.ColumnSpan="2" Foreground="WhiteSmoke" Margin="20px 10px 20px 0px" VerticalAlignment="Center" />
+        <TextBlock Text="Color" Grid.Row="2" Grid.ColumnSpan="2" Style="{DynamicResource _TextBlockStyle}" />
         <xctk:ColorPicker Name="_ColorPicker" Grid.Row="3"  Grid.ColumnSpan="2" Height="22px" Margin="20px 0px" DisplayColorTooltip="True" SelectedColorChanged="SelectedColorChanged" 
                           AvailableColorsSortingMode="HueSaturationBrightness" Background="{StaticResource MediumDarkBlue}"/>
 
         <Button Name="_AcceptButton"  Grid.Row="4" Grid.Column="0" Background="{StaticResource Dark}" Foreground="WhiteSmoke" FontWeight="Bold" Margin="20px 0"
-                VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" Height="30px" Click="Create_Click" Style="{DynamicResource _ButtonStyle}">
-            Crear
+                VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" Height="30px" Click="Create_Action" Style="{DynamicResource _ButtonStyle}">
+            Añadir
         </Button>
         <Button Name="_CancelButton"  Grid.Row="4" Grid.Column="1" Background="{StaticResource Dark}" Foreground="WhiteSmoke" FontWeight="Bold" IsCancel="True"  Margin="20px 0" 
-                    VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" Height="30px" Click="Cancel_Click" Style="{DynamicResource _ButtonStyle}">
+                    VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" Height="30px" Click="Cancel_Action" Style="{DynamicResource _ButtonStyle}">
             Cancelar
         </Button>
 

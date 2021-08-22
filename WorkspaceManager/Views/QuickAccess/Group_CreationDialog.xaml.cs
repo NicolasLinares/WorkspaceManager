@@ -11,6 +11,8 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
     /// </summary>
     public partial class Group_CreationDialog : Window {
 
+        private SolidColorBrush color;
+
         public string NameText {
             get { return _NameTextBox.Text; }
             private set {
@@ -18,21 +20,13 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
                 _NameTextBox.ClearValue(TextBox.BorderBrushProperty);
             }
         }
-
-        private SolidColorBrush color;
-
-        public SolidColorBrush Color {
+        public SolidColorBrush ColorSelected {
             get { return color; }
             private set { color = value; }
         }
 
         public Group_CreationDialog() {
             InitializeComponent();            
-        }
-
-        public Group_CreationDialog(Group folder) {
-            InitializeComponent();
-            NameText = folder.Name;
         }
 
         /// <summary>
@@ -58,22 +52,37 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
         private void SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e) {
             if (_ColorPicker.SelectedColor.HasValue) {
-                Color = new SolidColorBrush(_ColorPicker.SelectedColor.Value);
+                ColorSelected = new SolidColorBrush(_ColorPicker.SelectedColor.Value);
             }
         }
 
-        private void Create_Click(object sender, EventArgs e) {
-
-            // Validación de inputs
+        private void Create_Action(object sender, EventArgs e) {
+            // Input validation
             if (string.IsNullOrWhiteSpace(NameText)) {
                 this.DialogResult = false;
-            } else {
-                this.DialogResult = true;
+                return;
             }
+            this.DialogResult = true;
         }
 
-        private void Cancel_Click(object sender, EventArgs e) {
+        private void Cancel_Action(object sender, EventArgs e) {
             this.DialogResult = false;
+        }
+
+        private Color GetContrastColor(Color color) {
+            byte d = 0;
+
+            // Counting the perceptive luminance - human eye favors green color... 
+            double luminance = (0.299 * color.R + 0.587 * color.G + 0.114 * color.B) / 255;
+
+            if (luminance > 0.5)
+                d = 0; // bright colors - black font
+            else
+                d = 255; // dark colors - white font
+
+            return Color.FromRgb(d, d, d);
+
+            // _NameTextBox.Foreground = new SolidColorBrush(ContrastColor(_ColorPicker.SelectedColor.Value));
         }
     }
 }

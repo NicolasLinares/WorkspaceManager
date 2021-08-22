@@ -64,8 +64,6 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
         public QuickAccess_CreationPanel QuickAccessPanel { get; set; }
 
-
-
         public QuickAccess_Tab() {
             DataContext = this;
             InitializeComponent();
@@ -80,7 +78,6 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
         }
         #endregion
-
 
         #region Property Changes
         public event PropertyChangedEventHandler PropertyChanged;
@@ -139,6 +136,10 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         }
 
 
+        private void SearchByName_Action(object sender, TextChangedEventArgs e) {
+
+            QuickAccessItems = QuickAccessController.SearchByName(_SearchText.Text);
+        }
         private void ApplyFilter_Action(object sender, MouseButtonEventArgs e) {
             if (_FiltersListBox.SelectedItem == null) {
                 return;
@@ -150,7 +151,19 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         }
 
 
-        private void CreateQA_Click(object sender, EventArgs e) {
+        private void ReplaceQA_Action(object sender, EventArgs e) {
+            FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
+            if (QuickAccessController.QAItems.Contains(new_qa)) {
+                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            QuickAccessController.ReplaceQA(SelectedQAToEdit, new_qa);
+            SelectedQAToEdit = null;
+
+            ChangeViewMode(PreviousViewMode);
+        }
+        private void CreateQA_Action(object sender, EventArgs e) {
             FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
             if (QuickAccessController.QAItems.Contains(new_qa)) {
                 MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -168,27 +181,10 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
             ChangeViewMode(PreviousViewMode);
         }
-
-
-        private void ReplaceQA_Action(object sender, EventArgs e) {
-            FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
-            if (QuickAccessController.QAItems.Contains(new_qa)) {
-                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            QuickAccessController.ReplaceQA(SelectedQAToEdit, new_qa);
-            SelectedQAToEdit = null;
-
-            ChangeViewMode(PreviousViewMode);
-        }
-
-        private void Cancel_Click(object sender, EventArgs e) {
+        private void Cancel_Action(object sender, EventArgs e) {
             ChangeViewMode(PreviousViewMode);
         }
         #endregion
-
-
 
         #region GUI methods
 
@@ -217,7 +213,6 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             CurrentViewMode = mode;
 
         }
-
         private void OpenCreationPanel() {
             _CreationQuickAcess_Container.Children.Add(QuickAccessPanel);
             _CreationPanel_Buttons.Visibility = Visibility.Visible;
@@ -228,7 +223,6 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             _QuickAcessListBox.IsHitTestVisible = false;
 
         }
-
         private void CloseCreationPanel() {
             if (_CreationQuickAcess_Container.Children.Count > 0) {
                 _CreationQuickAcess_Container.Children.RemoveAt(_CreationQuickAcess_Container.Children.Count - 1);
@@ -239,19 +233,36 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
                 _QuickAcessListBox.UnselectAll();
             }
         }
-
         private void EnableFilterMode() {
             _CreationQuickAccess_Button.Visibility = Visibility.Collapsed;
             _RemoveFilter_Button.Visibility = Visibility.Visible;
         }
-
         private void DisableFilterMode() {
             _CreationQuickAccess_Button.Visibility = Visibility.Visible;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
         }
 
-        #endregion
+        /// <summary>
+        /// Select all text when textbox gets focus
+        /// </summary>
+        private void OnPalabraGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
+            if (sender is TextBox textBox) {
+                textBox.SelectAll();
+            }
+        }
 
+        /// <summary>
+        /// Add focus when the user clicks on the textbox
+        /// </summary>
+        private void OnPalabraPreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            if (sender is TextBox textBox) {
+                if (!textBox.IsKeyboardFocusWithin) {
+                    e.Handled = true;
+                    textBox.Focus();
+                }
+            }
+        }
+        #endregion
 
         #region Auxiliar methods
 
