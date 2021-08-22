@@ -26,7 +26,9 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         }
 
         public Group_CreationDialog() {
-            InitializeComponent();            
+            InitializeComponent();
+            ColorSelected = new SolidColorBrush(Color.FromRgb(255,255,255));
+            _ColorPicker.SelectedColor = Color.FromRgb(255, 255, 255);
         }
 
         /// <summary>

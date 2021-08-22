@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d" ShowInTaskbar="True"
-        Title="Nuevo grupo" Height="200" Width="255" ResizeMode="NoResize">
+        Title="Nuevo grupo" Height="200" MaxWidth="260" ResizeMode="NoResize">
 
 
     <Control.Resources>
@@ -66,6 +66,7 @@
             <Setter Property="Padding" Value="5px 2px 5px 0px"/>
             <Setter Property="FontSize" Value="12px"/>
             <Setter Property="Height" Value="20px" />
+            <Setter Property="CaretBrush" Value="WhiteSmoke"/>
         </Style>
     </Control.Resources>
 
@@ -85,7 +86,7 @@
 
         <TextBlock Text="Nombre" Grid.Row="0" Grid.ColumnSpan="2"  Style="{DynamicResource _TextBlockStyle}" />
         <Border Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource _BorderTextBoxStyle}" Margin="20px 0px">
-            <TextBox Name="_NameTextBox" Text="{Binding Path=NameText, Mode=TwoWay}" Style="{DynamicResource _TextBoxStyle}"
+            <TextBox Name="_NameTextBox" Text="{Binding Path=NameText, Mode=TwoWay}" Style="{DynamicResource _TextBoxStyle}" Width="200" MaxLength="20"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
         </Border>
 

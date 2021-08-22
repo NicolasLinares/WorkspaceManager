@@ -203,6 +203,7 @@
             <Setter Property="Padding" Value="5px 2px 5px 0px"/>
             <Setter Property="FontSize" Value="12px"/>
             <Setter Property="Height" Value="20px" />
+            <Setter Property="CaretBrush" Value="WhiteSmoke"/>
         </Style>
     </Control.Resources>
 

@@ -118,6 +118,24 @@
             <Setter Property="Padding" Value="5px 2px 5px 0px"/>
             <Setter Property="FontSize" Value="12px"/>
             <Setter Property="Height" Value="20px" />
+            <Setter Property="CaretBrush" Value="WhiteSmoke"/>
+        </Style>
+
+        <Style x:Key="_IconButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Image Name="icon" Source="/WorkspaceManagerTool;component/Images/cross-mark.png" Width="14" Height="14" RenderOptions.BitmapScalingMode="HighQuality"  />
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="icon" Property="Width" Value="16" />
+                                <Setter TargetName="icon" Property="Height" Value="16" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Control.Resources>
 
@@ -130,9 +148,21 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Style="{DynamicResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource SemiDarkBlue}">
-            <TextBox Name="_SearchText" Style="{DynamicResource _TextBoxStyle}" TextChanged="SearchByName_Action"
-                     GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
+        <Border Grid.Row="0" Style="{DynamicResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource SemiDarkBlue}" Padding="10px 2px 10px 0px">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+
+
+                <Image Grid.Column="0" Source="/WorkspaceManagerTool;component/Images/search.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"  />
+                <TextBox Name="_SearchText" Grid.Column="1" Style="{DynamicResource _TextBoxStyle}" TextChanged="SearchByName_Action" 
+                         GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>
+                <Button  Name="_SearchRemoveButton" Grid.Column="2" Background="Transparent" Visibility="Hidden" Click="RemoveSearch_Action" Style="{DynamicResource _IconButtonStyle}" >
+                </Button>
+            </Grid>
         </Border>
 
         <ListBox Grid.Row="1" 
@@ -209,17 +239,17 @@
                         <Grid Height="Auto"  >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0">
                                 <TextBlock Height="20" Margin="10 10 0 0" FontWeight="DemiBold" Foreground="{Binding Group.Color}" Text="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
                                 <TextBlock Height="20" Margin="30 0 0 5" Foreground="WhiteSmoke" Text="{Binding Path}"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <Border Grid.Column="1" Name="border" 
+                            <Border Grid.Column="1" Name="border" MaxWidth="160"
                                 CornerRadius="2" BorderThickness="1" Padding="10px 3px" Margin="15px 0px"
                                 BorderBrush="{StaticResource MediumDarkBlue}"  Background="{Binding Group.Color}"
                                 HorizontalAlignment="Right" VerticalAlignment="Center">
-                                <TextBlock Foreground="Black" Text="{Binding Group.Name}"  />
+                                <TextBlock Foreground="Black" Text="{Binding Group.Name}"/>
                             </Border>
                         </Grid>
                     </Border>

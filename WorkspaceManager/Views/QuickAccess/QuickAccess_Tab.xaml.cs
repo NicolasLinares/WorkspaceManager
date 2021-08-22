@@ -137,7 +137,11 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
 
         private void SearchByName_Action(object sender, TextChangedEventArgs e) {
-
+            if (_SearchText.Text.Length > 0) {
+                _SearchRemoveButton.Visibility = Visibility.Visible;
+            } else {
+                _SearchRemoveButton.Visibility = Visibility.Hidden;
+            }
             QuickAccessItems = QuickAccessController.SearchByName(_SearchText.Text);
         }
         private void ApplyFilter_Action(object sender, MouseButtonEventArgs e) {
@@ -149,7 +153,11 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         private void RemoveFilter_Action(object sender, EventArgs e) {
             ChangeViewMode(ViewMode.NORMAL);
         }
-
+        private void RemoveSearch_Action(object sender, EventArgs e) {
+            _SearchText.Text = string.Empty;
+            _SearchRemoveButton.Visibility = Visibility.Hidden;
+            ChangeViewMode(ViewMode.NORMAL);
+        }
 
         private void ReplaceQA_Action(object sender, EventArgs e) {
             FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
