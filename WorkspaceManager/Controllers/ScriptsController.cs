@@ -1,20 +1,21 @@
 ﻿using System;
 using System.IO;
-using WorkspaceManagerTool.Models.Deploys;
+using WorkspaceManagerTool.Models.Scripts;
 using WorkspaceManagerTool.Exceptions;
-using WorkspaceManagerTool.Models.Deploys.Scripts;
+using WorkspaceManagerTool.Models.Scripts;
 using WorkspaceManagerTool.Interfaces;
 using System.Collections.ObjectModel;
 using WorkspaceManagerTool.Utils;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WorkspaceManagerTool.Controllers
 {
     class ScriptsController : LocalDataController {
 
-        private ObservableCollection<Deploy> scriptItems;
+        private ObservableCollection<Script> scriptItems;
 
-        public ObservableCollection<Deploy> ScriptItems {
+        public ObservableCollection<Script> ScriptItems {
             get {
                 return OrderScripts(scriptItems);
             }
@@ -24,13 +25,7 @@ namespace WorkspaceManagerTool.Controllers
         }
 
 
-
         private static ScriptsController _instance;
-
-        private ScriptsController() {
-            //DeploymentHistory = History.GetInstance();
-            //workspace = new WorkSpace();
-        }
 
         public static ScriptsController GetInstance() {
             if (_instance == null) {
@@ -85,35 +80,41 @@ namespace WorkspaceManagerTool.Controllers
         }
 
         protected override void ReadData() {
-            var data = JSONManager.ReadJSON<IList<Deploy>>(ResourceFile);
+            var data = JSONManager.ReadJSON<IList<Script>>(ResourceFile);
 
             if (data == null) {
-                ScriptItems = new ObservableCollection<Deploy>();
+                ScriptItems = new ObservableCollection<Script>();
+                return;
             }
 
-            ScriptItems = new ObservableCollection<Deploy>(data);
+            ScriptItems = new ObservableCollection<Script>(data);
         }
 
         protected override void WriteData() {
             JSONManager.SaveJSON(ResourceFile, ScriptItems);
         }
 
-        public override void Add<T>(T qa) {
-            scriptItems.Add((Deploy)(object)qa);
+        public override void Add<T>(T sc) {
+            scriptItems.Add((Script)(object)sc);
             WriteData();
         }
-        public override void Replace<T>(T old_qa, T new_qa) {
-            scriptItems.Remove((Deploy)(object)old_qa);
-            scriptItems.Add((Deploy)(object)new_qa);
-            WriteData();
-        }
-
-        public override void Remove<T>(T qa) {
-            scriptItems.Remove((Deploy)(object)qa);
+        public override void Replace<T>(T old_sc, T new_sc) {
+            scriptItems.Remove((Script)(object)old_sc);
+            scriptItems.Add((Script)(object)new_sc);
             WriteData();
         }
 
-        private ObservableCollection<Deploy> OrderScripts(ObservableCollection<Deploy> scriptsItems) {
+        public override void Remove<T>(T sc) {
+            scriptItems.Remove((Script)(object)sc);
+            WriteData();
+        }
+
+
+        public ObservableCollection<Script> SearchByName(string text) {
+            return new ObservableCollection<Script>(ScriptItems.Where(sc => sc.Name.ToLower().Contains(text.ToLower())));
+        }
+
+        private ObservableCollection<Script> OrderScripts(ObservableCollection<Script> scriptsItems) {
             //TODO
             return scriptsItems;
         }

@@ -68,7 +68,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             DataContext = this;
             InitializeComponent();
             // Create controller and initialize data
-            QuickAccessController = new QuickAccessController();
+            QuickAccessController = QuickAccessController.GetInstance();
             QuickAccessController.Init();
             // Set observable data from controller
             QuickAccessItems = QuickAccessController.QAItems;

@@ -55,7 +55,7 @@
         <TabControl Background="{StaticResource DarkBlue}" BorderThickness="0" >
 
             <TabItem Header="Scripts" Foreground="WhiteSmoke">
-                <!--<de:Scripts_Tab Background="{StaticResource DarkBlue}" />-->
+                <de:Scripts_Tab Background="{StaticResource DarkBlue}" />
             </TabItem>
             <TabItem Header="Accesos directos" Foreground="WhiteSmoke" Background="{StaticResource DarkBlue}"  >
                 <qa:QuickAccess_Tab Background="{StaticResource DarkBlue}" />

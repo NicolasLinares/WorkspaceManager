@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 
-namespace WorkspaceManagerTool.Models.Deploys {
+namespace WorkspaceManagerTool.Models.Scripts {
 
     class Params {
         public string ADMIN_PARAM => "-ExecutionPolicy Unrestricted";
@@ -22,14 +22,15 @@ namespace WorkspaceManagerTool.Models.Deploys {
             output = new List<string>();
         }
 
-        public int RunCommand(@string cmmd, bool showPSWindow) {
 
+        public int RunCommand(string cmmd, bool showPSWindow) {
+            //TODO
             ProcessStartInfo processInfo = new ProcessStartInfo(EXECUTABLE);
             processInfo.Arguments = string.Format("{0} {1} {2} {3}", 
                 options.ADMIN_PARAM, 
                 options.NO_EXIT_PARAM, 
                 options.FILE_PARAM,
-                cmmd.Sentence);
+                cmmd);
             processInfo.CreateNoWindow = showPSWindow;
             processInfo.UseShellExecute = true;
             processInfo.Verb = "runas";
@@ -46,15 +47,15 @@ namespace WorkspaceManagerTool.Models.Deploys {
             return errorLevel;
         }
 
-        public List<string> RunCommandAndSaveOutput(@string cmmd) {
-
+        public List<string> RunCommandAndSaveOutput(string cmmd) {
+            // TODO
             output = new List<string>();
 
             ProcessStartInfo processInfo = new ProcessStartInfo(EXECUTABLE);
             processInfo.Arguments = string.Format("{0} {1} {2}", 
                 options.ADMIN_PARAM, 
                 options.FILE_PARAM, 
-                cmmd.Sentence);
+                cmmd);
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = false;
             processInfo.RedirectStandardOutput = true;
@@ -79,32 +80,17 @@ namespace WorkspaceManagerTool.Models.Deploys {
             output.Add(outLine.Data);
         }
 
-        public void Run(List<@string> finalScript) {
+        public void Run(List<string> script) {
 
             ProcessStartInfo processInfo = new ProcessStartInfo(EXECUTABLE);
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = true;
             processInfo.Verb = "runas";
-        
-            string args = "";
-
-            foreach (@string c in finalScript) {
-                if (c.Sentence == "git reset --hard") {
-                    args = options.ADMIN_PARAM + " " + options.NO_EXIT_PARAM + " " + c.Sentence;
-                } else {
-                    args += " ; " + c.Sentence;
-                }
-            }
-
-            MessageBox.Show(args);
-
-            processInfo.Arguments = args;
+            processInfo.Arguments = options.ADMIN_PARAM + " " + options.NO_EXIT_PARAM + " " + script.ToString();
             Process process = Process.Start(processInfo);
-
             process.WaitForExit();
             int errorLevel = process.ExitCode;
             process.Close();
-
         }
     }
 }

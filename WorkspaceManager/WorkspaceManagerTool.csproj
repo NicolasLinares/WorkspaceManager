@@ -148,7 +148,6 @@
     </ApplicationDefinition>
     <Compile Include="Controllers\QuickAccessController.cs" />
     <Compile Include="Abstracts\LocalDataController.cs" />
-    <Compile Include="Models\Deploys\Scripts\ArtifactsScript.cs" />
     <Compile Include="Models\QuickAccess\ViewMode.cs" />
     <Compile Include="Models\QuickAccess\QuickAccess.cs" />
     <Compile Include="Utils\JSONManager.cs" />
@@ -160,7 +159,7 @@
     <Compile Include="Views\QuickAccess\QuickAccess_CreationPanel.xaml.cs">
       <DependentUpon>QuickAccess_CreationPanel.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\Deploys\ConfigurationDeploy.xaml">
+    <Page Include="Views\Deploys\Script_CreationPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -186,8 +185,8 @@
     </Compile>
     <Compile Include="Controllers\ScriptsController.cs" />
     <Compile Include="Exceptions\NotScriptsInWorkspaceException.cs" />
-    <Compile Include="Views\Deploys\ConfigurationDeploy.xaml.cs">
-      <DependentUpon>ConfigurationDeploy.xaml</DependentUpon>
+    <Compile Include="Views\Deploys\Script_CreationPanel.xaml.cs">
+      <DependentUpon>Script_CreationPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QuickAccess\QuickAccess_Tab.xaml.cs">
       <DependentUpon>QuickAccess_Tab.xaml</DependentUpon>
@@ -205,13 +204,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Deploys\Command.cs" />
-    <Compile Include="Models\Deploys\Deploy.cs" />
-    <Compile Include="Models\Deploys\PowerShell.cs" />
-    <Compile Include="Models\Deploys\Scripts\BuildScript.cs" />
-    <Compile Include="Models\Deploys\Scripts\SetDevEnvScript.cs" />
-    <Compile Include="Models\Deploys\History.cs" />
-    <Compile Include="Models\Deploys\WorkSpace.cs" />
+    <Compile Include="Models\Scripts\Script.cs" />
+    <Compile Include="Models\Scripts\PowerShell.cs" />
+    <Compile Include="Models\Scripts\WorkSpace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

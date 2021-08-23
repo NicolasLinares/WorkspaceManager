@@ -42,6 +42,17 @@ namespace WorkspaceManagerTool.Controllers {
             }
         }
 
+
+        private static QuickAccessController _instance;
+
+        public static QuickAccessController GetInstance() {
+            if (_instance == null) {
+                _instance = new QuickAccessController();
+            }
+            return _instance;
+        }
+
+
         public override void Init() {
             ReadData();
         }
@@ -51,6 +62,7 @@ namespace WorkspaceManagerTool.Controllers {
 
             if (data == null) {
                 QAItems = new ObservableCollection<FolderQuickAccess>();
+                return;
             }
 
             QAItems = new ObservableCollection<FolderQuickAccess>(data);

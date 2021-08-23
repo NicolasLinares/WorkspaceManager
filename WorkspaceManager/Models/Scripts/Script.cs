@@ -1,22 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace WorkspaceManagerTool.Models.Deploys {
-    public class Deploy {
+namespace WorkspaceManagerTool.Models.Scripts {
+    public class Script : INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string name;
         private string description;
-        private List<string> commands;
+        private string commands;
 
         public string Name {
             get { return name; }
             set { SetProperty(ref name, value); }
         }
 
-        public List<string> Script {
+        public string Commands {
             get { return commands; }
             set { SetProperty(ref commands, value); }
         }
@@ -26,19 +27,11 @@ namespace WorkspaceManagerTool.Models.Deploys {
             set { SetProperty(ref description, value); }
         }
 
-        public Deploy(string name, List<string> commands) {
+        public Script(string name, string description, string commands) {
             Name = name;
-            Script = commands;
+            Description = description;
+            Commands = commands;
         }
-
-        public void AddCommand(string cmmd) {
-            Script.Add(cmmd);
-        }
-
-        public void RemoveCommand(string cmmd) {
-            Script.Remove(cmmd);
-        }
-
 
         private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null) {
             if (!EqualityComparer<T>.Default.Equals(field, value)) {
