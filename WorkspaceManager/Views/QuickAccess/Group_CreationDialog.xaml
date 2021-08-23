@@ -93,7 +93,7 @@
 
         <TextBlock Text="Color" Grid.Row="2" Grid.ColumnSpan="2" Style="{DynamicResource _TextBlockStyle}" />
         <xctk:ColorPicker Name="_ColorPicker" Grid.Row="3"  Grid.ColumnSpan="2" Height="22px" Margin="20px 0px" DisplayColorTooltip="True" SelectedColorChanged="SelectedColorChanged" 
-                          AvailableColorsSortingMode="HueSaturationBrightness" Background="{StaticResource MediumDarkBlue}"/>
+                          AvailableColorsSortingMode="HueSaturationBrightness" Background="{StaticResource MediumDarkBlue}" />
 
         <Button Name="_AcceptButton"  Grid.Row="4" Grid.Column="0" Background="{StaticResource Dark}" Foreground="WhiteSmoke" FontWeight="Bold" Margin="20px 0"
                 VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" Height="30px" Click="Create_Action" Style="{DynamicResource _ButtonStyle}">

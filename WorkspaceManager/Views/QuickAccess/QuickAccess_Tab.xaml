@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
              mc:Ignorable="d" d:DesignHeight="500" >
 
     <Control.Resources>
@@ -18,7 +19,7 @@
         <SolidColorBrush x:Key="LightDarkBlue" Color="#677487"/>
 
         
-        <Style x:Key="_Filters_ListBoxStyle" TargetType="ListBoxItem">
+        <Style x:Key="_Filters_ListBoxItemStyle" TargetType="ListBoxItem">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
@@ -38,7 +39,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="_QA_ListBoxStyle" TargetType="ListBoxItem">
+        <Style x:Key="_QA_ListBoxItemStyle" TargetType="ListBoxItem">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
@@ -56,6 +57,83 @@
                                 <Setter TargetName="_Border" Property="Background" Value="Transparent" />
                             </Trigger>
                         </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        
+        <Style x:Key="_ScrollBarThumbStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="1 0 0 0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Rectangle Width="6" Fill="{StaticResource Dark}" RadiusX="3" RadiusY="3">
+                            <Rectangle.Effect>
+                                <DropShadowEffect ShadowDepth="0" BlurRadius="0" Color="WhiteSmoke" />
+                            </Rectangle.Effect>
+                        </Rectangle>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="_ScrollBarStyle" TargetType="{x:Type ScrollBar}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="true"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid x:Name="Bg" Background="{TemplateBinding Background}" Width="10"  SnapsToDevicePixels="true">
+                            <Border Width="8" Background="{StaticResource MediumDarkBlue}" HorizontalAlignment="Left" CornerRadius="3" />
+                            <Track x:Name="PART_Track" IsDirectionReversed="true"  IsEnabled="{TemplateBinding IsMouseOver}">
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource _ScrollBarThumbStyle}"/>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="_ScrollViewerTemplate" TargetType="{x:Type ScrollViewer}">
+            <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" 
+                    Grid.Column="0"
+                    CanContentScroll="{TemplateBinding CanContentScroll}" 
+                    ContentTemplate="{TemplateBinding ContentTemplate}" 
+                    Content="{TemplateBinding Content}" 
+                    Margin="{TemplateBinding Padding}" />
+                <ScrollBar x:Name="PART_VerticalScrollBar" 
+                    AutomationProperties.AutomationId="VerticalScrollBar" 
+                    Grid.Column="1" 
+                    Maximum="{TemplateBinding ScrollableHeight}" 
+                    Minimum="0"
+                           Margin="-2 0 0 0"
+                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" 
+                    Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                    ViewportSize="{TemplateBinding ViewportHeight}" 
+                    Style="{DynamicResource _ScrollBarStyle}"/>
+            </Grid>
+        </ControlTemplate>
+        <Style x:Key="_QA_ListBoxStyle" TargetType="{x:Type ListBox}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="5px 0px 5px 0px"/>
+            <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource _QA_ListBoxItemStyle}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <ScrollViewer Padding="{TemplateBinding Padding}" CanContentScroll="false" Template="{DynamicResource _ScrollViewerTemplate}">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </ScrollViewer>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -137,6 +215,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+
     </Control.Resources>
 
     <Grid >
@@ -175,7 +255,7 @@
                  MouseUp="ApplyFilter_Action"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  IsSynchronizedWithCurrentItem="True" 
-                 ItemContainerStyle="{StaticResource _Filters_ListBoxStyle}">
+                 ItemContainerStyle="{StaticResource _Filters_ListBoxItemStyle}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
@@ -194,16 +274,12 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-            
-        <ListBox Name="_QuickAcessListBox" Grid.Row="2" Background="Transparent" BorderBrush="Transparent"
-                    HorizontalContentAlignment="Stretch"
-                    ItemsSource="{Binding Source={StaticResource quickaccess} }"
-                    SelectedValue="{Binding SelectedQuickAccessItem}"
-                    MouseDoubleClick="OpenQuickAccess_Action"
-                    IsSynchronizedWithCurrentItem="True"
-                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    Focusable="False" ItemContainerStyle="{StaticResource _QA_ListBoxStyle}">
+
+        <ListBox Name="_QuickAcessListBox" Grid.Row="2" 
+                Style="{DynamicResource _QA_ListBoxStyle}"
+                MouseDoubleClick="OpenQuickAccess_Action"
+                ItemsSource="{Binding Source={StaticResource quickaccess} }"
+                SelectedValue="{Binding SelectedQuickAccessItem}">
             <ListBox.ContextMenu>
                 <ContextMenu Opacity="0.8">
                     <MenuItem Header="Abrir carpeta" Click="OpenQuickAccess_Action"/>
@@ -255,7 +331,6 @@
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-
         </ListBox>
 
 
