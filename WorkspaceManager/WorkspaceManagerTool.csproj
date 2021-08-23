@@ -147,7 +147,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\QuickAccessController.cs" />
-    <Compile Include="Interfaces\IController.cs" />
+    <Compile Include="Abstracts\LocalDataController.cs" />
     <Compile Include="Models\Deploys\Scripts\ArtifactsScript.cs" />
     <Compile Include="Models\QuickAccess\ViewMode.cs" />
     <Compile Include="Models\QuickAccess\QuickAccess.cs" />
@@ -172,7 +172,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Deploys\DeployTabWindow.xaml">
+    <Page Include="Views\Deploys\Scripts_Tab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -184,7 +184,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\DeploymentsController.cs" />
+    <Compile Include="Controllers\ScriptsController.cs" />
     <Compile Include="Exceptions\NotScriptsInWorkspaceException.cs" />
     <Compile Include="Views\Deploys\ConfigurationDeploy.xaml.cs">
       <DependentUpon>ConfigurationDeploy.xaml</DependentUpon>
@@ -192,8 +192,8 @@
     <Compile Include="Views\QuickAccess\QuickAccess_Tab.xaml.cs">
       <DependentUpon>QuickAccess_Tab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Deploys\DeployTabWindow.xaml.cs">
-      <DependentUpon>DeployTabWindow.xaml</DependentUpon>
+    <Compile Include="Views\Deploys\Scripts_Tab.xaml.cs">
+      <DependentUpon>Scripts_Tab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -29,7 +29,7 @@ namespace WorkspaceManagerTool.Models.Deploys
             deploy = new Deploy();
 
             // TORTOISE REVERT
-            Command revert = new Command(setDevEnv.REVERT_WORKSPACE, CommandType.REVERT);
+            @string revert = new @string(setDevEnv.REVERT_WORKSPACE, CommandType.REVERT);
             deploy.AddCommand(revert);
         }
 
@@ -43,7 +43,7 @@ namespace WorkspaceManagerTool.Models.Deploys
             get {
 
                 string sentence = setDevEnv.FILENAME + " " + setDevEnv.INFO_PARAM;
-                Command getBranchInfoCommand = new Command(sentence, CommandType.BRANCH);
+                @string getBranchInfoCommand = new @string(sentence, CommandType.BRANCH);
 
                 List<string> output = ps.RunCommandAndSaveOutput(getBranchInfoCommand);
                 return FindCurrentBranch(output);
@@ -85,7 +85,7 @@ namespace WorkspaceManagerTool.Models.Deploys
         public void SetBranchCommand(string branchName) {
 
             string sentence = setDevEnv.FILENAME + " " + setDevEnv.BRANCH_PARAM + " " + branchName;
-            Command cmmd = new Command(sentence, CommandType.BRANCH);
+            @string cmmd = new @string(sentence, CommandType.BRANCH);
             deploy.AddCommand(cmmd);
         }
 
@@ -110,7 +110,7 @@ namespace WorkspaceManagerTool.Models.Deploys
             }
 
             string sentence = setDevEnv.FILENAME + " " + cleanParam;
-            Command cmmd = new Command(sentence, CommandType.CLEAN);
+            @string cmmd = new @string(sentence, CommandType.CLEAN);
             deploy.AddCommand(cmmd);
         }
 
@@ -142,7 +142,7 @@ namespace WorkspaceManagerTool.Models.Deploys
             }
 
             string sentence = build.FILENAME + " " + buildParam;
-            Command cmmd = new Command(sentence, CommandType.BUILD_DEBUG);
+            @string cmmd = new @string(sentence, CommandType.BUILD_DEBUG);
             deploy.AddCommand(cmmd);
         }
 

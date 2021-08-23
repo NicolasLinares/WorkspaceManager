@@ -113,7 +113,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             }
             MessageBoxResult result = MessageBox.Show("¿Desea eliminar el acceso directo de forma permanente?", "Eliminar acceso directo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
-                QuickAccessController.RemoveQA(SelectedQuickAccessItem);
+                QuickAccessController.Remove<FolderQuickAccess>(SelectedQuickAccessItem);
                 ChangeViewMode(CurrentViewMode);
             }
         }
@@ -166,7 +166,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
                 return;
             }
 
-            QuickAccessController.ReplaceQA(SelectedQAToEdit, new_qa);
+            QuickAccessController.Replace<FolderQuickAccess>(SelectedQAToEdit, new_qa);
             SelectedQAToEdit = null;
 
             ChangeViewMode(PreviousViewMode);
@@ -179,12 +179,12 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             }
 
             if (CurrentViewMode == ViewMode.EDITION) {
-                QuickAccessController.ReplaceQA(SelectedQAToEdit, new_qa);
+                QuickAccessController.Replace<FolderQuickAccess>(SelectedQAToEdit, new_qa);
                 GroupItems = QuickAccessController.GroupItems;
                 SelectedGroup = SelectedQAToEdit.Group;
                 SelectedQAToEdit = null;
             } else {
-                QuickAccessController.AddQA(new_qa);
+                QuickAccessController.Add<FolderQuickAccess>(new_qa);
             }
 
             ChangeViewMode(PreviousViewMode);

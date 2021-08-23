@@ -8,7 +8,7 @@ using Ookii.Dialogs.WinForms;
 using WorkspaceManagerTool.Models.Deploys.Scripts;
 using System.Windows.Controls;
 
-namespace WorkspaceManagerTool.Views.Deploys {
+namespace WorkspaceManagerTool.Views.Scripts {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -51,10 +51,10 @@ namespace WorkspaceManagerTool.Views.Deploys {
             set { _SummaryTextBox.Text = value; }
         }
 
-        private DeploymentsController DeploymentsController { get; set; }
+        private ScriptsController DeploymentsController { get; set; }
 
         public ConfigurationDeploy() {
-            DeploymentsController = DeploymentsController.GetInstance();
+            DeploymentsController = ScriptsController.GetInstance();
             InitializeComponent();
         }
 
@@ -81,7 +81,7 @@ namespace WorkspaceManagerTool.Views.Deploys {
 
 
         private void AcceptClick(object sender, EventArgs e) {
-            DeploymentsController.CreateEnvironment();
+            //DeploymentsController.CreateEnvironment();
         }
         private void CancelClick(object sender, EventArgs e) {
             //deploymentsController.OpenFolder();
@@ -111,46 +111,46 @@ namespace WorkspaceManagerTool.Views.Deploys {
 
         private void BrowseDirectory(string selectedPath) {
 
-            try {
-                DeploymentsController.SetCurrentWorkspacePath(selectedPath);
+            //try {
+            //    DeploymentsController.SetCurrentWorkspacePath(selectedPath);
 
-                CurrentBranchText = DeploymentsController.GetCurrentWorkspacePath();
-                _CurrentBranchTextBox.Visibility = Visibility.Visible;
-                _CurrentBranchTextBox.Foreground = new SolidColorBrush(Colors.Blue);
-            } catch (NullReferenceException ex) {
-                CurrentBranchText = "Directory does not exists";
-                _CurrentBranchTextBox.Visibility = Visibility.Visible;
-                _CurrentBranchTextBox.Foreground = new SolidColorBrush(Colors.Red);
-            } catch (NotScriptsInWorkspaceException ex) {
-                CurrentBranchText = ex.Message;
-                _CurrentBranchTextBox.Visibility = Visibility.Visible;
-                _CurrentBranchTextBox.Foreground = new SolidColorBrush(Colors.Red);
-            }
+            //    CurrentBranchText = DeploymentsController.GetCurrentWorkspacePath();
+            //    _CurrentBranchTextBox.Visibility = Visibility.Visible;
+            //    _CurrentBranchTextBox.Foreground = new SolidColorBrush(Colors.Blue);
+            //} catch (NullReferenceException ex) {
+            //    CurrentBranchText = "Directory does not exists";
+            //    _CurrentBranchTextBox.Visibility = Visibility.Visible;
+            //    _CurrentBranchTextBox.Foreground = new SolidColorBrush(Colors.Red);
+            //} catch (NotScriptsInWorkspaceException ex) {
+            //    CurrentBranchText = ex.Message;
+            //    _CurrentBranchTextBox.Visibility = Visibility.Visible;
+            //    _CurrentBranchTextBox.Foreground = new SolidColorBrush(Colors.Red);
+            //}
         }
 
         private void UpdateSummary() {
-            if (_SummaryTextBox != null)
-                SummaryText = DeploymentsController.GetSummary();
+            //if (_SummaryTextBox != null)
+            //    SummaryText = DeploymentsController.GetSummary();
 
         }
 
         #region Clean options
 
         private void CleanOption_Checked(object sender, RoutedEventArgs e) {
-            if (_CleanRadioButton != null && CleanCheck == true) {
-                DeploymentsController.SetCleanOption(CleanOptions.CLEAN);
-                UpdateSummary();
-                return;
-            }
+            //if (_CleanRadioButton != null && CleanCheck == true) {
+            //    DeploymentsController.SetCleanOption(CleanOptions.CLEAN);
+            //    UpdateSummary();
+            //    return;
+            //}
 
-            if (_FullCleanRadioButton != null && FullcleanCheck == true) {
-                DeploymentsController.SetCleanOption(CleanOptions.FULLCLEAN);
-                UpdateSummary();
-                return;
-            }
+            //if (_FullCleanRadioButton != null && FullcleanCheck == true) {
+            //    DeploymentsController.SetCleanOption(CleanOptions.FULLCLEAN);
+            //    UpdateSummary();
+            //    return;
+            //}
 
-            DeploymentsController.SetCleanOption(CleanOptions.NOTCLEAN);
-            UpdateSummary();
+            //DeploymentsController.SetCleanOption(CleanOptions.NOTCLEAN);
+            //UpdateSummary();
         }
 
 
@@ -160,30 +160,30 @@ namespace WorkspaceManagerTool.Views.Deploys {
 
         private void NewBranchInput(object sender, EventArgs e) {
 
-            if (string.IsNullOrWhiteSpace(BranchText)) {
-                return;
-            }
+            //if (string.IsNullOrWhiteSpace(BranchText)) {
+            //    return;
+            //}
 
-            DeploymentsController.SetNewBranch(BranchText);
-            UpdateSummary();
+            //DeploymentsController.SetNewBranch(BranchText);
+            //UpdateSummary();
         }
 
         private void BuildOption_Checked(object sender, RoutedEventArgs e) {
 
-            if (_NotjsRadioButton != null && NotjsCheck == true) {
-                DeploymentsController.SetBuildOption(BuildOptions.NOTJS);
-                UpdateSummary();
-                return;
-            }
+            //if (_NotjsRadioButton != null && NotjsCheck == true) {
+            //    DeploymentsController.SetBuildOption(BuildOptions.NOTJS);
+            //    UpdateSummary();
+            //    return;
+            //}
 
-            if (_NotdocRadioButton != null && NotdocCheck == true) {
-                DeploymentsController.SetBuildOption(BuildOptions.NOTDOC);
-                UpdateSummary();
-                return;
-            }
+            //if (_NotdocRadioButton != null && NotdocCheck == true) {
+            //    DeploymentsController.SetBuildOption(BuildOptions.NOTDOC);
+            //    UpdateSummary();
+            //    return;
+            //}
 
-            DeploymentsController.SetBuildOption(BuildOptions.ONLYDEV);
-            UpdateSummary();
+            //DeploymentsController.SetBuildOption(BuildOptions.ONLYDEV);
+            //UpdateSummary();
         }
 
         #endregion

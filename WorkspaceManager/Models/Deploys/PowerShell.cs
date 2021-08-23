@@ -22,7 +22,7 @@ namespace WorkspaceManagerTool.Models.Deploys {
             output = new List<string>();
         }
 
-        public int RunCommand(Command cmmd, bool showPSWindow) {
+        public int RunCommand(@string cmmd, bool showPSWindow) {
 
             ProcessStartInfo processInfo = new ProcessStartInfo(EXECUTABLE);
             processInfo.Arguments = string.Format("{0} {1} {2} {3}", 
@@ -46,7 +46,7 @@ namespace WorkspaceManagerTool.Models.Deploys {
             return errorLevel;
         }
 
-        public List<string> RunCommandAndSaveOutput(Command cmmd) {
+        public List<string> RunCommandAndSaveOutput(@string cmmd) {
 
             output = new List<string>();
 
@@ -79,7 +79,7 @@ namespace WorkspaceManagerTool.Models.Deploys {
             output.Add(outLine.Data);
         }
 
-        public void Run(List<Command> finalScript) {
+        public void Run(List<@string> finalScript) {
 
             ProcessStartInfo processInfo = new ProcessStartInfo(EXECUTABLE);
             processInfo.CreateNoWindow = true;
@@ -88,7 +88,7 @@ namespace WorkspaceManagerTool.Models.Deploys {
         
             string args = "";
 
-            foreach (Command c in finalScript) {
+            foreach (@string c in finalScript) {
                 if (c.Sentence == "git reset --hard") {
                     args = options.ADMIN_PARAM + " " + options.NO_EXIT_PARAM + " " + c.Sentence;
                 } else {

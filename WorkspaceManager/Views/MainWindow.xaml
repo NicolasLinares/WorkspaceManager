@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WorkspaceManagerTool.Views.QuickAccess" 
+        xmlns:qa="clr-namespace:WorkspaceManagerTool.Views.QuickAccess"
+        xmlns:de="clr-namespace:WorkspaceManagerTool.Views.Scripts" 
         mc:Ignorable="d" ResizeMode="CanResize"
         Title="Workspace Manager Tool" Height="500" MinHeight="500" Width="420" MinWidth="420" >
 
@@ -53,11 +54,11 @@
     <Grid  Background="{StaticResource Dark}">
         <TabControl Background="{StaticResource DarkBlue}" BorderThickness="0" >
 
-            <TabItem Header="Quick Access" Foreground="WhiteSmoke" Background="{StaticResource DarkBlue}"  >
-                <local:QuickAccess_Tab Background="{StaticResource DarkBlue}" />
+            <TabItem Header="Scripts" Foreground="WhiteSmoke">
+                <!--<de:Scripts_Tab Background="{StaticResource DarkBlue}" />-->
             </TabItem>
-            <TabItem Header="Deploys" Foreground="WhiteSmoke">
-
+            <TabItem Header="Accesos directos" Foreground="WhiteSmoke" Background="{StaticResource DarkBlue}"  >
+                <qa:QuickAccess_Tab Background="{StaticResource DarkBlue}" />
             </TabItem>
         </TabControl>
 
