@@ -26,7 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -60,7 +60,7 @@
     <ManifestKeyFile>SetDevEnvTool_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
@@ -159,7 +159,7 @@
     <Compile Include="Views\QuickAccess\QuickAccess_CreationPanel.xaml.cs">
       <DependentUpon>QuickAccess_CreationPanel.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\Deploys\Script_CreationPanel.xaml">
+    <Page Include="Views\Scripts\Script_CreationPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -171,7 +171,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Deploys\Scripts_Tab.xaml">
+    <Page Include="Views\Scripts\Scripts_Tab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,13 +185,13 @@
     </Compile>
     <Compile Include="Controllers\ScriptsController.cs" />
     <Compile Include="Exceptions\NotScriptsInWorkspaceException.cs" />
-    <Compile Include="Views\Deploys\Script_CreationPanel.xaml.cs">
+    <Compile Include="Views\Scripts\Script_CreationPanel.xaml.cs">
       <DependentUpon>Script_CreationPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QuickAccess\QuickAccess_Tab.xaml.cs">
       <DependentUpon>QuickAccess_Tab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Deploys\Scripts_Tab.xaml.cs">
+    <Compile Include="Views\Scripts\Scripts_Tab.xaml.cs">
       <DependentUpon>Scripts_Tab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
@@ -260,6 +260,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\cross-mark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder.png" />
+    <Resource Include="Images\powershell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Styles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

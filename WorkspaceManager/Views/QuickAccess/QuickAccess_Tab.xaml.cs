@@ -250,6 +250,18 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
         }
 
+
+        //private void CollapseScrollbar(object sender, SizeChangedEventArgs e) {
+        //    ScrollViewer sv = sender as ScrollViewer;
+
+        //    if (sv.ActualHeight < sv.ScrollableHeight) {
+        //        sv.BorderThickness = new Thickness(1, 1, 1, 1);
+        //    } else {
+        //        sv.BorderThickness = new Thickness(0, 0, 0, 0);
+        //    }
+        //}
+
+
         /// <summary>
         /// Select all text when textbox gets focus
         /// </summary>
