@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkspaceManagerTool.Models.QuickAccess
+namespace WorkspaceManagerTool.Models
 {
     public enum ViewMode
     {

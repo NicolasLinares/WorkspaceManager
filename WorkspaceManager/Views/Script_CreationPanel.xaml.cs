@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using WorkspaceManagerTool.Controllers;
 using System.Windows.Media;
-using WorkspaceManagerTool.Exceptions;
-using WorkspaceManagerTool.Models.Scripts;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
-using WorkspaceManagerTool.Models.QuickAccess;
-using WorkspaceManagerTool.Views;
 using System.Windows.Controls;
+using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using WorkspaceManagerTool.Models;
+using WorkspaceManagerTool.Exceptions;
+using WorkspaceManagerTool.Controllers;
 
-namespace WorkspaceManagerTool.Views.Scripts {
+namespace WorkspaceManagerTool.Views {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -67,7 +65,7 @@ namespace WorkspaceManagerTool.Views.Scripts {
                 ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
             }
         }
-        public Script_CreationPanel(Script scriptToEdit, ObservableCollection<Group> groups) {
+        public Script_CreationPanel(GroupableResource scriptToEdit, ObservableCollection<Group> groups) {
             DataContext = this;
             InitializeComponent();
 
@@ -76,7 +74,7 @@ namespace WorkspaceManagerTool.Views.Scripts {
             if (scriptToEdit != null) {
                 NameText = scriptToEdit.Name;
                 DescriptionText = scriptToEdit.Description;
-                ScriptText = scriptToEdit.Commands;
+                ScriptText = (scriptToEdit as Script).Commands;
                 SelectedGroupOption = scriptToEdit.Group;
             }
             if (groups != null && groups.Count > 0) {

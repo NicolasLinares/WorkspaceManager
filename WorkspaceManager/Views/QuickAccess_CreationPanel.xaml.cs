@@ -1,5 +1,4 @@
-﻿using WorkspaceManagerTool.Models.QuickAccess;
-using Ookii.Dialogs.WinForms;
+﻿using Ookii.Dialogs.WinForms;
 using System;
 using System.IO;
 using System.Windows;
@@ -18,7 +17,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Ookii.Dialogs.WinForms;
-using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess.QuickAccess;
+using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess;
+using WorkspaceManagerTool.Models;
 
 namespace WorkspaceManagerTool.Views {
 
@@ -73,14 +73,15 @@ namespace WorkspaceManagerTool.Views {
                 ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
             }
         }
-        public QuickAccess_CreationPanel(FolderQuickAccess qaToEdit, ObservableCollection<Group> groups) {
+        public QuickAccess_CreationPanel(GroupableResource qaToEdit, ObservableCollection<Group> groups) {
             DataContext = this;
             InitializeComponent();
 
             PanelTitle = "Editar acceso directo";
             SetDefaultValues();
-            if (qaToEdit == null) {
-                PathText = qaToEdit.Path;
+            if (qaToEdit != null) {
+
+                PathText = (qaToEdit as QuickAccess).Path;
                 NameText = qaToEdit.Name;
                 DescriptionText = qaToEdit.Description;
                 SelectedGroupOption = qaToEdit.Group;
@@ -119,7 +120,7 @@ namespace WorkspaceManagerTool.Views {
                 ComboBoxGroupOptions.Add(SelectedGroupOption);
             } 
         }
-        public FolderQuickAccess GetQuickAccess() {
+        public GroupableResource GetQuickAccess() {
             // Set default values if empty
             if (string.IsNullOrWhiteSpace(NameText)) {
                 NameText = DefaultName;

@@ -1,5 +1,4 @@
 ﻿using WorkspaceManagerTool.Models;
-using WorkspaceManagerTool.Models.Scripts;
 using Newtonsoft.Json;
 using System;
 using System.IO;
