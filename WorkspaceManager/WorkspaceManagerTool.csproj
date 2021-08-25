@@ -148,6 +148,7 @@
     </ApplicationDefinition>
     <Compile Include="Controllers\QuickAccessController.cs" />
     <Compile Include="Abstracts\LocalDataController.cs" />
+    <Compile Include="Models\GroupableResource.cs" />
     <Compile Include="Models\QuickAccess\ViewMode.cs" />
     <Compile Include="Models\QuickAccess\QuickAccess.cs" />
     <Compile Include="Utils\JSONManager.cs" />

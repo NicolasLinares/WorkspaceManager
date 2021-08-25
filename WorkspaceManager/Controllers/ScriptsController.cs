@@ -8,12 +8,14 @@ using System.Collections.ObjectModel;
 using WorkspaceManagerTool.Utils;
 using System.Collections.Generic;
 using System.Linq;
+using WorkspaceManagerTool.Models.QuickAccess;
 
 namespace WorkspaceManagerTool.Controllers
 {
     class ScriptsController : LocalDataController {
 
         private ObservableCollection<Script> scriptItems;
+        private ObservableCollection<Group> grItems;
 
         public ObservableCollection<Script> ScriptItems {
             get {
@@ -21,6 +23,12 @@ namespace WorkspaceManagerTool.Controllers
             }
             set {
                 scriptItems = value;
+            }
+        }
+        public ObservableCollection<Group> GroupItems {
+            get {
+                var gr_list = scriptItems.Select(qa => qa.Group).Distinct();
+                return OrderGroups(gr_list);
             }
         }
 
@@ -33,40 +41,6 @@ namespace WorkspaceManagerTool.Controllers
             }
             return _instance;
         }
-
-
-        //public void SetCurrentWorkspacePath(string selectedPath) {
-
-        //    if (!Directory.Exists(selectedPath)) {
-        //        throw new NullReferenceException();
-        //    }
-
-        //    if (!workspace.CheckScriptsNeeded(selectedPath)) {
-        //        throw new NotScriptsInWorkspaceException("Scripts not found");
-        //    }
-
-        //    workspace.Initialize(selectedPath);
-        //}
-
-        //public string GetCurrentWorkspacePath() {
-        //    return workspace.CurrentBranchInformation;
-        //}
-
-        //public void SetNewBranch(string branch) {
-        //    workspace.SetBranchCommand(branch);
-        //}
-
-        //public void SetCleanOption(CleanOptions type) {
-        //    workspace.SetCleanCommand(type);
-        //}
-
-        //public void SetBuildOption(BuildOptions type) {
-        //    workspace.SetBuildCommand(type);
-        //}
-
-        //public string GetSummary() {
-        //    return workspace.GetCommandList();
-        //}
 
         protected override string ResourceFile {
             get {
@@ -103,7 +77,6 @@ namespace WorkspaceManagerTool.Controllers
             scriptItems.Add((Script)(object)new_sc);
             WriteData();
         }
-
         public override void Remove<T>(T sc) {
             scriptItems.Remove((Script)(object)sc);
             WriteData();
@@ -114,9 +87,16 @@ namespace WorkspaceManagerTool.Controllers
             return new ObservableCollection<Script>(ScriptItems.Where(sc => sc.Name.ToLower().Contains(text.ToLower())));
         }
 
+        private ObservableCollection<Group> OrderGroups(IEnumerable<Group> gr_list) {
+            return new ObservableCollection<Group>(gr_list.OrderBy(gr => gr.Name));
+        }
+
         private ObservableCollection<Script> OrderScripts(ObservableCollection<Script> scriptsItems) {
-            //TODO
-            return scriptsItems;
+            return new ObservableCollection<Script>(scriptsItems.OrderBy(sc => sc.Group.Name).ThenBy(qa => qa.Name));
+        }
+
+        public void ExecuteScript(Script selectedScriptItem) {
+            Console.Write(selectedScriptItem.Commands);
         }
     }
 }

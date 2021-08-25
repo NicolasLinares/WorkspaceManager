@@ -81,7 +81,6 @@ namespace WorkspaceManagerTool.Controllers {
             qaItems.Add((FolderQuickAccess)(object) new_qa);
             WriteData();
         }
-
         public override void Remove<T>(T qa) {
             qaItems.Remove((FolderQuickAccess)(object) qa);
             WriteData();

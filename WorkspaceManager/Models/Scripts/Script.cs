@@ -3,44 +3,36 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using WorkspaceManagerTool.Models.QuickAccess;
 
 namespace WorkspaceManagerTool.Models.Scripts {
-    public class Script : INotifyPropertyChanged {
-        public event PropertyChangedEventHandler PropertyChanged;
+    public class Script : GroupableResource {
 
-        private string name;
-        private string description;
         private string commands;
-
-        public string Name {
-            get { return name; }
-            set { SetProperty(ref name, value); }
-        }
 
         public string Commands {
             get { return commands; }
             set { SetProperty(ref commands, value); }
         }
 
-        public string Description {
-            get { return description; }
-            set { SetProperty(ref description, value); }
-        }
-
-        public Script(string name, string description, string commands) {
+        public Script(string name, string description, string commands, Group group) {
             Name = name;
             Description = description;
             Commands = commands;
+            Group = group;
         }
 
-        private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null) {
-            if (!EqualityComparer<T>.Default.Equals(field, value)) {
-                field = value;
-                OnPropertyChanged(propertyName);
-            }
+        public override bool Equals(object obj) {
+            Script qa = obj as Script;
+            return qa != null
+                && (Name ?? "").Equals(qa.Name)
+                && (Description ?? "").Equals(qa.Description)
+                && (Commands ?? "").Equals(qa.Commands)
+                && Group.Equals(qa.Group);
         }
-        private void OnPropertyChanged([CallerMemberName]string propertyName = null) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        public override int GetHashCode() {
+            return (Commands != null ? Commands.GetHashCode() : 0);
         }
     }
 }

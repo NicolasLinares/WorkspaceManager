@@ -67,14 +67,14 @@
         <ListBox Name="_QuickAcessListBox" Grid.Row="2" 
                 Style="{StaticResource _QA_ListBoxStyle}"
                 MouseDoubleClick="OpenQuickAccess_Action"
-                ItemsSource="{Binding Source={StaticResource quickaccess} }"
+                ItemsSource="{Binding Source={StaticResource quickaccess}}"
                 SelectedValue="{Binding SelectedQuickAccessItem}">
             <ListBox.ContextMenu>
                 <ContextMenu Opacity="0.8">
                     <MenuItem Header="Abrir carpeta" Click="OpenQuickAccess_Action"/>
                     <MenuItem Header="Copiar ruta" Click="CopyToClipboard_Action"/>
-                    <MenuItem Header="Editar" Click="EditQuickAccess_Action"/>
-                    <MenuItem Header="Eliminar" Click="RemoveQuickAccess_Action"/>
+                    <MenuItem Header="Editar" Click="OpenEditionPanel_Action"/>
+                    <MenuItem Header="Eliminar" Click="RemoveItem_Action"/>
                     <ContextMenu.Style>
                         <Style TargetType="{x:Type ContextMenu}">
                             <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -128,15 +128,15 @@
         <Grid Name="_CreationQuickAcess_Container" Grid.Row="3"/>
 
         <StackPanel Name="_CreationPanel_Buttons" Grid.Row="4" Width="220" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Visibility="Collapsed">
-            <Button Name="_AcceptButton"  Style="{StaticResource _ButtonStyle}" IsCancel="True" Margin="20px 0" Width="80" Click="CreateQA_Action">
+            <Button Name="_AcceptButton"  Style="{StaticResource _ButtonStyle}" IsCancel="True" Margin="20px 0" Width="80" Click="CreateItem_Action">
                 Aceptar
             </Button>
-            <Button Name="_CancelButton" Style="{StaticResource _ButtonStyle}" IsCancel="True"  Padding="20px 0" Width="80" Click="Cancel_Action">
+            <Button Name="_CancelButton" Style="{StaticResource _ButtonStyle}" IsCancel="True"  Padding="20px 0" Width="80" Click="ClosePanel_Action">
                 Cancelar
             </Button>
         </StackPanel>
 
-        <Button Name="_CreationQuickAccess_Button" Grid.Row="4"  Background="{StaticResource Dark}" Style="{StaticResource _ButtonStyle}" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="CreateQuickAccess_Action" Margin="5px 0px" >
+        <Button Name="_Creation_Button" Grid.Row="4"  Background="{StaticResource Dark}" Style="{StaticResource _ButtonStyle}" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="OpenCreationPanel_Action" Margin="5px 0px" >
             Crear acceso directo
         </Button>
 

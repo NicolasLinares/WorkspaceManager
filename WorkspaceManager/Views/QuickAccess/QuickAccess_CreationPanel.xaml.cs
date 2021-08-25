@@ -68,42 +68,76 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             InitializeComponent();
 
             PanelTitle = "Crear acceso directo";
-            PathText = DefaultPath;
-            NameText = DefaultName;
-            DescriptionText = DefaultDescription;
-            SelectedGroupOption = DefaultGroup;
-            ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
+            SetDefaultValues();
+            if (groups != null && groups.Count > 0) {
+                ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
+            }
         }
         public QuickAccess_CreationPanel(FolderQuickAccess qaToEdit, ObservableCollection<Group> groups) {
             DataContext = this;
             InitializeComponent();
 
-            if (qaToEdit == null) {
-                return;
-            }
             PanelTitle = "Editar acceso directo";
-            PathText = qaToEdit.Path;
-            NameText = qaToEdit.Name;
-            DescriptionText = qaToEdit.Description;
-            SelectedGroupOption = qaToEdit.Group;
-            ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
+            SetDefaultValues();
+            if (qaToEdit == null) {
+                PathText = qaToEdit.Path;
+                NameText = qaToEdit.Name;
+                DescriptionText = qaToEdit.Description;
+                SelectedGroupOption = qaToEdit.Group;
+            }
+            if (groups != null && groups.Count > 0) {
+                ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
+            }
         }
+        private void SetDefaultValues() {
+            NameText = DefaultName;
+            DescriptionText = DefaultDescription;
+            PathText = DefaultPath;
+            SelectedGroupOption = DefaultGroup;
+            ComboBoxGroupOptions = new ObservableCollection<Group>();
+        }
+
+        #region Actions
+
+        private void ComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            SelectedGroupOption = (sender as ComboBox).SelectedItem as Group;
+        }
+        private void Browse_Action(object sender, EventArgs e) {
+            VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
+            fbd.Description = "Seleccionar carpeta";
+            fbd.UseDescriptionForTitle = true;
+            fbd.ShowNewFolderButton = true;
+            var result = fbd.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK) {
+                PathText = fbd.SelectedPath;
+            }
+        }
+        private void CreateGroup_Action(object sender, EventArgs e) {
+            Group_CreationDialog dialog = new Group_CreationDialog();
+            if (dialog.ShowDialog() == true) {
+                SelectedGroupOption = new Group(dialog.NameText, dialog.ColorSelected);
+                ComboBoxGroupOptions.Add(SelectedGroupOption);
+            } 
+        }
+        public FolderQuickAccess GetQuickAccess() {
+            // Set default values if empty
+            if (string.IsNullOrWhiteSpace(NameText)) {
+                NameText = DefaultName;
+            }
+            if (string.IsNullOrWhiteSpace(PathText)) {
+                PathText = DefaultPath;
+            }
+            if (SelectedGroupOption == null) {
+                SelectedGroupOption = DefaultGroup;
+            }
+            if (string.IsNullOrWhiteSpace(DescriptionText)) {
+                DescriptionText = DefaultDescription;
+            }
+            return new FolderQuickAccess(PathText, NameText, DescriptionText, SelectedGroupOption);
+        }
+        #endregion
 
         #region Events handlers
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null) {
-            if (!EqualityComparer<T>.Default.Equals(field, value)) {
-                field = value;
-                OnPropertyChanged(propertyName);
-            }
-        }
-        private void OnPropertyChanged([CallerMemberName]string propertyName = null) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
 
         /// <summary>
         /// Select all text when textbox gets focus
@@ -127,46 +161,18 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         }
 
 
-        private void ComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            SelectedGroupOption = (sender as ComboBox).SelectedItem as Group;
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-
-        private void Browse_Action(object sender, EventArgs e) {
-            VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
-            fbd.Description = "Seleccionar carpeta";
-            fbd.UseDescriptionForTitle = true;
-            fbd.ShowNewFolderButton = true;
-            var result = fbd.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK) {
-                PathText = fbd.SelectedPath;
+        private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null) {
+            if (!EqualityComparer<T>.Default.Equals(field, value)) {
+                field = value;
+                OnPropertyChanged(propertyName);
             }
         }
-
-        private void CreateGroup_Action(object sender, EventArgs e) {
-            Group_CreationDialog dialog = new Group_CreationDialog();
-            if (dialog.ShowDialog() == true) {
-                SelectedGroupOption = new Group(dialog.NameText, dialog.ColorSelected);
-                ComboBoxGroupOptions.Add(SelectedGroupOption);
-            } 
+        private void OnPropertyChanged([CallerMemberName]string propertyName = null) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public FolderQuickAccess GetQuickAccess() {
-            // Set default values if empty
-            if (string.IsNullOrWhiteSpace(NameText)) {
-                NameText = DefaultName;
-            }
-            if (string.IsNullOrWhiteSpace(PathText)) {
-                PathText = DefaultPath;
-            }
-            if (SelectedGroupOption == null) {
-                SelectedGroupOption = DefaultGroup;
-            }
-            if (string.IsNullOrWhiteSpace(DescriptionText)) {
-                DescriptionText = DefaultDescription;
-            }
-            return new FolderQuickAccess(PathText, NameText, DescriptionText, SelectedGroupOption);
-        }
-
+        #endregion
     }
 }

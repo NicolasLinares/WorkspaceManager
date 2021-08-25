@@ -4,40 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" Background="#3a4657"
-        Height="500" Width="400">
+        Height="Auto" Width="Auto">
 
 
     <Control.Resources>
 
-
-        <Style x:Key="_TextBlockStyle" TargetType="{x:Type TextBlock}">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Foreground" Value="WhiteSmoke"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="Margin" Value="20px 0px"/>
-            <Setter Property="FontSize" Value="11px"/>
-        </Style>
-
-        <Style x:Key="_BorderTextBoxStyle" TargetType="{x:Type Border}">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Background" Value="{StaticResource MediumDarkBlue}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="2"/>
-            <Setter Property="Margin" Value="20px 0px 0px 0px"/>
-            <Setter Property="Height" Value="22px"/>
-        </Style>
-        <Style x:Key="_TextBoxStyle" TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="WhiteSmoke"/>
-            <Setter Property="SelectionBrush" Value="AntiqueWhite" />
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="5px 2px 5px 0px"/>
-            <Setter Property="FontSize" Value="12px"/>
-            <Setter Property="Height" Value="20px" />
-            <Setter Property="CaretBrush" Value="WhiteSmoke"/>
-        </Style>
+        <CollectionViewSource x:Key="options" Source="{Binding ComboBoxGroupOptions, Mode=TwoWay}"/>
 
         <Style x:Key="_BorderScriptTextBoxStyle" TargetType="{x:Type Border}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -61,10 +33,11 @@
         </Style>
     </Control.Resources>
 
-    <Grid>
+    <Grid Background="{StaticResource DarkBlue}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -82,28 +55,28 @@
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
         </Border>
 
+        <TextBlock Text="Grupo" Grid.Row="0" Grid.Column="1" Style="{StaticResource _TextBlockStyle}"  />
+        <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Style="{StaticResource _BorderTextBoxStyle}">
+            <ComboBox ItemsSource="{Binding Source={StaticResource options}}" Style="{StaticResource _ComboBoxStyle}" IsSynchronizedWithCurrentItem="True" 
+                      SelectedItem="{Binding SelectedGroupOption}" SelectionChanged="ComboBoxSelectionChanged"/>
+        </Border>
+
+        <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource _ActionButtonStyle}" IsCancel="True"
+                    HorizontalAlignment="Left" Width="20" Click="CreateGroup_Action">
+            <TextBlock HorizontalAlignment="Center" Margin="0 -3 1 0" FontSize="16" Text="+" />
+        </Button>
+
         <TextBlock Text="Descripción" Grid.Row="2" Style="{DynamicResource _TextBlockStyle}"  />
-        <Border  Grid.Row="3" Grid.ColumnSpan="2" Margin="20px 0px"  Style="{DynamicResource _BorderTextBoxStyle}">
+        <Border  Grid.Row="3" Grid.ColumnSpan="3" Margin="20px 0px"  Style="{DynamicResource _BorderTextBoxStyle}">
             <TextBox Name="_DescriptionTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Style="{DynamicResource _TextBoxStyle}" 
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" />
         </Border>
 
         <TextBlock Text="Script" Grid.Row="4" Style="{DynamicResource _TextBlockStyle}"  />
-        <Border  Grid.Row="5" Grid.ColumnSpan="2" Style="{DynamicResource _BorderScriptTextBoxStyle}">
+        <Border  Grid.Row="5" Grid.ColumnSpan="3" Style="{DynamicResource _BorderScriptTextBoxStyle}">
             <TextBox Name="_ScriptTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Style="{DynamicResource _ScriptTextBoxStyle}"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" />
         </Border>
-
-        <StackPanel Name="_CreationPanel_Buttons" Width="220" Margin=" 20px 0px 0px 20px" Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" Visibility="Visible">
-            <Button Name="_AcceptButton"  Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Background="{StaticResource Dark}" IsCancel="True" Margin="20px 0" 
-                    VerticalAlignment="Center" Width="80" Height="30px" Click="CreateScript_Action">
-                Aceptar
-            </Button>
-            <Button Name="_CancelButton" Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Background="{StaticResource Dark}" IsCancel="True"  Padding="20px 0" 
-                        VerticalAlignment="Center" Width="80" Height="30px" Click="Cancel_Action">
-                Cancelar
-            </Button>
-        </StackPanel>
     </Grid>
 </UserControl>
 
