@@ -72,6 +72,10 @@ namespace WorkspaceManagerTool.Controllers {
         public ObservableCollection<GroupableResource> SearchByName(string text) {
             return new ObservableCollection<GroupableResource>(Items.Where(it => it.Name.ToLower().Contains(text.ToLower())));
         }
+        public ObservableCollection<GroupableResource> FilterByGroup(Group filter) {
+            return new ObservableCollection<GroupableResource>(Items.Where(qa => qa.Group.Equals(filter)));
+        }
+
         private ObservableCollection<Group> OrderGroups(IEnumerable<Group> grps) {
             return new ObservableCollection<Group>(grps.OrderBy(gr => gr.Name));
         }

@@ -260,9 +260,8 @@ namespace WorkspaceManagerTool.Views {
             _FiltersListBox.UnselectAll();
             _ScriptsListBox.UnselectAll();
         }
-        private void ApplyFilter(Group filter) {
-            var list = ScriptsController.Items;
-            ScriptsItems = new ObservableCollection<GroupableResource>(list.Where(qa => qa.Group.Equals(filter)));
+        private void ApplyFilter(Group group) {
+            ScriptsItems = ScriptsController.FilterByGroup(group);
         }
 
 

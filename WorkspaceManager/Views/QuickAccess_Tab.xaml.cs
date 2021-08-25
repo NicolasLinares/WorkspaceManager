@@ -278,10 +278,8 @@ namespace WorkspaceManagerTool.Views {
             _FiltersListBox.UnselectAll();
             _QuickAcessListBox.UnselectAll();
         }
-
-        private void ApplyFilter(Group filter) {
-            var list = QuickAccessController.Items;
-            QuickAccessItems = new ObservableCollection<GroupableResource>(list.Where(qa => qa.Group.Equals(filter)));
+        private void ApplyFilter(Group group) {
+            QuickAccessItems = QuickAccessController.FilterByGroup(group);
         }
 
         #endregion
