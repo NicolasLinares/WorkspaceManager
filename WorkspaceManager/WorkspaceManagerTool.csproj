@@ -26,7 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -60,7 +60,7 @@
     <ManifestKeyFile>SetDevEnvTool_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
@@ -147,8 +147,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\QuickAccessController.cs" />
-    <Compile Include="Interfaces\IController.cs" />
-    <Compile Include="Models\Deploys\Scripts\ArtifactsScript.cs" />
+    <Compile Include="Abstracts\LocalDataController.cs" />
     <Compile Include="Models\QuickAccess\ViewMode.cs" />
     <Compile Include="Models\QuickAccess\QuickAccess.cs" />
     <Compile Include="Utils\JSONManager.cs" />
@@ -160,7 +159,47 @@
     <Compile Include="Views\QuickAccess\QuickAccess_CreationPanel.xaml.cs">
       <DependentUpon>QuickAccess_CreationPanel.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\Deploys\ConfigurationDeploy.xaml">
+    <Page Include="Styles\ToolTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ListBoxItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ListBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ScrollViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ScrollBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\TextItems.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Buttons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Tab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ColorPalette.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Scripts\Script_CreationPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -172,7 +211,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Deploys\DeployTabWindow.xaml">
+    <Page Include="Views\Scripts\Scripts_Tab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -184,16 +223,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\DeploymentsController.cs" />
+    <Compile Include="Controllers\ScriptsController.cs" />
     <Compile Include="Exceptions\NotScriptsInWorkspaceException.cs" />
-    <Compile Include="Views\Deploys\ConfigurationDeploy.xaml.cs">
-      <DependentUpon>ConfigurationDeploy.xaml</DependentUpon>
+    <Compile Include="Views\Scripts\Script_CreationPanel.xaml.cs">
+      <DependentUpon>Script_CreationPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QuickAccess\QuickAccess_Tab.xaml.cs">
       <DependentUpon>QuickAccess_Tab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Deploys\DeployTabWindow.xaml.cs">
-      <DependentUpon>DeployTabWindow.xaml</DependentUpon>
+    <Compile Include="Views\Scripts\Scripts_Tab.xaml.cs">
+      <DependentUpon>Scripts_Tab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -205,13 +244,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Deploys\Command.cs" />
-    <Compile Include="Models\Deploys\Deploy.cs" />
-    <Compile Include="Models\Deploys\PowerShell.cs" />
-    <Compile Include="Models\Deploys\Scripts\BuildScript.cs" />
-    <Compile Include="Models\Deploys\Scripts\SetDevEnvScript.cs" />
-    <Compile Include="Models\Deploys\History.cs" />
-    <Compile Include="Models\Deploys\WorkSpace.cs" />
+    <Compile Include="Models\Scripts\Script.cs" />
+    <Compile Include="Models\Scripts\PowerShell.cs" />
+    <Compile Include="Models\Scripts\WorkSpace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -266,5 +301,10 @@
   <ItemGroup>
     <Resource Include="Images\cross-mark.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder.png" />
+    <Resource Include="Images\powershell.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

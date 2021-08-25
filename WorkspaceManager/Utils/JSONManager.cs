@@ -1,5 +1,5 @@
 ﻿using WorkspaceManagerTool.Models;
-using WorkspaceManagerTool.Models.Deploys;
+using WorkspaceManagerTool.Models.Scripts;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -15,12 +15,17 @@ namespace WorkspaceManagerTool.Utils {
             Directory.CreateDirectory(dir);
         }
 
+        private static void CreateFile(string path) {
+            CreateDirectory(path);
+            File.Create(path);
+        }
+
         public static T ReadJSON<T>(string jsonPath) {
-            string jsonContent;
+            string jsonContent = string.Empty;
             try {
                 jsonContent = File.ReadAllText(jsonPath);
-            } catch(Exception) {
-                throw;
+            } catch(FileNotFoundException) {
+                CreateFile(jsonPath);
             }
             return JsonConvert.DeserializeObject<T>(jsonContent);
         }

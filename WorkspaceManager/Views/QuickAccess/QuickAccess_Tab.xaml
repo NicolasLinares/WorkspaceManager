@@ -3,220 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
              mc:Ignorable="d" d:DesignHeight="500" >
 
     <Control.Resources>
         <CollectionViewSource x:Key="filter" Source="{Binding GroupItems, Mode=TwoWay}"/>
         <CollectionViewSource x:Key="quickaccess" Source="{Binding QuickAccessItems, Mode=TwoWay}"/>
-
-
-        <SolidColorBrush x:Key="Dark" Color="#272f3b"/>
-        <SolidColorBrush x:Key="SemiDarkBlue" Color="#303a47"/>
-        <SolidColorBrush x:Key="DarkBlue" Color="#3a4657"/>
-        <SolidColorBrush x:Key="MediumDarkBlue" Color="#4e5b6e"/>
-        <SolidColorBrush x:Key="LightDarkBlue" Color="#677487"/>
-
-        
-        <Style x:Key="_Filters_ListBoxItemStyle" TargetType="ListBoxItem">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBoxItem">
-                        <Border x:Name="_Border" Padding="2px 5px" SnapsToDevicePixels="true" >
-                            <ContentPresenter />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="_QA_ListBoxItemStyle" TargetType="ListBoxItem">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBoxItem">
-                        <Border x:Name="_Border" CornerRadius="7" Padding="1px 1.5px" Margin="0 1" SnapsToDevicePixels="true">
-                            <ContentPresenter />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="False">
-                                <Setter TargetName="_Border" Property="Background" Value="Transparent" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        
-        <Style x:Key="_ScrollBarThumbStyle" TargetType="{x:Type Thumb}">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="Margin" Value="1 0 0 0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Rectangle Width="6" Fill="{StaticResource Dark}" RadiusX="3" RadiusY="3">
-                            <Rectangle.Effect>
-                                <DropShadowEffect ShadowDepth="0" BlurRadius="0" Color="WhiteSmoke" />
-                            </Rectangle.Effect>
-                        </Rectangle>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="_ScrollBarStyle" TargetType="{x:Type ScrollBar}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="true"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="true"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ScrollBar}">
-                        <Grid x:Name="Bg" Background="{TemplateBinding Background}" Width="10"  SnapsToDevicePixels="true">
-                            <Border Width="8" Background="{StaticResource MediumDarkBlue}" HorizontalAlignment="Left" CornerRadius="3" />
-                            <Track x:Name="PART_Track" IsDirectionReversed="true"  IsEnabled="{TemplateBinding IsMouseOver}">
-                                <Track.Thumb>
-                                    <Thumb Style="{StaticResource _ScrollBarThumbStyle}"/>
-                                </Track.Thumb>
-                            </Track>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <ControlTemplate x:Key="_ScrollViewerTemplate" TargetType="{x:Type ScrollViewer}">
-            <Grid x:Name="Grid" Background="{TemplateBinding Background}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" 
-                    Grid.Column="0"
-                    CanContentScroll="{TemplateBinding CanContentScroll}" 
-                    ContentTemplate="{TemplateBinding ContentTemplate}" 
-                    Content="{TemplateBinding Content}" 
-                    Margin="{TemplateBinding Padding}" />
-                <ScrollBar x:Name="PART_VerticalScrollBar" 
-                    AutomationProperties.AutomationId="VerticalScrollBar" 
-                    Grid.Column="1" 
-                    Maximum="{TemplateBinding ScrollableHeight}" 
-                    Minimum="0"
-                           Margin="-2 0 0 0"
-                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" 
-                    Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                    ViewportSize="{TemplateBinding ViewportHeight}" 
-                    Style="{DynamicResource _ScrollBarStyle}"/>
-            </Grid>
-        </ControlTemplate>
-        <Style x:Key="_QA_ListBoxStyle" TargetType="{x:Type ListBox}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Padding" Value="5px 0px 5px 0px"/>
-            <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
-            <Setter Property="ItemContainerStyle" Value="{StaticResource _QA_ListBoxItemStyle}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ListBox}">
-                        <ScrollViewer Padding="{TemplateBinding Padding}" CanContentScroll="false" Template="{DynamicResource _ScrollViewerTemplate}">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </ScrollViewer>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="_ToolTipStyle" TargetType="{x:Type Border}">
-            <Style.Resources>
-                <Style TargetType="ToolTip">
-                    <Setter Property="Background" Value="GhostWhite" />
-                    <Style.Triggers>
-                        <Trigger Property="Content" Value="{x:Static sys:String.Empty}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </Trigger>
-                        <Trigger Property="Content" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Style.Resources>
-        </Style>
-
-        <Style x:Key="_ButtonStyle" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
-                        BorderThickness="1"
-                        Padding="10,3" 
-                        BorderBrush="{StaticResource Dark}" 
-                        CornerRadius="2" 
-                        Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource MediumDarkBlue}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="_BorderTextBoxStyle" TargetType="{x:Type Border}">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Background" Value="{StaticResource MediumDarkBlue}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="2"/>
-            <Setter Property="Margin" Value="20px 0px 0px 0px"/>
-            <Setter Property="Height" Value="22px"/>
-        </Style>
-        <Style x:Key="_TextBoxStyle" TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="WhiteSmoke"/>
-            <Setter Property="SelectionBrush" Value="AntiqueWhite" />
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="5px 2px 5px 0px"/>
-            <Setter Property="FontSize" Value="12px"/>
-            <Setter Property="Height" Value="20px" />
-            <Setter Property="CaretBrush" Value="WhiteSmoke"/>
-        </Style>
-
-        <Style x:Key="_IconButtonStyle" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Image Name="icon" Source="/WorkspaceManagerTool;component/Images/cross-mark.png" Width="14" Height="14" RenderOptions.BitmapScalingMode="HighQuality"  />
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="icon" Property="Width" Value="16" />
-                                <Setter TargetName="icon" Property="Height" Value="16" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-
     </Control.Resources>
 
     <Grid >
@@ -228,7 +19,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Style="{DynamicResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource SemiDarkBlue}" Padding="10px 2px 10px 0px">
+        <Border Grid.Row="0" Style="{StaticResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource SemiDarkBlue}" Padding="10px 2px 10px 0px">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"/>
@@ -236,12 +27,10 @@
                     <ColumnDefinition Width="20"/>
                 </Grid.ColumnDefinitions>
 
-
                 <Image Grid.Column="0" Source="/WorkspaceManagerTool;component/Images/search.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"  />
-                <TextBox Name="_SearchText" Grid.Column="1" Style="{DynamicResource _TextBoxStyle}" TextChanged="SearchByName_Action" 
+                <TextBox Name="_SearchText" Grid.Column="1" Style="{StaticResource _TextBoxStyle}" TextChanged="SearchByName_Action" 
                          GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>
-                <Button  Name="_SearchRemoveButton" Grid.Column="2" Background="Transparent" Visibility="Hidden" Click="RemoveSearch_Action" Style="{DynamicResource _IconButtonStyle}" >
-                </Button>
+                <Button  Name="_SearchRemoveButton" Grid.Column="2" Background="Transparent" Visibility="Hidden" Click="RemoveSearch_Action" Style="{StaticResource _IconButtonStyle}" />
             </Grid>
         </Border>
 
@@ -254,7 +43,7 @@
                  SelectedValue="{Binding SelectedGroup}"
                  MouseUp="ApplyFilter_Action"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 IsSynchronizedWithCurrentItem="True" 
+                 IsSynchronizedWithCurrentItem="True"
                  ItemContainerStyle="{StaticResource _Filters_ListBoxItemStyle}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -265,10 +54,10 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border Name="border" 
-                                CornerRadius="2" BorderThickness="1" Padding="10px 3px" Margin="2px 0px"
-                                BorderBrush="{StaticResource MediumDarkBlue}"  Background="{Binding Color}"
-                                HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Foreground="Black" Text="{Binding Name}"  />
+                        CornerRadius="2" BorderThickness="1" Padding="5px 1px" Margin="2px 0px"
+                        BorderBrush="{StaticResource MediumDarkBlue}"  Background="{Binding Color}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Foreground="Black" Margin="0px 0px 0px 1px" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Name}"   />
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -276,7 +65,7 @@
 
 
         <ListBox Name="_QuickAcessListBox" Grid.Row="2" 
-                Style="{DynamicResource _QA_ListBoxStyle}"
+                Style="{StaticResource _QA_ListBoxStyle}"
                 MouseDoubleClick="OpenQuickAccess_Action"
                 ItemsSource="{Binding Source={StaticResource quickaccess} }"
                 SelectedValue="{Binding SelectedQuickAccessItem}">
@@ -286,7 +75,6 @@
                     <MenuItem Header="Copiar ruta" Click="CopyToClipboard_Action"/>
                     <MenuItem Header="Editar" Click="EditQuickAccess_Action"/>
                     <MenuItem Header="Eliminar" Click="RemoveQuickAccess_Action"/>
-                    
                     <ContextMenu.Style>
                         <Style TargetType="{x:Type ContextMenu}">
                             <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -298,7 +86,7 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type ContextMenu}">
                                         <Border x:Name="Border" Background="{StaticResource Dark}" BorderThickness="1">
-                                            <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Disabled">
+                                            <ScrollViewer VerticalScrollBarVisibility="Disabled">
                                                 <ItemsPresenter/>
                                             </ScrollViewer>
                                         </Border>
@@ -311,21 +99,24 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate >
-                    <Border CornerRadius="5" BorderThickness="2" BorderBrush="{StaticResource MediumDarkBlue}" Background="{StaticResource MediumDarkBlue}" Style="{DynamicResource _ToolTipStyle}"  ToolTip="{Binding Description}">
-                        <Grid Height="Auto"  >
+                    <Border CornerRadius="5" BorderThickness="2" BorderBrush="{StaticResource MediumDarkBlue}" Background="{StaticResource MediumDarkBlue}" Style="{StaticResource _ToolTipStyle}"  ToolTip="{Binding Description}">
+                        <Grid Height="Auto" Margin="15px 5px 0px 5px">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0">
-                                <TextBlock Height="20" Margin="10 10 0 0" FontWeight="DemiBold" Foreground="{Binding Group.Color}" Text="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBlock Height="20" Margin="30 0 0 5" Foreground="WhiteSmoke" Text="{Binding Path}"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBlock Height="20" FontWeight="DemiBold" Foreground="{Binding Group.Color}" FontSize="10" Text="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/WorkspaceManagerTool;component/Images/folder.png" Width="18" Height="18" Margin="0px 0px 7px 0px" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"  />
+                                    <TextBlock Height="20" Margin="0px 5px 0px 0px" TextTrimming="WordEllipsis" Foreground="WhiteSmoke" Text="{Binding Path}" FontSize="12" FontWeight="Light"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </StackPanel>
                             </StackPanel>
                             <Border Grid.Column="1" Name="border" MaxWidth="160"
-                                CornerRadius="2" BorderThickness="1" Padding="10px 3px" Margin="15px 0px"
+                                CornerRadius="2" BorderThickness="1" Padding="5px 1px" Margin="10px 0px"
                                 BorderBrush="{StaticResource MediumDarkBlue}"  Background="{Binding Group.Color}"
                                 HorizontalAlignment="Right" VerticalAlignment="Center">
-                                <TextBlock Foreground="Black" Text="{Binding Group.Name}"/>
+                                <TextBlock Foreground="Black" Margin="0px 0px 0px 1px" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Group.Name}"/>
                             </Border>
                         </Grid>
                     </Border>
@@ -337,21 +128,19 @@
         <Grid Name="_CreationQuickAcess_Container" Grid.Row="3"/>
 
         <StackPanel Name="_CreationPanel_Buttons" Grid.Row="4" Width="220" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Visibility="Collapsed">
-            <Button Name="_AcceptButton"  Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Background="{StaticResource Dark}" IsCancel="True" Margin="20px 0" 
-                    VerticalAlignment="Center" Width="80" Height="30px" Click="CreateQA_Action">
+            <Button Name="_AcceptButton"  Style="{StaticResource _ButtonStyle}" IsCancel="True" Margin="20px 0" Width="80" Click="CreateQA_Action">
                 Aceptar
             </Button>
-            <Button Name="_CancelButton" Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Background="{StaticResource Dark}" IsCancel="True"  Padding="20px 0" 
-                        VerticalAlignment="Center" Width="80" Height="30px" Click="Cancel_Action">
+            <Button Name="_CancelButton" Style="{StaticResource _ButtonStyle}" IsCancel="True"  Padding="20px 0" Width="80" Click="Cancel_Action">
                 Cancelar
             </Button>
         </StackPanel>
 
-        <Button Name="_CreationQuickAccess_Button" Grid.Row="4"  Background="{StaticResource Dark}" Style="{DynamicResource _ButtonStyle}" Foreground="WhiteSmoke" Height="40" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="CreateQuickAccess_Action" Margin="5px 0px" >
+        <Button Name="_CreationQuickAccess_Button" Grid.Row="4"  Background="{StaticResource Dark}" Style="{StaticResource _ButtonStyle}" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="CreateQuickAccess_Action" Margin="5px 0px" >
             Crear acceso directo
         </Button>
 
-        <Button Name="_RemoveFilter_Button" Grid.Row="4"  Background="{StaticResource Dark}" Style="{DynamicResource _ButtonStyle}" Foreground="IndianRed" Height="40" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="RemoveFilter_Action" Margin="5px 0px" Visibility="Collapsed">
+        <Button Name="_RemoveFilter_Button" Grid.Row="4"  Background="{StaticResource Dark}" Style="{StaticResource _ButtonStyle}" Foreground="IndianRed" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="RemoveFilter_Action" Margin="5px 0px" Visibility="Collapsed">
             Quitar filtro
         </Button>
 

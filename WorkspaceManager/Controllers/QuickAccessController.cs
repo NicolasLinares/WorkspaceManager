@@ -15,7 +15,7 @@ using WorkspaceManagerTool.Interfaces;
 using System.Linq;
 
 namespace WorkspaceManagerTool.Controllers {
-    class QuickAccessController : IController {
+    class QuickAccessController : LocalDataController {
 
         private ObservableCollection<FolderQuickAccess> qaItems;
         private ObservableCollection<Group> grItems;
@@ -35,46 +35,60 @@ namespace WorkspaceManagerTool.Controllers {
             }
         }
 
-        private string QuickAccessDirectory {
+        protected override string ResourceFile {
             get {
-                string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                string directory = @"WorkspaceManagerTool\quickaccess.json";
-                return Path.Combine(AppData, directory);
+                string file = "quickaccess.json";
+                return Path.Combine(ResourceDirectory, file);
             }
         }
 
 
-        public void Init() {
+        private static QuickAccessController _instance;
+
+        public static QuickAccessController GetInstance() {
+            if (_instance == null) {
+                _instance = new QuickAccessController();
+            }
+            return _instance;
+        }
+
+
+        public override void Init() {
             ReadData();
         }
 
-        public void ReadData() {
-            var data = JSONManager.ReadJSON<IList<FolderQuickAccess>>(QuickAccessDirectory);
+        protected override void ReadData() {
+            var data = JSONManager.ReadJSON<IList<FolderQuickAccess>>(ResourceFile);
 
             if (data == null) {
                 QAItems = new ObservableCollection<FolderQuickAccess>();
+                return;
             }
 
             QAItems = new ObservableCollection<FolderQuickAccess>(data);
         }
 
-        public void WriteData() {
-            JSONManager.SaveJSON(QuickAccessDirectory, QAItems);
+        protected override void WriteData() {
+            JSONManager.SaveJSON(ResourceFile, QAItems);
         }
 
-        public void AddQA(FolderQuickAccess qa) {
-            qaItems.Add(qa);
+        public override void Add<T>(T qa) {
+            qaItems.Add((FolderQuickAccess)(object) qa);
             WriteData();
         }
-        public void ReplaceQA(FolderQuickAccess old_qa, FolderQuickAccess new_qa) {
-            qaItems.Remove(old_qa);
-            qaItems.Add(new_qa);
+        public override void Replace<T>(T old_qa, T new_qa) {
+            qaItems.Remove((FolderQuickAccess)(object) old_qa);
+            qaItems.Add((FolderQuickAccess)(object) new_qa);
             WriteData();
         }
 
-        public void RemoveQA(FolderQuickAccess qa) {
-            qaItems.Remove(qa);
+        public override void Remove<T>(T qa) {
+            qaItems.Remove((FolderQuickAccess)(object) qa);
             WriteData();
+        }
+
+        public ObservableCollection<FolderQuickAccess> SearchByName(string text) {
+            return new ObservableCollection<FolderQuickAccess>(QAItems.Where(qa => qa.Name.ToLower().Contains(text.ToLower())));
         }
 
         private ObservableCollection<FolderQuickAccess> OrderFolders(IList<FolderQuickAccess> qa_list) {
@@ -88,8 +102,5 @@ namespace WorkspaceManagerTool.Controllers {
             Process process = Process.Start(qa.Path);
         }
 
-        public ObservableCollection<FolderQuickAccess> SearchByName(string text) {
-            return new ObservableCollection<FolderQuickAccess>(QAItems.Where(qa => qa.Name.ToLower().Contains(text.ToLower())));
-        }
     }
 }

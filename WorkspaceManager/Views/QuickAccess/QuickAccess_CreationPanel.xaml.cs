@@ -74,18 +74,18 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             SelectedGroupOption = DefaultGroup;
             ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
         }
-        public QuickAccess_CreationPanel(FolderQuickAccess qa, ObservableCollection<Group> groups) {
+        public QuickAccess_CreationPanel(FolderQuickAccess qaToEdit, ObservableCollection<Group> groups) {
             DataContext = this;
             InitializeComponent();
 
-            if (qa == null) {
+            if (qaToEdit == null) {
                 return;
             }
             PanelTitle = "Editar acceso directo";
-            PathText = qa.Path;
-            NameText = qa.Name;
-            DescriptionText = qa.Description;
-            SelectedGroupOption = qa.Group;
+            PathText = qaToEdit.Path;
+            NameText = qaToEdit.Name;
+            DescriptionText = qaToEdit.Description;
+            SelectedGroupOption = qaToEdit.Group;
             ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
         }
 
