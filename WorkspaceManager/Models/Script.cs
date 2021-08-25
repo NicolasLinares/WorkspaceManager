@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using WorkspaceManagerTool.Models.QuickAccess;
+
+namespace WorkspaceManagerTool.Models.Scripts {
+    public class Script : GroupableResource {
+
+        private string commands;
+
+        public string Commands {
+            get { return commands; }
+            set { SetProperty(ref commands, value); }
+        }
+
+        public Script(string name, string description, string commands, Group group) {
+            Name = name;
+            Description = description;
+            Commands = commands;
+            Group = group;
+        }
+
+        public override bool Equals(object obj) {
+            Script qa = obj as Script;
+            return qa != null
+                && (Name ?? "").Equals(qa.Name)
+                && (Description ?? "").Equals(qa.Description)
+                && (Commands ?? "").Equals(qa.Commands)
+                && Group.Equals(qa.Group);
+        }
+
+        public override int GetHashCode() {
+            return (Commands != null ? Commands.GetHashCode() : 0);
+        }
+    }
+}

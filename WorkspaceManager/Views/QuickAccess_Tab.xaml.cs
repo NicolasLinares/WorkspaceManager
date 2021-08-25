@@ -37,17 +37,13 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             get => quickAccess;
             set => SetProperty(ref quickAccess, value);
         }
-        public ObservableCollection<FolderQuickAccess> AuxiliarItems {
-            get => auxiliar;
-            set => SetProperty(ref auxiliar, value);
-        }
+
         public Group SelectedGroup {
             get => selectedGroup;
             set {
                 SetProperty(ref selectedGroup, value);
             }
         }
-        public Group FilterApplied { get; private set; }
 
         public FolderQuickAccess SelectedQuickAccessItem {
             get => selectedQuickAccess;
@@ -55,6 +51,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
                 SetProperty(ref selectedQuickAccess, value);
             }
         }
+
         public FolderQuickAccess SelectedQAToEdit { get; private set; }
 
         public ViewMode CurrentViewMode { get; private set; }
@@ -75,7 +72,6 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             GroupItems = QuickAccessController.GroupItems;
             _FiltersListBox.UnselectAll();
             _QuickAcessListBox.UnselectAll();
-
         }
         #endregion
 
@@ -94,12 +90,12 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
 
         #region Actions
 
-        private void CreateQuickAccess_Action(object sender, EventArgs e) {
+        private void OpenCreationPanel_Action(object sender, EventArgs e) {
             // new item, so empty values
             QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems);
             ChangeViewMode(ViewMode.CREATION);
         }
-        private void EditQuickAccess_Action(object sender, RoutedEventArgs e) {
+        private void OpenEditionPanel_Action(object sender, RoutedEventArgs e) {
             if (_QuickAcessListBox.SelectedItem == null) {
                 return;
             }
@@ -107,7 +103,11 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             QuickAccessPanel = new QuickAccess_CreationPanel(SelectedQuickAccessItem, GroupItems);
             ChangeViewMode(ViewMode.EDITION);
         }
-        private void RemoveQuickAccess_Action(object sender, RoutedEventArgs e) {
+        private void ClosePanel_Action(object sender, EventArgs e) {
+            ChangeViewMode(PreviousViewMode);
+        }
+
+        private void RemoveItem_Action(object sender, RoutedEventArgs e) {
             if (_QuickAcessListBox.SelectedItem == null) {
                 return;
             }
@@ -144,6 +144,11 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             }
             QuickAccessItems = QuickAccessController.SearchByName(_SearchText.Text);
         }
+        private void RemoveSearch_Action(object sender, EventArgs e) {
+            _SearchText.Text = string.Empty;
+            _SearchRemoveButton.Visibility = Visibility.Hidden;
+            ChangeViewMode(ViewMode.NORMAL);
+        }
         private void ApplyFilter_Action(object sender, MouseButtonEventArgs e) {
             if (_FiltersListBox.SelectedItem == null) {
                 return;
@@ -153,25 +158,8 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         private void RemoveFilter_Action(object sender, EventArgs e) {
             ChangeViewMode(ViewMode.NORMAL);
         }
-        private void RemoveSearch_Action(object sender, EventArgs e) {
-            _SearchText.Text = string.Empty;
-            _SearchRemoveButton.Visibility = Visibility.Hidden;
-            ChangeViewMode(ViewMode.NORMAL);
-        }
 
-        private void ReplaceQA_Action(object sender, EventArgs e) {
-            FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
-            if (QuickAccessController.QAItems.Contains(new_qa)) {
-                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            QuickAccessController.Replace<FolderQuickAccess>(SelectedQAToEdit, new_qa);
-            SelectedQAToEdit = null;
-
-            ChangeViewMode(PreviousViewMode);
-        }
-        private void CreateQA_Action(object sender, EventArgs e) {
+        private void CreateItem_Action(object sender, EventArgs e) {
             FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
             if (QuickAccessController.QAItems.Contains(new_qa)) {
                 MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -187,9 +175,6 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
                 QuickAccessController.Add<FolderQuickAccess>(new_qa);
             }
 
-            ChangeViewMode(PreviousViewMode);
-        }
-        private void Cancel_Action(object sender, EventArgs e) {
             ChangeViewMode(PreviousViewMode);
         }
         #endregion
@@ -216,15 +201,13 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
                     CloseCreationPanel();
                     break;
             }
-
             PreviousViewMode = CurrentViewMode;
             CurrentViewMode = mode;
-
         }
         private void OpenCreationPanel() {
             _CreationQuickAcess_Container.Children.Add(QuickAccessPanel);
             _CreationPanel_Buttons.Visibility = Visibility.Visible;
-            _CreationQuickAccess_Button.Visibility = Visibility.Collapsed;
+            _Creation_Button.Visibility = Visibility.Collapsed;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
             _FiltersListBox.IsHitTestVisible = false;
@@ -242,11 +225,11 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             }
         }
         private void EnableFilterMode() {
-            _CreationQuickAccess_Button.Visibility = Visibility.Collapsed;
+            _Creation_Button.Visibility = Visibility.Collapsed;
             _RemoveFilter_Button.Visibility = Visibility.Visible;
         }
         private void DisableFilterMode() {
-            _CreationQuickAccess_Button.Visibility = Visibility.Visible;
+            _Creation_Button.Visibility = Visibility.Visible;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
         }
 

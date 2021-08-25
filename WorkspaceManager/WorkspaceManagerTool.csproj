@@ -95,7 +95,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Images\favicon.ico</ApplicationIcon>
+    <ApplicationIcon>Views\Images\favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>WorkspaceManagerTool.App</StartupObject>
@@ -147,71 +147,72 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\QuickAccessController.cs" />
-    <Compile Include="Abstracts\LocalDataController.cs" />
-    <Compile Include="Models\QuickAccess\ViewMode.cs" />
-    <Compile Include="Models\QuickAccess\QuickAccess.cs" />
+    <Compile Include="Controllers\LocalDataController.cs" />
+    <Compile Include="Models\GroupableResource.cs" />
+    <Compile Include="Models\ViewMode.cs" />
+    <Compile Include="Models\QuickAccess.cs" />
     <Compile Include="Utils\JSONManager.cs" />
     <Compile Include="Utils\Notifier.cs" />
-    <Compile Include="Models\QuickAccess\Group.cs" />
-    <Compile Include="Views\QuickAccess\Group_CreationDialog.xaml.cs">
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Views\Group_CreationDialog.xaml.cs">
       <DependentUpon>Group_CreationDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\QuickAccess\QuickAccess_CreationPanel.xaml.cs">
+    <Compile Include="Views\QuickAccess_CreationPanel.xaml.cs">
       <DependentUpon>QuickAccess_CreationPanel.xaml</DependentUpon>
     </Compile>
-    <Page Include="Styles\ToolTip.xaml">
+    <Page Include="Views\Styles\ToolTip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ListBoxItem.xaml">
+    <Page Include="Views\Styles\ListBoxItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ListBox.xaml">
+    <Page Include="Views\Styles\ListBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ScrollViewer.xaml">
+    <Page Include="Views\Styles\ScrollViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ScrollBar.xaml">
+    <Page Include="Views\Styles\ScrollBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ComboBox.xaml">
+    <Page Include="Views\Styles\ComboBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\TextItems.xaml">
+    <Page Include="Views\Styles\TextItems.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Buttons.xaml">
+    <Page Include="Views\Styles\Buttons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Tab.xaml">
+    <Page Include="Views\Styles\Tab.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ColorPalette.xaml">
+    <Page Include="Views\Styles\ColorPalette.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Scripts\Script_CreationPanel.xaml">
+    <Page Include="Views\Script_CreationPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\QuickAccess\Group_CreationDialog.xaml">
+    <Page Include="Views\Group_CreationDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\QuickAccess\QuickAccess_Tab.xaml">
+    <Page Include="Views\QuickAccess_Tab.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Scripts\Scripts_Tab.xaml">
+    <Page Include="Views\Scripts_Tab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -225,28 +226,27 @@
     </Compile>
     <Compile Include="Controllers\ScriptsController.cs" />
     <Compile Include="Exceptions\NotScriptsInWorkspaceException.cs" />
-    <Compile Include="Views\Scripts\Script_CreationPanel.xaml.cs">
+    <Compile Include="Views\Script_CreationPanel.xaml.cs">
       <DependentUpon>Script_CreationPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\QuickAccess\QuickAccess_Tab.xaml.cs">
+    <Compile Include="Views\QuickAccess_Tab.xaml.cs">
       <DependentUpon>QuickAccess_Tab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Scripts\Scripts_Tab.xaml.cs">
+    <Compile Include="Views\Scripts_Tab.xaml.cs">
       <DependentUpon>Scripts_Tab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\QuickAccess\QuickAccess_CreationPanel.xaml">
+    <Page Include="Views\QuickAccess_CreationPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Scripts\Script.cs" />
-    <Compile Include="Models\Scripts\PowerShell.cs" />
-    <Compile Include="Models\Scripts\WorkSpace.cs" />
+    <Compile Include="Models\Script.cs" />
+    <Compile Include="Models\PowerShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -293,17 +293,17 @@
     <Resource Include="ScriptsContext.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\favicon.ico" />
+    <Resource Include="Views\Images\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\search.png" />
+    <Resource Include="Views\Images\search.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\cross-mark.png" />
+    <Resource Include="Views\Images\cross-mark.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\folder.png" />
-    <Resource Include="Images\powershell.png" />
+    <Resource Include="Views\Images\folder.png" />
+    <Resource Include="Views\Images\powershell.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkspaceManagerTool.Interfaces {
+namespace WorkspaceManagerTool.Controllers {
     public abstract class LocalDataController {
 
         protected string ResourceDirectory {

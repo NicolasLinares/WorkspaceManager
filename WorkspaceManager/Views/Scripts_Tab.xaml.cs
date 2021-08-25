@@ -26,8 +26,11 @@ namespace WorkspaceManagerTool.Views.Scripts {
     public partial class Scripts_Tab : UserControl, INotifyPropertyChanged {
 
         private Script selectedScript;
-
         private ObservableCollection<Script> scriptsItems;
+
+        private ObservableCollection<Group> groups;
+        private Group selectedGroup;
+
 
         public ObservableCollection<Script> ScriptsItems {
             get => scriptsItems;
@@ -40,6 +43,17 @@ namespace WorkspaceManagerTool.Views.Scripts {
                 SetProperty(ref selectedScript, value);
             }
         }
+        public ObservableCollection<Group> GroupItems {
+            get => groups;
+            set => SetProperty(ref groups, value);
+        }
+        public Group SelectedGroup {
+            get => selectedGroup;
+            set {
+                SetProperty(ref selectedGroup, value);
+            }
+        }
+
         public Script SelectedScriptToEdit { get; private set; }
 
         public ViewMode CurrentViewMode { get; private set; }
@@ -59,6 +73,8 @@ namespace WorkspaceManagerTool.Views.Scripts {
             ScriptsController.Init();
             // Set observable data from controller
             ScriptsItems = ScriptsController.ScriptItems;
+            GroupItems = ScriptsController.GroupItems;
+            _FiltersListBox.UnselectAll();
             _ScriptsListBox.UnselectAll();
         }
 
@@ -76,22 +92,43 @@ namespace WorkspaceManagerTool.Views.Scripts {
         #endregion
 
         #region Actions
-        private void CreateScript_Action(object sender, EventArgs e) {
+        private void OpenCreationPanel_Action(object sender, EventArgs e) {
             // new item, so empty values
-            ScriptPanel = new Script_CreationPanel();
+            ScriptPanel = new Script_CreationPanel(GroupItems);
             ChangeViewMode(ViewMode.CREATION);
         }
-
-        private void EditScript_Action(object sender, RoutedEventArgs e) {
+        private void OpenEditionPanel_Action(object sender, RoutedEventArgs e) {
             if (_ScriptsListBox.SelectedItem == null) {
                 return;
             }
             // set current values to edit
-            ScriptPanel = new Script_CreationPanel(SelectedScriptItem);
+            ScriptPanel = new Script_CreationPanel(SelectedScriptItem, GroupItems);
             ChangeViewMode(ViewMode.EDITION);
         }
+        private void ClosePanel_Action(object sender, EventArgs e) {
+            ChangeViewMode(PreviousViewMode);
+        }
 
-        private void RemoveScript_Action(object sender, RoutedEventArgs e) {
+
+        private void CreateItem_Action(object sender, EventArgs e) {
+            Script new_sc = ScriptPanel.GetScript();
+            if (ScriptsController.ScriptItems.Contains(new_sc)) {
+                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (CurrentViewMode == ViewMode.EDITION) {
+                ScriptsController.Replace<Script>(SelectedScriptToEdit, new_sc);
+                GroupItems = ScriptsController.GroupItems;
+                SelectedGroup = SelectedScriptToEdit.Group;
+                SelectedScriptToEdit = null;
+            } else {
+                ScriptsController.Add<Script>(new_sc);
+            }
+
+            ChangeViewMode(PreviousViewMode);
+        }
+        private void RemoveItem_Action(object sender, RoutedEventArgs e) {
             if (_ScriptsListBox.SelectedItem == null) {
                 return;
             }
@@ -102,11 +139,18 @@ namespace WorkspaceManagerTool.Views.Scripts {
             }
         }
 
-        private void RemoveSearch_Action(object sender, EventArgs e) {
-            _SearchText.Text = string.Empty;
-            _SearchRemoveButton.Visibility = Visibility.Hidden;
-            ChangeViewMode(ViewMode.CREATION);
+
+        private void ExecuteScript_Action(object sender, EventArgs e) {
+            if (_ScriptsListBox.SelectedItem == null) {
+                return;
+            }
+            try {
+                ScriptsController.ExecuteScript(SelectedScriptItem);
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
 
         private void SearchByName_Action(object sender, TextChangedEventArgs e) {
             if (_SearchText.Text.Length > 0) {
@@ -116,6 +160,21 @@ namespace WorkspaceManagerTool.Views.Scripts {
             }
             ScriptsItems = ScriptsController.SearchByName(_SearchText.Text);
         }
+        private void RemoveSearch_Action(object sender, EventArgs e) {
+            _SearchText.Text = string.Empty;
+            _SearchRemoveButton.Visibility = Visibility.Hidden;
+            ChangeViewMode(ViewMode.NORMAL);
+        }
+        private void ApplyFilter_Action(object sender, MouseButtonEventArgs e) {
+            if (_FiltersListBox.SelectedItem == null) {
+                return;
+            }
+            ChangeViewMode(ViewMode.FILTER);
+        }
+        private void RemoveFilter_Action(object sender, EventArgs e) {
+            ChangeViewMode(ViewMode.NORMAL);
+        }
+
 
         #endregion
 
@@ -130,31 +189,47 @@ namespace WorkspaceManagerTool.Views.Scripts {
                     SelectedScriptToEdit = SelectedScriptItem;
                     OpenCreationPanel();
                     break;
+                case ViewMode.FILTER:
+                    ApplyFilter(SelectedGroup);
+                    EnableFilterMode();
+                    CloseCreationPanel();
+                    break;
                 case (ViewMode.NORMAL):
                     UpdateLists();
+                    DisableFilterMode();
                     CloseCreationPanel();
                     break;
             }
-
             PreviousViewMode = CurrentViewMode;
             CurrentViewMode = mode;
-
         }
         private void OpenCreationPanel() {
             _CreationScript_Container.Children.Add(ScriptPanel);
-            _CreationScript_Button.Visibility = Visibility.Collapsed;
+            _CreationPanel_Buttons.Visibility = Visibility.Visible;
+            _Creation_Button.Visibility = Visibility.Collapsed;
+            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
+            _FiltersListBox.IsHitTestVisible = false;
             _ScriptsListBox.IsHitTestVisible = false;
 
         }
         private void CloseCreationPanel() {
             if (_CreationScript_Container.Children.Count > 0) {
                 _CreationScript_Container.Children.RemoveAt(_CreationScript_Container.Children.Count - 1);
-                _CreationScript_Button.Visibility = Visibility.Collapsed;
+                _CreationPanel_Buttons.Visibility = Visibility.Collapsed;
                 // Enable list interactions
+                _FiltersListBox.IsHitTestVisible = true;
                 _ScriptsListBox.IsHitTestVisible = true;
                 _ScriptsListBox.UnselectAll();
             }
+        }
+        private void EnableFilterMode() {
+            _Creation_Button.Visibility = Visibility.Collapsed;
+            _RemoveFilter_Button.Visibility = Visibility.Visible;
+        }
+        private void DisableFilterMode() {
+            _Creation_Button.Visibility = Visibility.Visible;
+            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -182,8 +257,15 @@ namespace WorkspaceManagerTool.Views.Scripts {
         #region Auxiliar methods
         private void UpdateLists() {
             ScriptsItems = ScriptsController.ScriptItems;
+            GroupItems = ScriptsController.GroupItems;
+            _FiltersListBox.UnselectAll();
             _ScriptsListBox.UnselectAll();
         }
+        private void ApplyFilter(Group filter) {
+            var list = ScriptsController.ScriptItems;
+            ScriptsItems = new ObservableCollection<Script>(list.Where(qa => qa.Group.Equals(filter)));
+        }
+
 
         #endregion
     }

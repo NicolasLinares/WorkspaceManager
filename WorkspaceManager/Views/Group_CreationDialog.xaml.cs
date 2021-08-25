@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
  
-namespace WorkspaceManagerTool.Views.QuickAccess {
+namespace WorkspaceManagerTool.Views {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
