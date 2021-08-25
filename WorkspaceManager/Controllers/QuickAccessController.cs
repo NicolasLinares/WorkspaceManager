@@ -11,7 +11,6 @@ using System.Windows;
 using System.Windows.Media;
 using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess.QuickAccess;
 using System.Collections.ObjectModel;
-using WorkspaceManagerTool.Interfaces;
 using System.Linq;
 
 namespace WorkspaceManagerTool.Controllers {

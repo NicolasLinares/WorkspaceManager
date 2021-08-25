@@ -108,7 +108,7 @@
                             <StackPanel Grid.Column="0">
                                 <TextBlock Height="20" FontWeight="DemiBold" Foreground="{Binding Group.Color}" FontSize="10" Text="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="/WorkspaceManagerTool;component/Images/folder.png" Width="18" Height="18" Margin="0px 0px 7px 0px" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"  />
+                                    <Image Source="/WorkspaceManagerTool;component/Views/Images/folder.png" Width="18" Height="18" Margin="0px 0px 7px 0px" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"  />
                                     <TextBlock Height="20" Margin="0px 5px 0px 0px" TextTrimming="WordEllipsis" Foreground="WhiteSmoke" Text="{Binding Path}" FontSize="12" FontWeight="Light"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>

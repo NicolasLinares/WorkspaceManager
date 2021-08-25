@@ -27,9 +27,7 @@
             <Setter Property="Padding" Value="5px"/>
             <Setter Property="FontSize" Value="12px"/>
             <Setter Property="CaretBrush" Value="WhiteSmoke"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="AcceptsReturn" Value="True"/>
-
         </Style>
     </Control.Resources>
 
@@ -74,8 +72,11 @@
 
         <TextBlock Text="Script" Grid.Row="4" Style="{DynamicResource _TextBlockStyle}"  />
         <Border  Grid.Row="5" Grid.ColumnSpan="3" Style="{DynamicResource _BorderScriptTextBoxStyle}">
-            <TextBox Name="_ScriptTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Style="{DynamicResource _ScriptTextBoxStyle}"
-                     GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" />
+
+            <ScrollViewer CanContentScroll="false" Template="{StaticResource _ScrollViewerTemplate}" Padding="10px 0px" Margin="0px 5px -2px 5px">
+                <TextBox Name="_ScriptTextBox" Text="{Binding Path=ScriptText, Mode=TwoWay}" Style="{DynamicResource _ScriptTextBoxStyle}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                         GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" />
+            </ScrollViewer>
         </Border>
     </Grid>
 </UserControl>

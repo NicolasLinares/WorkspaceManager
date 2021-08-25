@@ -20,7 +20,7 @@ using System.Windows.Media;
 using Ookii.Dialogs.WinForms;
 using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess.QuickAccess;
 
-namespace WorkspaceManagerTool.Views.QuickAccess {
+namespace WorkspaceManagerTool.Views {
 
 
     public partial class QuickAccess_CreationPanel : UserControl, INotifyPropertyChanged {

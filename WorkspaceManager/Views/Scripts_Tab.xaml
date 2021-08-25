@@ -31,7 +31,7 @@
                     <ColumnDefinition Width="20"/>
                 </Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" Source="/WorkspaceManagerTool;component/Images/search.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"  />
+                <Image Grid.Column="0" Source="/WorkspaceManagerTool;component/Views/Images/search.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"  />
                 <TextBox Name="_SearchText" Grid.Column="1" Style="{StaticResource _TextBoxStyle}" TextChanged="SearchByName_Action" 
                          GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>
                 <Button  Name="_SearchRemoveButton" Grid.Column="2" Background="Transparent" Visibility="Hidden" Click="RemoveSearch_Action" Style="{StaticResource _IconButtonStyle}" />
@@ -109,7 +109,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                <Image Source="/WorkspaceManagerTool;component/Images/powershell.png" Width="18" Height="18" Margin="0px 0px 7px 0px" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"  />
+                                <Image Source="/WorkspaceManagerTool;component/Views/Images/powershell.png" Width="18" Height="18" Margin="0px 0px 7px 0px" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"  />
                                 <TextBlock Height="20" Margin="0px 5px 0px 0px" TextTrimming="WordEllipsis" Foreground="WhiteSmoke" Text="{Binding Name}" FontSize="12" FontWeight="Light"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </StackPanel>
                             <Border Grid.Column="1" Name="border" MaxWidth="160"

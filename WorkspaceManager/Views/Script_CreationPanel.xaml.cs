@@ -5,13 +5,13 @@ using WorkspaceManagerTool.Controllers;
 using System.Windows.Media;
 using WorkspaceManagerTool.Exceptions;
 using WorkspaceManagerTool.Models.Scripts;
-using System.Windows.Controls;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using WorkspaceManagerTool.Models.QuickAccess;
-using WorkspaceManagerTool.Views.QuickAccess;
+using WorkspaceManagerTool.Views;
+using System.Windows.Controls;
 
 namespace WorkspaceManagerTool.Views.Scripts {
     /// <summary>

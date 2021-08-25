@@ -107,25 +107,6 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             ChangeViewMode(PreviousViewMode);
         }
 
-
-        private void CreateItem_Action(object sender, EventArgs e) {
-            FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
-            if (QuickAccessController.QAItems.Contains(new_qa)) {
-                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (CurrentViewMode == ViewMode.EDITION) {
-                QuickAccessController.Replace<FolderQuickAccess>(SelectedQAToEdit, new_qa);
-                GroupItems = QuickAccessController.GroupItems;
-                SelectedGroup = SelectedQAToEdit.Group;
-                SelectedQAToEdit = null;
-            } else {
-                QuickAccessController.Add<FolderQuickAccess>(new_qa);
-            }
-
-            ChangeViewMode(PreviousViewMode);
-        }
         private void RemoveItem_Action(object sender, RoutedEventArgs e) {
             if (_QuickAcessListBox.SelectedItem == null) {
                 return;
@@ -136,8 +117,6 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
                 ChangeViewMode(CurrentViewMode);
             }
         }
-
-
         private void CopyToClipboard_Action(object sender, RoutedEventArgs e) {
             if (_QuickAcessListBox.SelectedItem == null) {
                 return;
@@ -178,6 +157,25 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         }
         private void RemoveFilter_Action(object sender, EventArgs e) {
             ChangeViewMode(ViewMode.NORMAL);
+        }
+
+        private void CreateItem_Action(object sender, EventArgs e) {
+            FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
+            if (QuickAccessController.QAItems.Contains(new_qa)) {
+                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (CurrentViewMode == ViewMode.EDITION) {
+                QuickAccessController.Replace<FolderQuickAccess>(SelectedQAToEdit, new_qa);
+                GroupItems = QuickAccessController.GroupItems;
+                SelectedGroup = SelectedQAToEdit.Group;
+                SelectedQAToEdit = null;
+            } else {
+                QuickAccessController.Add<FolderQuickAccess>(new_qa);
+            }
+
+            ChangeViewMode(PreviousViewMode);
         }
         #endregion
 

@@ -3,12 +3,12 @@ using System.IO;
 using WorkspaceManagerTool.Models.Scripts;
 using WorkspaceManagerTool.Exceptions;
 using WorkspaceManagerTool.Models.Scripts;
-using WorkspaceManagerTool.Interfaces;
 using System.Collections.ObjectModel;
 using WorkspaceManagerTool.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using WorkspaceManagerTool.Models.QuickAccess;
+using System.Threading;
 
 namespace WorkspaceManagerTool.Controllers
 {
@@ -96,7 +96,17 @@ namespace WorkspaceManagerTool.Controllers
         }
 
         public void ExecuteScript(Script selectedScriptItem) {
-            Console.Write(selectedScriptItem.Commands);
+
+
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                /* run your code here */
+                PowerShell ps = new PowerShell();
+                ps.Run(selectedScriptItem);
+            }).Start();
+
+
         }
     }
 }
