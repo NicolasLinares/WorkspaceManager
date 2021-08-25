@@ -7,15 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="500">
 
+
     <Control.Resources>
 
         <CollectionViewSource x:Key="scripts" Source="{Binding ScriptsItems, Mode=TwoWay}"/>
-
-        <SolidColorBrush x:Key="Dark" Color="#272f3b"/>
-        <SolidColorBrush x:Key="SemiDarkBlue" Color="#303a47"/>
-        <SolidColorBrush x:Key="DarkBlue" Color="#3a4657"/>
-        <SolidColorBrush x:Key="MediumDarkBlue" Color="#4e5b6e"/>
-        <SolidColorBrush x:Key="LightDarkBlue" Color="#677487"/>
 
         <Style x:Key="_ScriptListBoxItemStyle" TargetType="ListBoxItem">
             <Setter Property="Template">
@@ -132,29 +127,6 @@
             </Style.Resources>
         </Style>
 
-        <Style x:Key="_ButtonStyle" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
-                        BorderThickness="1"
-                        Padding="10,3" 
-                        BorderBrush="{StaticResource Dark}" 
-                        CornerRadius="2" 
-                        Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource MediumDarkBlue}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         
         <Style x:Key="_BorderTextBoxStyle" TargetType="{x:Type Border}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -174,23 +146,6 @@
             <Setter Property="FontSize" Value="12px"/>
             <Setter Property="Height" Value="20px" />
             <Setter Property="CaretBrush" Value="WhiteSmoke"/>
-        </Style>
-
-        <Style x:Key="_IconButtonStyle" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Image Name="icon" Source="/WorkspaceManagerTool;component/Images/cross-mark.png" Width="14" Height="14" RenderOptions.BitmapScalingMode="HighQuality"  />
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="icon" Property="Width" Value="16" />
-                                <Setter TargetName="icon" Property="Height" Value="16" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
         </Style>
 
     </Control.Resources>

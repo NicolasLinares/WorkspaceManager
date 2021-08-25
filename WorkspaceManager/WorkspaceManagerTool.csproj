@@ -159,6 +159,26 @@
     <Compile Include="Views\QuickAccess\QuickAccess_CreationPanel.xaml.cs">
       <DependentUpon>QuickAccess_CreationPanel.xaml</DependentUpon>
     </Compile>
+    <Page Include="Styles\ComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\TextItems.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Buttons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Tab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ColorPalette.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Scripts\Script_CreationPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -265,8 +285,6 @@
     <Resource Include="Images\folder.png" />
     <Resource Include="Images\powershell.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Styles\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
