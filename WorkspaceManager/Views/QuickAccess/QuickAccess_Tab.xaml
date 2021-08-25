@@ -3,160 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" d:DesignHeight="500" >
 
     <Control.Resources>
         <CollectionViewSource x:Key="filter" Source="{Binding GroupItems, Mode=TwoWay}"/>
         <CollectionViewSource x:Key="quickaccess" Source="{Binding QuickAccessItems, Mode=TwoWay}"/>
-
-
-        <Style x:Key="_Filters_ListBoxItemStyle" TargetType="ListBoxItem">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBoxItem">
-                        <Grid Margin="2px 3px">
-                            <Border x:Name="_Border" Opacity="0.8" Height="25" CornerRadius="3" SnapsToDevicePixels="true" />
-                            <ContentPresenter />     
-                        </Grid>
-     
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="_QA_ListBoxItemStyle" TargetType="ListBoxItem">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBoxItem">
-                        <Border x:Name="_Border" CornerRadius="7" Padding="1px 1.5px" Margin="0 1" SnapsToDevicePixels="true">
-                            <ContentPresenter />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="False">
-                                <Setter TargetName="_Border" Property="Background" Value="Transparent" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        
-        <Style x:Name="thumb" x:Key="_ScrollBarThumbStyle" TargetType="{x:Type Thumb}">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="Margin" Value="1 0 0 0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Rectangle Width="6" Fill="{StaticResource Dark}" RadiusX="3" RadiusY="3">
-                            <Rectangle.Effect>
-                                <DropShadowEffect ShadowDepth="0" BlurRadius="0" Color="WhiteSmoke" />
-                            </Rectangle.Effect>
-                        </Rectangle>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="_ScrollBarStyle" TargetType="{x:Type ScrollBar}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="true"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="true"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ScrollBar}">
-                        <Grid x:Name="Bg" Background="{TemplateBinding Background}" Width="10"  SnapsToDevicePixels="true">
-                            <Border Width="8" Background="{StaticResource MediumDarkBlue}" HorizontalAlignment="Left" CornerRadius="3" />
-                            <Track x:Name="PART_Track" IsDirectionReversed="true"  IsEnabled="{TemplateBinding IsMouseOver}">
-                                <Track.Thumb>
-                                    <Thumb Style="{StaticResource _ScrollBarThumbStyle}"/>
-                                </Track.Thumb>
-                            </Track>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="false">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <ControlTemplate x:Key="_ScrollViewerTemplate" TargetType="{x:Type ScrollViewer}" >
-            <Grid x:Name="Grid" Background="{TemplateBinding Background}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" 
-                    Grid.Column="0" 
-                    CanContentScroll="{TemplateBinding CanContentScroll}" 
-                    ContentTemplate="{TemplateBinding ContentTemplate}" 
-                    Content="{TemplateBinding Content}"
-                    Margin="{TemplateBinding Padding}" />
-                <ScrollBar x:Name="PART_VerticalScrollBar" 
-                    AutomationProperties.AutomationId="VerticalScrollBar"
-                    Grid.Column="1" 
-                    Maximum="{TemplateBinding ScrollableHeight}" 
-                    Minimum="0" 
-                    Margin="-2 0 0 0"
-                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                    Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                    ViewportSize="{TemplateBinding ViewportHeight}" 
-                    Style="{DynamicResource _ScrollBarStyle}"/>
-            </Grid>
-        </ControlTemplate>
-        <Style x:Key="_QA_ListBoxStyle" TargetType="{x:Type ListBox}">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Padding" Value="5px 0px 5px 0px"/>
-            <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
-            <Setter Property="ItemContainerStyle" Value="{StaticResource _QA_ListBoxItemStyle}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ListBox}">
-                        <ScrollViewer x:Name="_ScrollViewer" Padding="{TemplateBinding Padding}" CanContentScroll="false" Template="{DynamicResource _ScrollViewerTemplate}">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </ScrollViewer>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="_ToolTipStyle" TargetType="{x:Type Border}">
-            <Style.Resources>
-                <Style TargetType="ToolTip">
-                    <Setter Property="Background" Value="GhostWhite" />
-                    <Style.Triggers>
-                        <Trigger Property="Content" Value="{x:Static sys:String.Empty}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </Trigger>
-                        <Trigger Property="Content" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Style.Resources>
-        </Style>
-
     </Control.Resources>
 
     <Grid >
@@ -168,7 +19,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Style="{DynamicResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource SemiDarkBlue}" Padding="10px 2px 10px 0px">
+        <Border Grid.Row="0" Style="{StaticResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource SemiDarkBlue}" Padding="10px 2px 10px 0px">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"/>
@@ -177,10 +28,9 @@
                 </Grid.ColumnDefinitions>
 
                 <Image Grid.Column="0" Source="/WorkspaceManagerTool;component/Images/search.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"  />
-                <TextBox Name="_SearchText" Grid.Column="1" Style="{DynamicResource _TextBoxStyle}" TextChanged="SearchByName_Action" 
+                <TextBox Name="_SearchText" Grid.Column="1" Style="{StaticResource _TextBoxStyle}" TextChanged="SearchByName_Action" 
                          GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>
-                <Button  Name="_SearchRemoveButton" Grid.Column="2" Background="Transparent" Visibility="Hidden" Click="RemoveSearch_Action" Style="{DynamicResource _IconButtonStyle}" >
-                </Button>
+                <Button  Name="_SearchRemoveButton" Grid.Column="2" Background="Transparent" Visibility="Hidden" Click="RemoveSearch_Action" Style="{StaticResource _IconButtonStyle}" />
             </Grid>
         </Border>
 
@@ -214,8 +64,8 @@
         </ListBox>
 
 
-        <ListBox Name="_QuickAcessListBox" Grid.Row="2"
-                Style="{DynamicResource _QA_ListBoxStyle}"
+        <ListBox Name="_QuickAcessListBox" Grid.Row="2" 
+                Style="{StaticResource _QA_ListBoxStyle}"
                 MouseDoubleClick="OpenQuickAccess_Action"
                 ItemsSource="{Binding Source={StaticResource quickaccess} }"
                 SelectedValue="{Binding SelectedQuickAccessItem}">
@@ -225,7 +75,6 @@
                     <MenuItem Header="Copiar ruta" Click="CopyToClipboard_Action"/>
                     <MenuItem Header="Editar" Click="EditQuickAccess_Action"/>
                     <MenuItem Header="Eliminar" Click="RemoveQuickAccess_Action"/>
-                    
                     <ContextMenu.Style>
                         <Style TargetType="{x:Type ContextMenu}">
                             <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -250,7 +99,7 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate >
-                    <Border CornerRadius="5" BorderThickness="2" BorderBrush="{StaticResource MediumDarkBlue}" Background="{StaticResource MediumDarkBlue}" Style="{DynamicResource _ToolTipStyle}"  ToolTip="{Binding Description}">
+                    <Border CornerRadius="5" BorderThickness="2" BorderBrush="{StaticResource MediumDarkBlue}" Background="{StaticResource MediumDarkBlue}" Style="{StaticResource _ToolTipStyle}"  ToolTip="{Binding Description}">
                         <Grid Height="Auto" Margin="15px 5px 0px 5px">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>

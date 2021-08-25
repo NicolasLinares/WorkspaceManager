@@ -10,6 +10,11 @@
                 <ResourceDictionary Source="Styles/Buttons.xaml" />
                 <ResourceDictionary Source="Styles/TextItems.xaml" />
                 <ResourceDictionary Source="Styles/ComboBox.xaml" />
+                <ResourceDictionary Source="Styles/ScrollBar.xaml" />
+                <ResourceDictionary Source="Styles/ScrollViewer.xaml" />
+                <ResourceDictionary Source="Styles/ListBoxItem.xaml" />
+                <ResourceDictionary Source="Styles/ListBox.xaml" />
+                <ResourceDictionary Source="Styles/ToolTip.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

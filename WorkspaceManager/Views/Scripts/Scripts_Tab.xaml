@@ -127,27 +127,6 @@
             </Style.Resources>
         </Style>
 
-        
-        <Style x:Key="_BorderTextBoxStyle" TargetType="{x:Type Border}">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Background" Value="{StaticResource MediumDarkBlue}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="2"/>
-            <Setter Property="Margin" Value="20px 0px 0px 0px"/>
-            <Setter Property="Height" Value="22px"/>
-        </Style>
-        <Style x:Key="_TextBoxStyle" TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="WhiteSmoke"/>
-            <Setter Property="SelectionBrush" Value="AntiqueWhite" />
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="5px 2px 5px 0px"/>
-            <Setter Property="FontSize" Value="12px"/>
-            <Setter Property="Height" Value="20px" />
-            <Setter Property="CaretBrush" Value="WhiteSmoke"/>
-        </Style>
-
     </Control.Resources>
 
     <Grid>
