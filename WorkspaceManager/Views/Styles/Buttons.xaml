@@ -40,7 +40,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Image Name="icon" Source="/WorkspaceManagerTool;component/Images/cross-mark.png" Width="14" Height="14" RenderOptions.BitmapScalingMode="HighQuality"  />
+                    <Image Name="icon" Source="/WorkspaceManagerTool;component/Views/Images/cross-mark.png" Width="14" Height="14" RenderOptions.BitmapScalingMode="HighQuality"  />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="icon" Property="Width" Value="16" />

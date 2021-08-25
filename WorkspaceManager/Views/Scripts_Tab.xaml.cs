@@ -16,28 +16,27 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManagerTool.Controllers;
-using WorkspaceManagerTool.Models.QuickAccess;
-using WorkspaceManagerTool.Models.Scripts;
+using WorkspaceManagerTool.Models;
 
-namespace WorkspaceManagerTool.Views.Scripts {
+namespace WorkspaceManagerTool.Views {
     /// <summary>
     /// Interaction logic for DeployTabWindow.xaml
     /// </summary>
     public partial class Scripts_Tab : UserControl, INotifyPropertyChanged {
 
-        private Script selectedScript;
-        private ObservableCollection<Script> scriptsItems;
+        private GroupableResource selectedScript;
+        private ObservableCollection<GroupableResource> scriptsItems;
 
         private ObservableCollection<Group> groups;
         private Group selectedGroup;
 
 
-        public ObservableCollection<Script> ScriptsItems {
+        public ObservableCollection<GroupableResource> ScriptsItems {
             get => scriptsItems;
             set => SetProperty(ref scriptsItems, value);
         }
 
-        public Script SelectedScriptItem {
+        public GroupableResource SelectedScriptItem {
             get => selectedScript;
             set {
                 SetProperty(ref selectedScript, value);
@@ -54,7 +53,7 @@ namespace WorkspaceManagerTool.Views.Scripts {
             }
         }
 
-        public Script SelectedScriptToEdit { get; private set; }
+        public GroupableResource SelectedScriptToEdit { get; private set; }
 
         public ViewMode CurrentViewMode { get; private set; }
         public ViewMode PreviousViewMode { get; private set; }
@@ -72,7 +71,7 @@ namespace WorkspaceManagerTool.Views.Scripts {
             ScriptsController = ScriptsController.GetInstance();
             ScriptsController.Init();
             // Set observable data from controller
-            ScriptsItems = ScriptsController.ScriptItems;
+            ScriptsItems = ScriptsController.Items;
             GroupItems = ScriptsController.GroupItems;
             _FiltersListBox.UnselectAll();
             _ScriptsListBox.UnselectAll();
@@ -111,19 +110,19 @@ namespace WorkspaceManagerTool.Views.Scripts {
 
 
         private void CreateItem_Action(object sender, EventArgs e) {
-            Script new_sc = ScriptPanel.GetScript();
-            if (ScriptsController.ScriptItems.Contains(new_sc)) {
+            GroupableResource new_sc = ScriptPanel.GetScript();
+            if (ScriptsController.Items.Contains(new_sc)) {
                 MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (CurrentViewMode == ViewMode.EDITION) {
-                ScriptsController.Replace<Script>(SelectedScriptToEdit, new_sc);
+                ScriptsController.Replace(SelectedScriptToEdit, new_sc);
                 GroupItems = ScriptsController.GroupItems;
                 SelectedGroup = SelectedScriptToEdit.Group;
                 SelectedScriptToEdit = null;
             } else {
-                ScriptsController.Add<Script>(new_sc);
+                ScriptsController.Add(new_sc);
             }
 
             ChangeViewMode(PreviousViewMode);
@@ -134,7 +133,7 @@ namespace WorkspaceManagerTool.Views.Scripts {
             }
             MessageBoxResult result = MessageBox.Show("¿Desea eliminar el script de forma permanente?", "Eliminar script", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
-                ScriptsController.Remove<Script>(SelectedScriptItem);
+                ScriptsController.Remove(SelectedScriptItem);
                 ChangeViewMode(CurrentViewMode);
             }
         }
@@ -145,7 +144,7 @@ namespace WorkspaceManagerTool.Views.Scripts {
                 return;
             }
             try {
-                ScriptsController.ExecuteScript(SelectedScriptItem);
+                ScriptsController.ExecuteScript(SelectedScriptItem as Script);
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -256,14 +255,14 @@ namespace WorkspaceManagerTool.Views.Scripts {
 
         #region Auxiliar methods
         private void UpdateLists() {
-            ScriptsItems = ScriptsController.ScriptItems;
+            ScriptsItems = ScriptsController.Items;
             GroupItems = ScriptsController.GroupItems;
             _FiltersListBox.UnselectAll();
             _ScriptsListBox.UnselectAll();
         }
         private void ApplyFilter(Group filter) {
-            var list = ScriptsController.ScriptItems;
-            ScriptsItems = new ObservableCollection<Script>(list.Where(qa => qa.Group.Equals(filter)));
+            var list = ScriptsController.Items;
+            ScriptsItems = new ObservableCollection<GroupableResource>(list.Where(qa => qa.Group.Equals(filter)));
         }
 
 

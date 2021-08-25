@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 
-namespace WorkspaceManagerTool.Models.Scripts {
+namespace WorkspaceManagerTool.Models {
 
     class PowerShell {
 

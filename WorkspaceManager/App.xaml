@@ -15,7 +15,6 @@
                 <ResourceDictionary Source="Views/Styles/ListBoxItem.xaml" />
                 <ResourceDictionary Source="Views/Styles/ListBox.xaml" />
                 <ResourceDictionary Source="Views/Styles/ToolTip.xaml" />
-
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

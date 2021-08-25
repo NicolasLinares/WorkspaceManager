@@ -1,5 +1,4 @@
-﻿using WorkspaceManagerTool.Models.QuickAccess;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,9 +10,10 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Ookii.Dialogs.WinForms;
-using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess.QuickAccess;
+using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess;
+using WorkspaceManagerTool.Models;
 
-namespace WorkspaceManagerTool.Views.QuickAccess {
+namespace WorkspaceManagerTool.Views {
 
     /// <summary>
     /// Interaction logic for QuickAccessTabWindow.xaml
@@ -23,17 +23,17 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         #region Properties and Constructor method
 
         private ObservableCollection<Group> groups;
-        private ObservableCollection<FolderQuickAccess> quickAccess;
-        private ObservableCollection<FolderQuickAccess> auxiliar;
+        private ObservableCollection<GroupableResource> quickAccess;
+        private ObservableCollection<GroupableResource> auxiliar;
         private Group selectedGroup;
-        private FolderQuickAccess selectedQuickAccess;
+        private GroupableResource selectedQuickAccess;
 
         public ObservableCollection<Group> GroupItems {
             get => groups;
             set => SetProperty(ref groups, value);
         }
 
-        public ObservableCollection<FolderQuickAccess> QuickAccessItems {
+        public ObservableCollection<GroupableResource> QuickAccessItems {
             get => quickAccess;
             set => SetProperty(ref quickAccess, value);
         }
@@ -45,14 +45,14 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             }
         }
 
-        public FolderQuickAccess SelectedQuickAccessItem {
+        public GroupableResource SelectedQuickAccessItem {
             get => selectedQuickAccess;
             set {
                 SetProperty(ref selectedQuickAccess, value);
             }
         }
 
-        public FolderQuickAccess SelectedQAToEdit { get; private set; }
+        public GroupableResource SelectedQAToEdit { get; private set; }
 
         public ViewMode CurrentViewMode { get; private set; }
         public ViewMode PreviousViewMode { get; private set; }
@@ -68,7 +68,7 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             QuickAccessController = QuickAccessController.GetInstance();
             QuickAccessController.Init();
             // Set observable data from controller
-            QuickAccessItems = QuickAccessController.QAItems;
+            QuickAccessItems = QuickAccessController.Items;
             GroupItems = QuickAccessController.GroupItems;
             _FiltersListBox.UnselectAll();
             _QuickAcessListBox.UnselectAll();
@@ -107,21 +107,42 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             ChangeViewMode(PreviousViewMode);
         }
 
+
+        private void CreateItem_Action(object sender, EventArgs e) {
+            GroupableResource new_qa = QuickAccessPanel.GetQuickAccess();
+            if (QuickAccessController.Items.Contains(new_qa)) {
+                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (CurrentViewMode == ViewMode.EDITION) {
+                QuickAccessController.Replace(SelectedQAToEdit, new_qa);
+                GroupItems = QuickAccessController.GroupItems;
+                SelectedGroup = SelectedQAToEdit.Group;
+                SelectedQAToEdit = null;
+            } else {
+                QuickAccessController.Add(new_qa);
+            }
+
+            ChangeViewMode(PreviousViewMode);
+        }
         private void RemoveItem_Action(object sender, RoutedEventArgs e) {
             if (_QuickAcessListBox.SelectedItem == null) {
                 return;
             }
             MessageBoxResult result = MessageBox.Show("¿Desea eliminar el acceso directo de forma permanente?", "Eliminar acceso directo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
-                QuickAccessController.Remove<FolderQuickAccess>(SelectedQuickAccessItem);
+                QuickAccessController.Remove(SelectedQuickAccessItem);
                 ChangeViewMode(CurrentViewMode);
             }
         }
+
+
         private void CopyToClipboard_Action(object sender, RoutedEventArgs e) {
             if (_QuickAcessListBox.SelectedItem == null) {
                 return;
             }
-            Clipboard.SetText(SelectedQuickAccessItem.Path);
+            Clipboard.SetText((SelectedQuickAccessItem as QuickAccess).Path);
         }
         private void OpenQuickAccess_Action(object sender, EventArgs e) {
             if (_QuickAcessListBox.SelectedItem == null) {
@@ -159,24 +180,6 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
             ChangeViewMode(ViewMode.NORMAL);
         }
 
-        private void CreateItem_Action(object sender, EventArgs e) {
-            FolderQuickAccess new_qa = QuickAccessPanel.GetQuickAccess();
-            if (QuickAccessController.QAItems.Contains(new_qa)) {
-                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (CurrentViewMode == ViewMode.EDITION) {
-                QuickAccessController.Replace<FolderQuickAccess>(SelectedQAToEdit, new_qa);
-                GroupItems = QuickAccessController.GroupItems;
-                SelectedGroup = SelectedQAToEdit.Group;
-                SelectedQAToEdit = null;
-            } else {
-                QuickAccessController.Add<FolderQuickAccess>(new_qa);
-            }
-
-            ChangeViewMode(PreviousViewMode);
-        }
         #endregion
 
         #region GUI methods
@@ -270,15 +273,15 @@ namespace WorkspaceManagerTool.Views.QuickAccess {
         #region Auxiliar methods
 
         private void UpdateLists() {
-            QuickAccessItems = QuickAccessController.QAItems;
+            QuickAccessItems = QuickAccessController.Items;
             GroupItems = QuickAccessController.GroupItems;
             _FiltersListBox.UnselectAll();
             _QuickAcessListBox.UnselectAll();
         }
 
         private void ApplyFilter(Group filter) {
-            var list = QuickAccessController.QAItems;
-            QuickAccessItems = new ObservableCollection<FolderQuickAccess>(list.Where(qa => qa.Group.Equals(filter)));
+            var list = QuickAccessController.Items;
+            QuickAccessItems = new ObservableCollection<GroupableResource>(list.Where(qa => qa.Group.Equals(filter)));
         }
 
         #endregion

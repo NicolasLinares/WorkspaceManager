@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
 
-namespace WorkspaceManagerTool.Models.QuickAccess {
+namespace WorkspaceManagerTool.Models {
     public class Group {
 
         private string name;

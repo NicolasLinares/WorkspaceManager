@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using WorkspaceManagerTool.Models.QuickAccess;
 
-namespace WorkspaceManagerTool.Models.Scripts {
+namespace WorkspaceManagerTool.Models {
     public class Script : GroupableResource {
 
         private string commands;

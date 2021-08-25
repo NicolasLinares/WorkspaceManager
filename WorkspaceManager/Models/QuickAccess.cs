@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace WorkspaceManagerTool.Models.QuickAccess
+namespace WorkspaceManagerTool.Models
 {
     public class QuickAccess: GroupableResource {
 
