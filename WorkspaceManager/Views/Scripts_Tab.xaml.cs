@@ -60,7 +60,8 @@ namespace WorkspaceManagerTool.Views {
 
         private ScriptsController ScriptsController { get; set; }
 
-        public Script_CreationPanel ScriptPanel { get; set; }
+        public Script_CreationPanel CreationPanel { get; set; }
+        public Script_ExecutionPanel ExecutionPanel { get; set; }
 
 
         public Scripts_Tab() {
@@ -91,9 +92,23 @@ namespace WorkspaceManagerTool.Views {
         #endregion
 
         #region Actions
-        private void OpenCreationPanel_Action(object sender, EventArgs e) {
+
+        private void OpenExecutionPanel_Action(object sender, EventArgs e) {
+            if (SelectedScriptItem == null) {
+                return;
+            }
             // new item, so empty values
-            ScriptPanel = new Script_CreationPanel(GroupItems);
+            ExecutionPanel = new Script_ExecutionPanel(SelectedScriptItem);
+            ExecutionPanel.HandlerExecution += ScriptsController.DoExecution;
+            ChangeViewMode(ViewMode.EXECUTION);
+        }
+
+        private void OpenCreationPanel_Action(object sender, EventArgs e) {
+            if (SelectedScriptItem == null) {
+                return;
+            }
+            // new item, so empty values
+            CreationPanel = new Script_CreationPanel(GroupItems);
             ChangeViewMode(ViewMode.CREATION);
         }
         private void OpenEditionPanel_Action(object sender, RoutedEventArgs e) {
@@ -101,7 +116,7 @@ namespace WorkspaceManagerTool.Views {
                 return;
             }
             // set current values to edit
-            ScriptPanel = new Script_CreationPanel(SelectedScriptItem, GroupItems);
+            CreationPanel = new Script_CreationPanel(SelectedScriptItem, GroupItems);
             ChangeViewMode(ViewMode.EDITION);
         }
         private void ClosePanel_Action(object sender, EventArgs e) {
@@ -110,7 +125,7 @@ namespace WorkspaceManagerTool.Views {
 
 
         private void CreateItem_Action(object sender, EventArgs e) {
-            GroupableResource new_sc = ScriptPanel.GetScript();
+            GroupableResource new_sc = CreationPanel.GetScript();
             if (ScriptsController.Items.Contains(new_sc)) {
                 MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -144,7 +159,7 @@ namespace WorkspaceManagerTool.Views {
                 return;
             }
             try {
-                ScriptsController.ExecuteScript(SelectedScriptItem as Script);
+                ScriptsController.RunScript(SelectedScriptItem as Script);
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -193,6 +208,10 @@ namespace WorkspaceManagerTool.Views {
                     EnableFilterMode();
                     CloseCreationPanel();
                     break;
+                case (ViewMode.EXECUTION):
+                    CloseExecutionPanel();
+                    OpenExecutionPanel();
+                    break;
                 case (ViewMode.NORMAL):
                     UpdateLists();
                     DisableFilterMode();
@@ -202,19 +221,37 @@ namespace WorkspaceManagerTool.Views {
             PreviousViewMode = CurrentViewMode;
             CurrentViewMode = mode;
         }
+
+        private void OpenExecutionPanel() {
+            _ExecutionPanel_Container.Children.Add(ExecutionPanel);
+            _ExecutionPanel_Container.Visibility = Visibility.Visible;
+            _Creation_Button.Visibility = Visibility.Collapsed;
+            // Disable list interactions
+            _FiltersListBox.IsHitTestVisible = false;
+        }
+
+
+        private void CloseExecutionPanel() {
+            if (_ExecutionPanel_Container.Children.Count > 0) {
+                _ExecutionPanel_Container.Children.RemoveAt(_ExecutionPanel_Container.Children.Count - 1);
+                _ExecutionPanel_Container.Visibility = Visibility.Collapsed;
+                // Enable list interactions
+                _FiltersListBox.IsHitTestVisible = true;
+            }
+        }
+
         private void OpenCreationPanel() {
-            _CreationScript_Container.Children.Add(ScriptPanel);
+            _CreationPanel_Container.Children.Add(CreationPanel);
             _CreationPanel_Buttons.Visibility = Visibility.Visible;
             _Creation_Button.Visibility = Visibility.Collapsed;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
             _FiltersListBox.IsHitTestVisible = false;
             _ScriptsListBox.IsHitTestVisible = false;
-
         }
         private void CloseCreationPanel() {
-            if (_CreationScript_Container.Children.Count > 0) {
-                _CreationScript_Container.Children.RemoveAt(_CreationScript_Container.Children.Count - 1);
+            if (_CreationPanel_Container.Children.Count > 0) {
+                _CreationPanel_Container.Children.RemoveAt(_CreationPanel_Container.Children.Count - 1);
                 _CreationPanel_Buttons.Visibility = Visibility.Collapsed;
                 // Enable list interactions
                 _FiltersListBox.IsHitTestVisible = true;

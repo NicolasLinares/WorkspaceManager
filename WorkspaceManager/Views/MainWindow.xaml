@@ -10,7 +10,7 @@
     <Grid Background="{StaticResource Dark}">
         <TabControl Background="{StaticResource DarkBlue}" BorderThickness="0" >
             <TabItem Header="Scripts" Style="{StaticResource _TabItemStyle}">
-                <element:Scripts_Tab Background="{StaticResource DarkBlue}" />
+                <element:Scripts_Tab />
             </TabItem>
             <TabItem Header="Accesos directos" Style="{StaticResource _TabItemStyle}" >
                 <element:QuickAccess_Tab Background="{StaticResource DarkBlue}" />

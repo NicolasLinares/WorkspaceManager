@@ -21,7 +21,10 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="300"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
         <Border Grid.Row="0" Style="{StaticResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource SemiDarkBlue}" Padding="10px 2px 10px 0px">
             <Grid>
@@ -71,7 +74,7 @@
 
         <ListBox x:Name="_ScriptsListBox" Grid.Row="2" 
                 Style="{StaticResource _QA_ListBoxStyle}"
-                MouseDoubleClick="ExecuteScript_Action"
+                MouseDoubleClick="OpenExecutionPanel_Action"
                 ItemsSource="{Binding Source={StaticResource scripts}}"
                 SelectedValue="{Binding SelectedScriptItem}">
             <ListBox.ContextMenu>
@@ -124,7 +127,8 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Grid Name="_CreationScript_Container" Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"/>
+        <Grid Name="_CreationPanel_Container" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"/>
+        <Grid Name="_ExecutionPanel_Container" Grid.Row="0" Grid.RowSpan="5" Grid.Column="1"/>
 
 
         <StackPanel Name="_CreationPanel_Buttons" Grid.Row="4" Width="220" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Visibility="Collapsed">
@@ -143,6 +147,5 @@
         <Button Name="_RemoveFilter_Button" Grid.Row="4"  Background="{StaticResource Dark}" Style="{StaticResource _ButtonStyle}" Foreground="IndianRed" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="RemoveFilter_Action" Margin="5px 0px" Visibility="Collapsed">
             Quitar filtro
         </Button>
-
     </Grid>
 </UserControl>

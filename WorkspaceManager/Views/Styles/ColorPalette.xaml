@@ -9,7 +9,8 @@
     <SolidColorBrush x:Key="MediumDarkBlue" Color="#4e5b6e"/>
     <SolidColorBrush x:Key="LightDarkBlue" Color="#677487"/>
 
-    
-    
-    
+    <SolidColorBrush x:Key="RunButton" Color="#2da44e"/>
+
+
+
 </ResourceDictionary>

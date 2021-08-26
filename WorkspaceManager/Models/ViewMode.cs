@@ -12,5 +12,6 @@ namespace WorkspaceManagerTool.Models
         CREATION = 1,
         EDITION = 2,
         FILTER = 3,
+        EXECUTION = 4,
     }
 }

@@ -33,4 +33,24 @@
         <Setter Property="FontSize" Value="11px"/>
     </Style>
 
+
+    <Style x:Key="_BorderScriptTextBoxStyle" TargetType="{x:Type Border}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Background" Value="{StaticResource MediumDarkBlue}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Margin" Value="20px 5px 20px 20px"/>
+    </Style>
+    <Style x:Key="_ScriptTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="WhiteSmoke"/>
+        <Setter Property="SelectionBrush" Value="AntiqueWhite" />
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="5px"/>
+        <Setter Property="FontSize" Value="12px"/>
+        <Setter Property="CaretBrush" Value="WhiteSmoke"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+    </Style>
+
 </ResourceDictionary>

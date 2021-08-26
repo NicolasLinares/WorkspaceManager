@@ -148,6 +148,7 @@
     </ApplicationDefinition>
     <Compile Include="Controllers\QuickAccessController.cs" />
     <Compile Include="Controllers\LocalDataController.cs" />
+    <Compile Include="Events\ExecutionEvent.cs" />
     <Compile Include="Models\GroupableResource.cs" />
     <Compile Include="Models\ViewMode.cs" />
     <Compile Include="Models\QuickAccess.cs" />
@@ -160,6 +161,10 @@
     <Compile Include="Views\QuickAccess_CreationPanel.xaml.cs">
       <DependentUpon>QuickAccess_CreationPanel.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\Script_ExecutionPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Styles\ToolTip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -226,6 +231,9 @@
     </Compile>
     <Compile Include="Controllers\ScriptsController.cs" />
     <Compile Include="Exceptions\NotScriptsInWorkspaceException.cs" />
+    <Compile Include="Views\Script_ExecutionPanel.xaml.cs">
+      <DependentUpon>Script_ExecutionPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Script_CreationPanel.xaml.cs">
       <DependentUpon>Script_CreationPanel.xaml</DependentUpon>
     </Compile>

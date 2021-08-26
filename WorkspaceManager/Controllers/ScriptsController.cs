@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using WorkspaceManagerTool.Models;
+using WorkspaceManagerTool.Events;
 
 namespace WorkspaceManagerTool.Controllers
 {
@@ -32,7 +33,7 @@ namespace WorkspaceManagerTool.Controllers
             ReadData<Script>();
         }
 
-        public void ExecuteScript(GroupableResource script) {
+        public void RunScript(GroupableResource script) {
 
             new Thread(() =>
             {
@@ -44,5 +45,13 @@ namespace WorkspaceManagerTool.Controllers
 
 
         }
+
+
+
+
+        public void DoExecution(object sender, ExecutionEvent e) {
+            RunScript(e.Script);
+        }
+
     }
 }
