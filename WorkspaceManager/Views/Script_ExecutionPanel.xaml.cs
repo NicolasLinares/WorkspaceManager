@@ -43,12 +43,11 @@ namespace WorkspaceManagerTool.Views {
 
         #region Actions
 
+        public event EventHandler HandlerClosePanel;
 
         public event EventHandler<ExecutionEvent> HandlerExecution;
 
-
         private void RunScript_Action(object sender, EventArgs e) {
-
             ExecutionEvent exec = new ExecutionEvent();
             exec.Script = ScriptSelected;
             (exec.Script as Script).Commands = ScriptText;
@@ -56,7 +55,7 @@ namespace WorkspaceManagerTool.Views {
         }
 
         private void ClosePanel_Action(object sender, EventArgs e) {
-            this.Visibility = Visibility.Collapsed;
+            HandlerClosePanel?.Invoke(this, e);
         }
 
         #endregion

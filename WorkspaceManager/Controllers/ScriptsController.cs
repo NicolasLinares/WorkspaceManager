@@ -47,8 +47,6 @@ namespace WorkspaceManagerTool.Controllers
         }
 
 
-
-
         public void DoExecution(object sender, ExecutionEvent e) {
             RunScript(e.Script);
         }

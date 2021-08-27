@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="500">
 
 
@@ -22,8 +22,8 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="300"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Name="_ListColumn" Width="2*" MinWidth="180" />
+            <ColumnDefinition Name="_ExecutionColumn" Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <Border Grid.Row="0" Style="{StaticResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource SemiDarkBlue}" Padding="10px 2px 10px 0px">
@@ -79,6 +79,7 @@
                 SelectedValue="{Binding SelectedScriptItem}">
             <ListBox.ContextMenu>
                 <ContextMenu Opacity="0.8">
+                    <MenuItem Header="Ejecutar" Click="ExecuteScript_Action"/>
                     <MenuItem Header="Editar" Click="OpenEditionPanel_Action"/>
                     <MenuItem Header="Eliminar" Click="RemoveItem_Action"/>
                     <ContextMenu.Style>
@@ -128,7 +129,7 @@
         </ListBox>
 
         <Grid Name="_CreationPanel_Container" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"/>
-        <Grid Name="_ExecutionPanel_Container" Grid.Row="0" Grid.RowSpan="5" Grid.Column="1"/>
+        <Grid Name="_ExecutionPanel_Container" Grid.Row="0" Grid.RowSpan="5" Grid.Column="0"/>
 
 
         <StackPanel Name="_CreationPanel_Buttons" Grid.Row="4" Width="220" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Visibility="Collapsed">

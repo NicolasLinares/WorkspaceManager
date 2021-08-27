@@ -3,38 +3,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" Background="#3a4657"
-        Height="Auto" Width="Auto" MinWidth="250">
+        mc:Ignorable="d" Background="Transparent"
+        Height="Auto" MinWidth="180">
 
-    <Grid Background="{StaticResource DarkBlue}" Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
+    <Grid Background="{StaticResource DarkBlue}" Margin="0 5">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="5px 0px 0px 0px">
+        <StackPanel Grid.Row="0"  Orientation="Horizontal" Margin="20px 0px 0px 0px">
             <Image Source="/WorkspaceManagerTool;component/Views/Images/powershell.png" Width="24" Height="24"  VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"/>
             <TextBlock Text="{Binding NameText}" Height="25" FontSize="15" TextTrimming="CharacterEllipsis" FontWeight="Medium" Style="{StaticResource _TextBlockStyle}"/>
         </StackPanel>
-        
-        <Border  Grid.Row="1" Grid.ColumnSpan="3" Style="{DynamicResource _BorderScriptTextBoxStyle}" Margin="0px 10px">
-            <ScrollViewer CanContentScroll="false" Template="{StaticResource _ScrollViewerTemplate}" Padding="10px 0px" Margin="0px 5px -2px 5px">
-                <TextBox Name="_ScriptTextBox" Text="{Binding Path=ScriptText, Mode=TwoWay}" Style="{DynamicResource _ScriptTextBoxStyle}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                         GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" />
+
+        <Border Grid.Row="1" Style="{StaticResource _BorderScriptTextBoxStyle}" Padding="5"  Margin="10 5 10 5" >
+            <ScrollViewer  Style="{StaticResource _ScrollViewerStyle}"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <TextBox Name="_ScriptTextBox" Text="{Binding Path=ScriptText, Mode=TwoWay}" Padding="10" Style="{StaticResource _ScriptTextBoxStyle}"
+                         GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"  />
             </ScrollViewer>
         </Border>
 
-        <Button Name="_Execution_Button" Grid.Row="2" Grid.Column="1" Background="{StaticResource RunButton}" VerticalAlignment="Center" Style="{StaticResource _ButtonStyle}" Width="75" Click="RunScript_Action" >
-            Ejecutar
-        </Button>
-        <Button Name="_Cancel_Button" Grid.Row="2" Grid.Column="2" Style="{StaticResource _ButtonStyle}" IsCancel="True" Padding="20px 0" Width="80" Click="ClosePanel_Action">
-            Cancelar
-        </Button>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 0 10 0" HorizontalAlignment="Right">
+            <Button Name="_Execution_Button" Background="{StaticResource RunButton}" Width="80" Style="{StaticResource _ButtonStyle}" Click="RunScript_Action" >
+                Ejecutar
+            </Button>
+            <Button Name="_Cancel_Button" Style="{StaticResource _ButtonStyle}"  Width="80" IsCancel="True" Click="ClosePanel_Action">
+                Cerrar
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

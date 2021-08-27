@@ -10,7 +10,6 @@
                 <ResourceDictionary Source="Views/Styles/Buttons.xaml" />
                 <ResourceDictionary Source="Views/Styles/TextItems.xaml" />
                 <ResourceDictionary Source="Views/Styles/ComboBox.xaml" />
-                <ResourceDictionary Source="Views/Styles/ScrollBar.xaml" />
                 <ResourceDictionary Source="Views/Styles/ScrollViewer.xaml" />
                 <ResourceDictionary Source="Views/Styles/ListBoxItem.xaml" />
                 <ResourceDictionary Source="Views/Styles/ListBox.xaml" />

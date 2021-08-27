@@ -100,13 +100,12 @@ namespace WorkspaceManagerTool.Views {
             // new item, so empty values
             ExecutionPanel = new Script_ExecutionPanel(SelectedScriptItem);
             ExecutionPanel.HandlerExecution += ScriptsController.DoExecution;
+            ExecutionPanel.HandlerClosePanel += DoCloseExecutionPanel;
+
             ChangeViewMode(ViewMode.EXECUTION);
         }
 
         private void OpenCreationPanel_Action(object sender, EventArgs e) {
-            if (SelectedScriptItem == null) {
-                return;
-            }
             // new item, so empty values
             CreationPanel = new Script_CreationPanel(GroupItems);
             ChangeViewMode(ViewMode.CREATION);
@@ -207,8 +206,10 @@ namespace WorkspaceManagerTool.Views {
                     ApplyFilter(SelectedGroup);
                     EnableFilterMode();
                     CloseCreationPanel();
+                    CloseExecutionPanel();
                     break;
                 case (ViewMode.EXECUTION):
+                    DisableFilterMode();
                     CloseExecutionPanel();
                     OpenExecutionPanel();
                     break;
@@ -216,6 +217,7 @@ namespace WorkspaceManagerTool.Views {
                     UpdateLists();
                     DisableFilterMode();
                     CloseCreationPanel();
+                    CloseExecutionPanel();
                     break;
             }
             PreviousViewMode = CurrentViewMode;
@@ -239,6 +241,12 @@ namespace WorkspaceManagerTool.Views {
                 _FiltersListBox.IsHitTestVisible = true;
             }
         }
+
+
+        public void DoCloseExecutionPanel(object sender, EventArgs e) {
+            ChangeViewMode(PreviousViewMode);
+        }
+
 
         private void OpenCreationPanel() {
             _CreationPanel_Container.Children.Add(CreationPanel);

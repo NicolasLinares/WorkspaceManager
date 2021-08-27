@@ -2,28 +2,115 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:WorkspaceManagerTool">
 
-    <ControlTemplate x:Key="_ScrollViewerTemplate" TargetType="{x:Type ScrollViewer}" >
-        <Grid x:Name="Grid" Background="{TemplateBinding Background}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" 
-                    Grid.Column="0" 
-                    CanContentScroll="{TemplateBinding CanContentScroll}" 
-                    ContentTemplate="{TemplateBinding ContentTemplate}" 
-                    Content="{TemplateBinding Content}"
-                    Margin="{TemplateBinding Padding}" />
-            <ScrollBar x:Name="PART_VerticalScrollBar" 
-                    AutomationProperties.AutomationId="VerticalScrollBar"
-                    Grid.Column="1" 
-                    Maximum="{TemplateBinding ScrollableHeight}" 
-                    Minimum="0" 
-                    Margin="-2 0 0 0"
-                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                    Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                    ViewportSize="{TemplateBinding ViewportHeight}" 
-                    Style="{StaticResource _ScrollBarStyle}"/>
+    <Style x:Key="_VerticalThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border CornerRadius="3" Background="{StaticResource Dark}" Width="6"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="_HorizontalThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border CornerRadius="3" Background="{StaticResource Dark}"  Height="6" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+
+    <ControlTemplate x:Key="_VerticalScrollBar" TargetType="{x:Type ScrollBar}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="5"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition MaxHeight="0"/>
+            </Grid.RowDefinitions>
+            <Border Grid.RowSpan="3" CornerRadius="2" Background="Transparent" />
+            <Track Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource _VerticalThumb}" Margin="10,0,0,0" />
+                </Track.Thumb>
+            </Track>
         </Grid>
     </ControlTemplate>
+    <ControlTemplate x:Key="_HorizontalScrollBar" TargetType="{x:Type ScrollBar}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.ColumnSpan="3" CornerRadius="0" Background="Transparent"/>
+            <Track Name="PART_Track" Grid.Column="1" IsDirectionReversed="False">
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource _HorizontalThumb}" Margin="0,10,0,0"/>
+                </Track.Thumb>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="Height" Value="18" />
+                <Setter Property="Template" Value="{StaticResource _HorizontalScrollBar}" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Width" Value="18"/>
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Template" Value="{StaticResource _VerticalScrollBar}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="_ScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ScrollContentPresenter Grid.Column="0"/>
+                        <ScrollBar Name="PART_VerticalScrollBar" 
+                                   Grid.Row="0" Grid.Column="1" 
+                                   Value="{TemplateBinding VerticalOffset}" 
+                                   Maximum="{TemplateBinding ScrollableHeight}" 
+                                   ViewportSize="{TemplateBinding ViewportHeight}" 
+                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                        <ScrollBar Name="PART_HorizontalScrollBar"
+ 
+                                   Orientation="Horizontal" 
+                                   Grid.Row="1" Grid.Column="0" 
+                                   Value="{TemplateBinding HorizontalOffset}" 
+                                   Maximum="{TemplateBinding ScrollableWidth}" 
+                                   ViewportSize="{TemplateBinding ViewportWidth}" 
+                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
+
