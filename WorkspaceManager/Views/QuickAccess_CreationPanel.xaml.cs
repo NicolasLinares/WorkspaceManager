@@ -63,12 +63,15 @@ namespace WorkspaceManagerTool.Views {
         private string DefaultDescription => "";
         private Group DefaultGroup => new Group("Nuevo", new SolidColorBrush(Color.FromRgb(17, 166, 143)));
 
-        public QuickAccess_CreationPanel(ObservableCollection<Group> groups) {
+        public QuickAccess_CreationPanel(ObservableCollection<Group> groups, Group SelectedFilter = null) {
             DataContext = this;
             InitializeComponent();
 
             PanelTitle = "Crear acceso directo";
             SetDefaultValues();
+            if (SelectedFilter != null) {
+                SelectedGroupOption = SelectedFilter;
+            }
             if (groups != null && groups.Count > 0) {
                 ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
             }

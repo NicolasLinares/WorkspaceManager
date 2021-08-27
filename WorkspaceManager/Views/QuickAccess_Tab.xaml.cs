@@ -75,7 +75,7 @@ namespace WorkspaceManagerTool.Views {
         }
         #endregion
 
-        #region Property Changes
+        #region Notify Preperties changes
         public event PropertyChangedEventHandler PropertyChanged;
         private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null) {
             if (!EqualityComparer<T>.Default.Equals(field, value)) {
@@ -91,8 +91,12 @@ namespace WorkspaceManagerTool.Views {
         #region Actions
 
         private void OpenCreationPanel_Action(object sender, EventArgs e) {
-            // new item, so empty values
-            QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems);
+            // Panel creation
+            if (CurrentViewMode.Equals(ViewMode.FILTER)) {
+                QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems, SelectedGroup);
+            } else {
+                QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems);
+            }
             ChangeViewMode(ViewMode.CREATION);
         }
         private void OpenEditionPanel_Action(object sender, RoutedEventArgs e) {
@@ -190,8 +194,7 @@ namespace WorkspaceManagerTool.Views {
                     OpenCreationPanel();
                     break;
                 case ViewMode.EDITION:
-                    SelectedQAToEdit = SelectedQuickAccessItem;
-                    OpenCreationPanel();
+                    OpenEditionPanel();
                     break;
                 case ViewMode.FILTER:
                     ApplyFilter(SelectedGroup);
@@ -207,6 +210,11 @@ namespace WorkspaceManagerTool.Views {
             PreviousViewMode = CurrentViewMode;
             CurrentViewMode = mode;
         }
+        private void OpenEditionPanel() {
+            SelectedQAToEdit = SelectedQuickAccessItem;
+            // Open panel
+            OpenCreationPanel();
+        }
         private void OpenCreationPanel() {
             _CreationQuickAcess_Container.Children.Add(QuickAccessPanel);
             _CreationPanel_Buttons.Visibility = Visibility.Visible;
@@ -215,12 +223,12 @@ namespace WorkspaceManagerTool.Views {
             // Disable list interactions
             _FiltersListBox.IsHitTestVisible = false;
             _QuickAcessListBox.IsHitTestVisible = false;
-
         }
         private void CloseCreationPanel() {
             if (_CreationQuickAcess_Container.Children.Count > 0) {
                 _CreationQuickAcess_Container.Children.RemoveAt(_CreationQuickAcess_Container.Children.Count - 1);
                 _CreationPanel_Buttons.Visibility = Visibility.Collapsed;
+                _Creation_Button.Visibility = Visibility.Visible;
                 // Enable list interactions
                 _FiltersListBox.IsHitTestVisible = true;
                 _QuickAcessListBox.IsHitTestVisible = true;
@@ -228,11 +236,9 @@ namespace WorkspaceManagerTool.Views {
             }
         }
         private void EnableFilterMode() {
-            _Creation_Button.Visibility = Visibility.Collapsed;
             _RemoveFilter_Button.Visibility = Visibility.Visible;
         }
         private void DisableFilterMode() {
-            _Creation_Button.Visibility = Visibility.Visible;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
         }
 

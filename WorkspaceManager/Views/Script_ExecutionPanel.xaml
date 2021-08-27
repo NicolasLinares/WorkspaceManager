@@ -18,18 +18,23 @@
             <TextBlock Text="{Binding NameText}" Height="25" FontSize="15" TextTrimming="CharacterEllipsis" FontWeight="Medium" Style="{StaticResource _TextBlockStyle}"/>
         </StackPanel>
 
-        <Border Grid.Row="1" Style="{StaticResource _BorderScriptTextBoxStyle}" Padding="5"  Margin="10 5 10 5" >
+        <Border Grid.Row="1" Style="{StaticResource _BorderScriptTextBoxStyle}" Padding="5"  Margin="10px 5px 10px 5px" >
             <ScrollViewer  Style="{StaticResource _ScrollViewerStyle}"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <TextBox Name="_ScriptTextBox" Text="{Binding Path=ScriptText, Mode=TwoWay}" Padding="10" Style="{StaticResource _ScriptTextBoxStyle}"
-                         GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"  />
+                <TextBox Name="_ScriptTextBox" Padding="10" Style="{StaticResource _ScriptTextBoxStyle}"
+                         GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" TextChanged="ShowSaveButton_Action" />
             </ScrollViewer>
         </Border>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 0 10 0" HorizontalAlignment="Right">
+
+        <Button Grid.Row="2" Name="_SaveChanges_Button" Style="{StaticResource _ButtonStyle}" HorizontalAlignment="Left"  Background="#0680bd" Width="120" Margin="10px 0px" Visibility="Collapsed" Click="SaveChanges_Action">
+            Guardar Cambios
+        </Button>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0px 0px 10px 0px" HorizontalAlignment="Right">
             <Button Name="_Execution_Button" Background="{StaticResource RunButton}" Width="80" Style="{StaticResource _ButtonStyle}" Click="RunScript_Action" >
                 Ejecutar
             </Button>
-            <Button Name="_Cancel_Button" Style="{StaticResource _ButtonStyle}"  Width="80" IsCancel="True" Click="ClosePanel_Action">
+            <Button Name="_Cancel_Button" Style="{StaticResource _ButtonStyle}"  Width="70" IsCancel="True" Click="ClosePanel_Action">
                 Cerrar
             </Button>
         </StackPanel>

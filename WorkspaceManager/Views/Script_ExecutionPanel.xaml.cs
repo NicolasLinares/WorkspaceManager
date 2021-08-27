@@ -20,48 +20,66 @@ namespace WorkspaceManagerTool.Views {
 
         private string name;
 
-        private string script;
-
-        public string ScriptText {
-            get => script;
-            set => SetProperty(ref script, value);
-        }
         public string NameText {
             get => name;
             set => SetProperty(ref name, value);
         }
-        public Script ScriptSelected { get; set; }
+        public GroupableResource ScriptSelected { get; set; }
+        public GroupableResource LastModifiedScriptText { get; set; }
 
         public Script_ExecutionPanel(GroupableResource script) {
             DataContext = this;
             InitializeComponent();
 
-            ScriptSelected = script as Script;
-            ScriptText = ScriptSelected.Commands;
-            NameText = ScriptSelected.Name;
+            ScriptSelected = script;
+            LastModifiedScriptText = script;
+            NameText = script.Name;
+            _ScriptTextBox.Text = (script as Script).Commands;
         }
 
-        #region Actions
 
+        #region Handlers
         public event EventHandler HandlerClosePanel;
-
         public event EventHandler<ExecutionEvent> HandlerExecution;
-
-        private void RunScript_Action(object sender, EventArgs e) {
-            ExecutionEvent exec = new ExecutionEvent();
-            exec.Script = ScriptSelected;
-            (exec.Script as Script).Commands = ScriptText;
-            HandlerExecution?.Invoke(this, exec);
-        }
-
-        private void ClosePanel_Action(object sender, EventArgs e) {
-            HandlerClosePanel?.Invoke(this, e);
-        }
-
+        public event EventHandler<ScriptEvent> HandlerChanges;
         #endregion
 
+        #region Actions
+        private void RunScript_Action(object sender, EventArgs e) {
+            ExecutionEvent exec = new ExecutionEvent();
+            exec.Script = new Script(ScriptSelected.Name, ScriptSelected.Description, _ScriptTextBox.Text, ScriptSelected.Group);
+            HandlerExecution?.Invoke(this, exec);
+        }
+        private void ClosePanel_Action(object sender, EventArgs e) {
+            this.Visibility = Visibility.Collapsed;
+            HandlerClosePanel?.Invoke(this, e);
+        }
+        private void ShowSaveButton_Action(object sender, EventArgs e) {
+            if (!this.IsLoaded && !this.IsInitialized) {
+                return;
+            }
 
-        #region Events handlers
+            if (!_ScriptTextBox.Text.Equals((ScriptSelected as Script).Commands)) {
+                _SaveChanges_Button.Visibility = Visibility.Visible;
+
+                return;
+            }
+            _SaveChanges_Button.Visibility = Visibility.Collapsed;
+        }
+        private void SaveChanges_Action(object sender, EventArgs e) {
+            ScriptEvent exec = new ScriptEvent();
+            exec.OldScript = ScriptSelected;
+            exec.NewScript = new Script(ScriptSelected.Name, ScriptSelected.Description, _ScriptTextBox.Text, ScriptSelected.Group);
+            HandlerChanges?.Invoke(this, exec);
+            // hide button because change has been applied
+            _SaveChanges_Button.Visibility = Visibility.Collapsed;
+            // now both has to be updated
+            (LastModifiedScriptText as Script).Commands = _ScriptTextBox.Text;
+            ScriptSelected = LastModifiedScriptText;
+        }
+        #endregion
+
+        #region Notify Preperties changes
 
         /// <summary>
         /// Select all text when textbox gets focus

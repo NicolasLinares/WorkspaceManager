@@ -136,13 +136,15 @@
             </Button>
         </StackPanel>
 
-        <Button Name="_Creation_Button" Grid.Row="4"  Background="{StaticResource Dark}" Style="{StaticResource _ButtonStyle}" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="OpenCreationPanel_Action" Margin="5px 0px" >
-            Crear acceso directo
-        </Button>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="_RemoveFilter_Button"  Background="{StaticResource Dark}" Style="{StaticResource _ButtonStyle}" Foreground="IndianRed" Width="145" MinWidth="100" Click="RemoveFilter_Action" Margin="5px 0px" Visibility="Collapsed">
+                Quitar filtro
+            </Button>
 
-        <Button Name="_RemoveFilter_Button" Grid.Row="4"  Background="{StaticResource Dark}" Style="{StaticResource _ButtonStyle}" Foreground="IndianRed" Width="145" HorizontalAlignment="Right" MinWidth="100" Click="RemoveFilter_Action" Margin="5px 0px" Visibility="Collapsed">
-            Quitar filtro
-        </Button>
+            <Button Name="_Creation_Button"  Background="{StaticResource Dark}" Style="{StaticResource _ButtonStyle}" Width="125" MinWidth="100" Click="OpenCreationPanel_Action" Margin="5px 0px" >
+                Crear script
+            </Button>
+        </StackPanel>
 
     </Grid>
 

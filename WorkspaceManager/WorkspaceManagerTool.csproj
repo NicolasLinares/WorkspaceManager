@@ -149,6 +149,7 @@
     <Compile Include="Controllers\QuickAccessController.cs" />
     <Compile Include="Controllers\LocalDataController.cs" />
     <Compile Include="Events\ExecutionEvent.cs" />
+    <Compile Include="Events\ScriptEvent.cs" />
     <Compile Include="Models\GroupableResource.cs" />
     <Compile Include="Models\ViewMode.cs" />
     <Compile Include="Models\QuickAccess.cs" />

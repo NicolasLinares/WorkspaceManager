@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManagerTool.Controllers;
+using WorkspaceManagerTool.Events;
 using WorkspaceManagerTool.Models;
 
 namespace WorkspaceManagerTool.Views {
@@ -78,7 +79,7 @@ namespace WorkspaceManagerTool.Views {
             _ScriptsListBox.UnselectAll();
         }
 
-        #region Property Changes
+        #region Notify Preperties changes
         public event PropertyChangedEventHandler PropertyChanged;
         private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null) {
             if (!EqualityComparer<T>.Default.Equals(field, value)) {
@@ -97,17 +98,16 @@ namespace WorkspaceManagerTool.Views {
             if (SelectedScriptItem == null) {
                 return;
             }
-            // new item, so empty values
-            ExecutionPanel = new Script_ExecutionPanel(SelectedScriptItem);
-            ExecutionPanel.HandlerExecution += ScriptsController.DoExecution;
-            ExecutionPanel.HandlerClosePanel += DoCloseExecutionPanel;
-
             ChangeViewMode(ViewMode.EXECUTION);
         }
 
         private void OpenCreationPanel_Action(object sender, EventArgs e) {
-            // new item, so empty values
-            CreationPanel = new Script_CreationPanel(GroupItems);
+            // Panel creation
+            if (CurrentViewMode.Equals(ViewMode.FILTER)) {
+                CreationPanel = new Script_CreationPanel(GroupItems, SelectedGroup);
+            } else {
+                CreationPanel = new Script_CreationPanel(GroupItems);
+            }
             ChangeViewMode(ViewMode.CREATION);
         }
         private void OpenEditionPanel_Action(object sender, RoutedEventArgs e) {
@@ -131,10 +131,7 @@ namespace WorkspaceManagerTool.Views {
             }
 
             if (CurrentViewMode == ViewMode.EDITION) {
-                ScriptsController.Replace(SelectedScriptToEdit, new_sc);
-                GroupItems = ScriptsController.GroupItems;
-                SelectedGroup = SelectedScriptToEdit.Group;
-                SelectedScriptToEdit = null;
+                ReplaceItem(SelectedScriptToEdit, new_sc);
             } else {
                 ScriptsController.Add(new_sc);
             }
@@ -150,6 +147,9 @@ namespace WorkspaceManagerTool.Views {
                 ScriptsController.Remove(SelectedScriptItem);
                 ChangeViewMode(CurrentViewMode);
             }
+        }
+        public void DoSaveChangesInScript(object sender, ScriptEvent e) {
+            ReplaceItem(e.OldScript, e.NewScript);
         }
 
 
@@ -199,8 +199,7 @@ namespace WorkspaceManagerTool.Views {
                     OpenCreationPanel();
                     break;
                 case ViewMode.EDITION:
-                    SelectedScriptToEdit = SelectedScriptItem;
-                    OpenCreationPanel();
+                    OpenEditionPanel();
                     break;
                 case ViewMode.FILTER:
                     ApplyFilter(SelectedGroup);
@@ -210,7 +209,6 @@ namespace WorkspaceManagerTool.Views {
                     break;
                 case (ViewMode.EXECUTION):
                     DisableFilterMode();
-                    CloseExecutionPanel();
                     OpenExecutionPanel();
                     break;
                 case (ViewMode.NORMAL):
@@ -225,11 +223,15 @@ namespace WorkspaceManagerTool.Views {
         }
 
         private void OpenExecutionPanel() {
+            // new item, so empty values
+            ExecutionPanel = new Script_ExecutionPanel(SelectedScriptItem);
+            ExecutionPanel.HandlerExecution += ScriptsController.DoExecution;
+            ExecutionPanel.HandlerClosePanel += DoCloseExecutionPanel;
+            ExecutionPanel.HandlerChanges += DoSaveChangesInScript;
+            // Show panel view
             _ExecutionPanel_Container.Children.Add(ExecutionPanel);
             _ExecutionPanel_Container.Visibility = Visibility.Visible;
             _Creation_Button.Visibility = Visibility.Collapsed;
-            // Disable list interactions
-            _FiltersListBox.IsHitTestVisible = false;
         }
 
 
@@ -237,8 +239,9 @@ namespace WorkspaceManagerTool.Views {
             if (_ExecutionPanel_Container.Children.Count > 0) {
                 _ExecutionPanel_Container.Children.RemoveAt(_ExecutionPanel_Container.Children.Count - 1);
                 _ExecutionPanel_Container.Visibility = Visibility.Collapsed;
-                // Enable list interactions
-                _FiltersListBox.IsHitTestVisible = true;
+                ExecutionPanel.HandlerExecution -= ScriptsController.DoExecution;
+                ExecutionPanel.HandlerClosePanel -= DoCloseExecutionPanel;
+                ExecutionPanel.HandlerChanges -= DoSaveChangesInScript;
             }
         }
 
@@ -247,8 +250,14 @@ namespace WorkspaceManagerTool.Views {
             ChangeViewMode(PreviousViewMode);
         }
 
+        private void OpenEditionPanel() {
+            SelectedScriptToEdit = SelectedScriptItem;
+            // Open panel
+            OpenCreationPanel();
+        }
 
         private void OpenCreationPanel() {
+            // Show panel view
             _CreationPanel_Container.Children.Add(CreationPanel);
             _CreationPanel_Buttons.Visibility = Visibility.Visible;
             _Creation_Button.Visibility = Visibility.Collapsed;
@@ -261,6 +270,7 @@ namespace WorkspaceManagerTool.Views {
             if (_CreationPanel_Container.Children.Count > 0) {
                 _CreationPanel_Container.Children.RemoveAt(_CreationPanel_Container.Children.Count - 1);
                 _CreationPanel_Buttons.Visibility = Visibility.Collapsed;
+                _Creation_Button.Visibility = Visibility.Visible;
                 // Enable list interactions
                 _FiltersListBox.IsHitTestVisible = true;
                 _ScriptsListBox.IsHitTestVisible = true;
@@ -268,11 +278,9 @@ namespace WorkspaceManagerTool.Views {
             }
         }
         private void EnableFilterMode() {
-            _Creation_Button.Visibility = Visibility.Collapsed;
             _RemoveFilter_Button.Visibility = Visibility.Visible;
         }
         private void DisableFilterMode() {
-            _Creation_Button.Visibility = Visibility.Visible;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
         }
 
@@ -299,6 +307,15 @@ namespace WorkspaceManagerTool.Views {
         #endregion
 
         #region Auxiliar methods
+
+
+        private void ReplaceItem(GroupableResource olditem, GroupableResource newitem) {
+            ScriptsController.Replace(olditem, newitem);
+            GroupItems = ScriptsController.GroupItems;
+            SelectedGroup = olditem.Group;
+            SelectedScriptToEdit = null;
+        }
+
         private void UpdateLists() {
             ScriptsItems = ScriptsController.Items;
             GroupItems = ScriptsController.GroupItems;
