@@ -10,7 +10,7 @@
                     <Border>
                         <Grid>
                             <Grid>
-                                <Border x:Name="border" CornerRadius="5,5,0,0" Background="{StaticResource SemiDarkBlue}" />
+                                <Border x:Name="border" CornerRadius="5,5,0,0" Background="{StaticResource MediumDarkBlue}" />
                             </Grid>
                             <ContentPresenter ContentSource="Header" Margin="20px 5px"
                                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"

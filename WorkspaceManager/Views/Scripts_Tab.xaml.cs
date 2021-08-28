@@ -239,6 +239,7 @@ namespace WorkspaceManagerTool.Views {
             if (_ExecutionPanel_Container.Children.Count > 0) {
                 _ExecutionPanel_Container.Children.RemoveAt(_ExecutionPanel_Container.Children.Count - 1);
                 _ExecutionPanel_Container.Visibility = Visibility.Collapsed;
+                _Creation_Button.Visibility = Visibility.Visible;
                 ExecutionPanel.HandlerExecution -= ScriptsController.DoExecution;
                 ExecutionPanel.HandlerClosePanel -= DoCloseExecutionPanel;
                 ExecutionPanel.HandlerChanges -= DoSaveChangesInScript;

@@ -19,7 +19,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Style="{StaticResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource SemiDarkBlue}" Padding="10px 2px 10px 0px">
+        <Border Grid.Row="0" Style="{StaticResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource MediumDarkBlue}" Padding="10px 2px 10px 0px">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"/>
