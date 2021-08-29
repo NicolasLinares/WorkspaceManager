@@ -127,6 +127,7 @@ namespace WorkspaceManagerTool.Views {
             GroupableResource new_sc = CreationPanel.GetScript();
             if (ScriptsController.Items.Contains(new_sc)) {
                 MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ChangeViewMode(PreviousViewMode);
                 return;
             }
 
@@ -258,9 +259,10 @@ namespace WorkspaceManagerTool.Views {
         }
 
         private void OpenCreationPanel() {
+            CreationPanel.HandlerSaveChanges += CreateItem_Action;
+            CreationPanel.HandlerClosePanel += ClosePanel_Action;
             // Show panel view
             _CreationPanel_Container.Children.Add(CreationPanel);
-            _CreationPanel_Buttons.Visibility = Visibility.Visible;
             _Creation_Button.Visibility = Visibility.Collapsed;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
@@ -269,8 +271,9 @@ namespace WorkspaceManagerTool.Views {
         }
         private void CloseCreationPanel() {
             if (_CreationPanel_Container.Children.Count > 0) {
+                CreationPanel.HandlerSaveChanges -= CreateItem_Action;
+                CreationPanel.HandlerClosePanel -= ClosePanel_Action;
                 _CreationPanel_Container.Children.RemoveAt(_CreationPanel_Container.Children.Count - 1);
-                _CreationPanel_Buttons.Visibility = Visibility.Collapsed;
                 _Creation_Button.Visibility = Visibility.Visible;
                 // Enable list interactions
                 _FiltersListBox.IsHitTestVisible = true;

@@ -10,25 +10,19 @@
                     <Border>
                         <Grid>
                             <Grid>
-                                <Border x:Name="border" CornerRadius="5,5,0,0" Background="{StaticResource MediumDarkBlue}" />
+                                <Border x:Name="border" CornerRadius="5,5,0,0" Background="{StaticResource Black}" />
                             </Grid>
                             <ContentPresenter ContentSource="Header" Margin="20px 5px"
-                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver"
-                                     Value="True">
-                            <Setter TargetName="border"
-                                        Property="Background"
-                                        Value="{StaticResource DarkBlue}" />
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Highlight}" />
                         </Trigger>
-                        <Trigger Property="IsSelected"
-                                     Value="True">
-                            <Setter TargetName="border"
-                                        Property="Background"
-                                        Value="{StaticResource DarkBlue}" />
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Dark}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

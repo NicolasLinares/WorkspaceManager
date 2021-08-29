@@ -6,7 +6,7 @@
     <Style x:Key="_BorderTextBoxStyle" TargetType="{x:Type Border}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="Background" Value="{StaticResource MediumDarkBlue}"/>
+        <Setter Property="Background" Value="{StaticResource SemiDark}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="2"/>
         <Setter Property="Margin" Value="20px 0px 0px 0px"/>
@@ -37,7 +37,7 @@
     <Style x:Key="_BorderScriptTextBoxStyle" TargetType="{x:Type Border}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="Background" Value="{StaticResource MediumDarkBlue}"/>
+        <Setter Property="Background" Value="{StaticResource SemiDark}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Margin" Value="20px 5px 20px 20px"/>

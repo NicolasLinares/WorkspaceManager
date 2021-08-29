@@ -18,15 +18,12 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Name="_ListColumn" Width="2*" MinWidth="180" />
-            <ColumnDefinition Name="_ExecutionColumn" Width="Auto"/>
-        </Grid.ColumnDefinitions>
 
-        <Border Grid.Row="0" Style="{StaticResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource MediumDarkBlue}" Padding="10px 2px 10px 0px">
+        <!-- Search bar-->
+        <Border Grid.Row="0" Style="{StaticResource _BorderTextBoxStyle}" Margin="5px 0px" Height="27" CornerRadius="10" Background="{StaticResource SemiDark}" Padding="10px 2px 10px 0px">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"/>
@@ -41,11 +38,11 @@
             </Grid>
         </Border>
 
-
+        <!-- Filter list-->
         <ListBox Grid.Row="1" 
                  Name="_FiltersListBox" 
                  VerticalAlignment="Center"
-                 Background="{StaticResource DarkBlue}"
+                 Background="{StaticResource Dark}"
                  BorderThickness="0"
                  ItemsSource="{Binding Source={StaticResource filter}}"
                  SelectedValue="{Binding SelectedGroup}"
@@ -62,8 +59,8 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border Name="border" 
-                        CornerRadius="2" BorderThickness="1" Padding="5px 1px" Margin="2px 0px"
-                        BorderBrush="{StaticResource MediumDarkBlue}"  Background="{Binding Color}"
+                        CornerRadius="2" BorderThickness="1" Padding="8px 3px"
+                        BorderBrush="{StaticResource SemiDark}"  Background="{Binding Color}"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Foreground="Black" Margin="0px 0px 0px 1px" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Name}"   />
                     </Border>
@@ -71,8 +68,8 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-
-        <ListBox x:Name="_ScriptsListBox" Grid.Row="2" 
+        <!-- Scripts list-->
+        <ListBox x:Name="_ScriptsListBox" Grid.Row="2" Grid.RowSpan="4" 
                 Style="{StaticResource _QA_ListBoxStyle}"
                 MouseDoubleClick="OpenExecutionPanel_Action"
                 ItemsSource="{Binding Source={StaticResource scripts}}"
@@ -92,7 +89,7 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type ContextMenu}">
-                                        <Border x:Name="Border" Background="{StaticResource Dark}" BorderThickness="1">
+                                        <Border x:Name="Border" Background="{StaticResource Black}" BorderThickness="1">
                                             <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Disabled">
                                                 <ItemsPresenter/>
                                             </ScrollViewer>
@@ -106,7 +103,7 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate >
-                    <Border CornerRadius="5" BorderThickness="2" BorderBrush="{StaticResource MediumDarkBlue}" Background="{StaticResource MediumDarkBlue}" Style="{StaticResource _ToolTipStyle}"  ToolTip="{Binding Commands}">
+                    <Border CornerRadius="5" BorderThickness="2" BorderBrush="{StaticResource SemiDark}" Background="{StaticResource SemiDark}" Style="{StaticResource _ToolTipStyle}"  ToolTip="{Binding Commands}">
                         <Grid Height="Auto" Margin="15px 5px 0px 5px">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -117,8 +114,8 @@
                                 <TextBlock Height="20" Margin="0px 5px 0px 0px" TextTrimming="WordEllipsis" Foreground="WhiteSmoke" Text="{Binding Name}" FontSize="12" FontWeight="Light"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </StackPanel>
                             <Border Grid.Column="1" Name="border" MaxWidth="160"
-                                CornerRadius="2" BorderThickness="1" Padding="5px 1px" Margin="10px 0px"
-                                BorderBrush="{StaticResource MediumDarkBlue}"  Background="{Binding Group.Color}"
+                                CornerRadius="2" BorderThickness="1" Padding="8px 3px" Margin="10px 0px"
+                                BorderBrush="{StaticResource SemiDark}"  Background="{Binding Group.Color}"
                                 HorizontalAlignment="Right" VerticalAlignment="Center">
                                 <TextBlock Foreground="Black" Margin="0px 0px 0px 1px" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Group.Name}"/>
                             </Border>
@@ -128,30 +125,19 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Grid Name="_CreationPanel_Container" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"/>
-        <Grid Name="_ExecutionPanel_Container" Grid.Row="0" Grid.RowSpan="5" Grid.Column="0"/>
 
 
-        <StackPanel Name="_CreationPanel_Buttons" Grid.Row="4" Width="220" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Visibility="Collapsed">
-            <Button Name="_AcceptButton"  Style="{StaticResource _ButtonStyle}" IsCancel="True" Margin="20px 0" Width="80" Click="CreateItem_Action">
-                Aceptar
-            </Button>
-            <Button Name="_CancelButton" Style="{StaticResource _ButtonStyle}" IsCancel="True"  Padding="20px 0" Width="80" Click="ClosePanel_Action">
-                Cancelar
-            </Button>
+        <!-- Footer Buttons -->
+        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="_RemoveFilter_Button" Template="{StaticResource _RemoveFilterButtonTemplate}"  Click="RemoveFilter_Action" Visibility="Collapsed"/>
+            <Button Name="_Creation_Button"  Template="{StaticResource _NewButtonTemplate}"   Click="OpenCreationPanel_Action" />
         </StackPanel>
 
 
-        <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+        <!-- Creation container -->
+        <Grid Name="_CreationPanel_Container" Grid.Row="0" Grid.RowSpan="5"/>
 
-            <Button Name="_RemoveFilter_Button"  Background="{StaticResource Dark}" Style="{StaticResource _ButtonStyle}" Foreground="IndianRed" Width="145" MinWidth="100" Click="RemoveFilter_Action" Margin="5px 0px" Visibility="Collapsed">
-                Quitar filtro
-            </Button>
-
-            <Button Name="_Creation_Button"  Background="{StaticResource Dark}" Style="{StaticResource _ButtonStyle}" Width="125" MinWidth="100" Click="OpenCreationPanel_Action" Margin="5px 0px" >
-                Crear script
-            </Button>
-        </StackPanel>
-
+        <!-- Execution container -->
+        <Grid Name="_ExecutionPanel_Container" Grid.Row="0" Grid.RowSpan="5"/>
     </Grid>
 </UserControl>

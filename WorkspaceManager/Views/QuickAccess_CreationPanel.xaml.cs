@@ -101,6 +101,11 @@ namespace WorkspaceManagerTool.Views {
             ComboBoxGroupOptions = new ObservableCollection<Group>();
         }
 
+        #region Handlers
+        public event EventHandler HandlerClosePanel;
+        public event EventHandler HandlerSaveChanges;
+        #endregion
+
         #region Actions
 
         private void ComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -138,6 +143,24 @@ namespace WorkspaceManagerTool.Views {
                 DescriptionText = DefaultDescription;
             }
             return new FolderQuickAccess(PathText, NameText, DescriptionText, SelectedGroupOption);
+        }
+
+        public void DescriptionCounter_Action(object sender, EventArgs e) {
+            if (_DescriptionTextBox.Text.Length <= 0) {
+                _DescriptionCounter.Text = string.Empty;
+                return;
+            }
+            _DescriptionCounter.Text = string.Format("{0}/{1}", _DescriptionTextBox.Text.Length, _DescriptionTextBox.MaxLength);
+        }
+
+        private void ClosePanel_Action(object sender, EventArgs e) {
+            this.Visibility = Visibility.Collapsed;
+            HandlerClosePanel?.Invoke(this, e);
+        }
+
+        private void SaveChanges_Action(object sender, EventArgs e) {
+            this.Visibility = Visibility.Collapsed;
+            HandlerSaveChanges?.Invoke(this, e);
         }
         #endregion
 

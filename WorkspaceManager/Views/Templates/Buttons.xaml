@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:WorkspaceManagerTool.Views.Objects">
+
+
+
+    <ControlTemplate x:Key="_NewButtonTemplate" TargetType="Button">
+        <Button Background="{StaticResource Black}" Style="{StaticResource _ButtonStyle}" Margin="5px 0px" >
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Source="/WorkspaceManagerTool;component/Views/Images/plus.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"  />
+                <TextBlock Text="Nuevo" Margin="5px 0px 5px 0px"/>
+            </StackPanel>
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="_RemoveFilterButtonTemplate" TargetType="Button">
+        <Button Background="{StaticResource Black}" Style="{StaticResource _ButtonStyle}" Foreground="IndianRed" Margin="5px 0px">
+            Quitar filtro
+        </Button>
+    </ControlTemplate>
+
+</ResourceDictionary>

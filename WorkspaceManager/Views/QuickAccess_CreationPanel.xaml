@@ -10,7 +10,7 @@
         <CollectionViewSource x:Key="options" Source="{Binding ComboBoxGroupOptions, Mode=TwoWay}"/>
     </Control.Resources>
 
-    <Grid Background="{StaticResource DarkBlue}">
+    <Grid Background="{StaticResource Dark}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="25"/>
@@ -19,6 +19,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -27,13 +28,13 @@
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0" Grid.ColumnSpan="4" Background="{StaticResource Dark}">
+        <Grid Grid.Row="0" Grid.ColumnSpan="4" Background="{StaticResource Black}">
             <TextBlock Text="{Binding PanelTitle}" FontWeight="Bold" FontSize="13" Foreground="WhiteSmoke" Margin="20px 0px" VerticalAlignment="Center" />
         </Grid>
 
         <TextBlock Text="Nombre" Grid.Row="1" Style="{StaticResource _TextBlockStyle}" />
         <Border Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource _BorderTextBoxStyle}">
-            <TextBox Text="{Binding Path=NameText, Mode=TwoWay}" Style="{StaticResource _TextBoxStyle}"
+            <TextBox Text="{Binding Path=NameText, Mode=TwoWay}" Style="{StaticResource _TextBoxStyle}" MaxLength="50"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
         </Border>
 
@@ -60,9 +61,20 @@
 
 
         <TextBlock Text="Descripción" Grid.Row="5" Style="{StaticResource _TextBlockStyle}"  />
+        <TextBlock Name="_DescriptionCounter" Grid.Row="5" Grid.ColumnSpan="4" Style="{StaticResource _TextBlockStyle}" Margin="20px 0px" HorizontalAlignment="Right" />
         <Border  Grid.Row="6" Grid.ColumnSpan="4" Margin="20px 0px"  Style="{StaticResource _BorderTextBoxStyle}">
-            <TextBox Name="_DescriptionTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Style="{StaticResource _TextBoxStyle}" 
-                     GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" />
+            <TextBox Name="_DescriptionTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Style="{StaticResource _TextBoxStyle}" MaxLength="100"
+                     GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" TextChanged="DescriptionCounter_Action" />
         </Border>
+
+        <StackPanel Name="_CreationPanel_Buttons" Grid.Row="7" Grid.ColumnSpan="4" HorizontalAlignment="Right" Orientation="Horizontal" Margin="20px 0px">
+            <Button Name="_AcceptButton"  Style="{StaticResource _ButtonStyle}" Background="{StaticResource SaveButton}" Margin="10px 0" Click="SaveChanges_Action">
+                Guardar
+            </Button>
+            <Button Name="_CancelButton" Style="{StaticResource _ButtonStyle}" IsCancel="True" Click="ClosePanel_Action">
+                Cancelar
+            </Button>
+        </StackPanel>
+
     </Grid>
 </UserControl>

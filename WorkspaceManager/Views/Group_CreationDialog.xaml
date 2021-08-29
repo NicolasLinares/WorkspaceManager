@@ -7,7 +7,7 @@
         mc:Ignorable="d" ShowInTaskbar="True"
         Title="Nuevo grupo" Height="200" MaxWidth="260" ResizeMode="NoResize">
 
-    <Grid Background="{StaticResource DarkBlue}">
+    <Grid Background="{StaticResource Dark}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="25"/>
@@ -29,16 +29,16 @@
 
         <TextBlock Text="Color" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource _TextBlockStyle}" />
         <xctk:ColorPicker Name="_ColorPicker" Grid.Row="3"  Grid.ColumnSpan="2" Height="22px" Margin="20px 0px" DisplayColorTooltip="True" SelectedColorChanged="SelectedColorChanged" 
-                          AvailableColorsSortingMode="HueSaturationBrightness" Background="{StaticResource MediumDarkBlue}" />
+                          AvailableColorsSortingMode="HueSaturationBrightness" Background="{StaticResource SemiDark}" />
 
-        <Button Name="_AcceptButton"  Grid.Row="4" Grid.Column="0" Margin="20px 0"
-                Width="80" Click="Create_Action" Style="{StaticResource _ButtonStyle}">
-            Añadir
-        </Button>
-        <Button Name="_CancelButton"  Grid.Row="4" Grid.Column="1" IsCancel="True"  Margin="20px 0" 
-                    Width="80" Click="Cancel_Action" Style="{StaticResource _ButtonStyle}">
-            Cancelar
-        </Button>
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal" Margin="20px 0">
+            <Button Name="_AcceptButton" Click="Create_Action" Width="70" Style="{StaticResource _ButtonStyle}">
+                Añadir
+            </Button>
+            <Button Name="_CancelButton" IsCancel="True"  Click="Cancel_Action" Style="{StaticResource _ButtonStyle}">
+                Cancelar
+            </Button>
+        </StackPanel>
 
     </Grid>
 </Window>

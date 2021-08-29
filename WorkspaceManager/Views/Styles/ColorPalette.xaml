@@ -3,10 +3,11 @@
                     xmlns:local="clr-namespace:WorkspaceManagerTool">
 
 
-    <SolidColorBrush x:Key="Dark" Color="#000000"/>
-    <SolidColorBrush x:Key="DarkBlue" Color="#212529"/>   <!-- Dark-->
-    <SolidColorBrush x:Key="MediumDarkBlue" Color="#2e343b"/> <!-- SemiDark-->
-    <SolidColorBrush x:Key="LightDarkBlue" Color="#677487"/> <!-- Highlight -->
+    <SolidColorBrush x:Key="Black" Color="#000000"/>
+    <SolidColorBrush x:Key="Dark" Color="#212529"/>
+    <SolidColorBrush x:Key="SemiDark" Color="#2e343b"/>
+
+    <SolidColorBrush x:Key="Highlight" Color="#677487"/>
 
     <SolidColorBrush x:Key="RunButton" Color="#2da44e"/>
     <SolidColorBrush x:Key="SaveButton" Color="#0680bd"/>

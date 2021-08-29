@@ -13,14 +13,14 @@
                       x:Name="Border"
                       Grid.ColumnSpan="2"
                       CornerRadius="1 0 0 1"
-                      Background="{StaticResource Dark}"
+                      Background="{StaticResource Black}"
                       BorderBrush="#FF97A0A5"
                       BorderThickness="1 1 0.5 1" />
             <Border 
                       Grid.Column="0"
                       CornerRadius="0" 
                       Margin="1" 
-                      Background="{StaticResource MediumDarkBlue}" 
+                      Background="{StaticResource SemiDark}" 
                       BorderBrush="#FF97A0A5"
                       BorderThickness="0,0,1,0" />
             <Path 
@@ -34,7 +34,7 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource Highlight}" />
             </Trigger>
             <Trigger Property="ToggleButton.IsChecked" Value="true">
                 <Setter TargetName="Border" Property="Background" Value="#E0E0E0" />
@@ -55,7 +55,7 @@
         <Setter Property="BorderBrush" Value="{Binding Color}" />
         <Setter Property="Foreground" Value="Black" />
 
-        <Setter Property="BorderBrush" Value="{StaticResource LightDarkBlue}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Highlight}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">

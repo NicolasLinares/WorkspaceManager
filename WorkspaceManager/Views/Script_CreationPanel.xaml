@@ -11,7 +11,7 @@
         <CollectionViewSource x:Key="options" Source="{Binding ComboBoxGroupOptions, Mode=TwoWay}"/>
     </Control.Resources>
 
-    <Grid Background="{StaticResource DarkBlue}">
+    <Grid Background="{StaticResource Dark}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*" />
@@ -24,7 +24,7 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
         <TextBlock Text="Nombre" Grid.Row="0" Style="{StaticResource _TextBlockStyle}" />
@@ -45,9 +45,10 @@
         </Button>
 
         <TextBlock Text="Descripción" Grid.Row="2" Style="{StaticResource _TextBlockStyle}"  />
+        <TextBlock Name="_DescriptionCounter" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource _TextBlockStyle}" Margin="20px 0px" HorizontalAlignment="Right" />
         <Border  Grid.Row="3" Grid.ColumnSpan="3" Margin="20px 0px"  Style="{DynamicResource _BorderTextBoxStyle}">
-            <TextBox Name="_DescriptionTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Style="{StaticResource _TextBoxStyle}" 
-                     GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" />
+            <TextBox Name="_DescriptionTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Style="{StaticResource _TextBoxStyle}" MaxLength="100"
+                     GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" TextChanged="DescriptionCounter_Action" />
         </Border>
 
         <TextBlock Text="Script" Grid.Row="4" Style="{StaticResource _TextBlockStyle}"  />
@@ -57,6 +58,15 @@
                          GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" />
             </ScrollViewer>
         </Border>
+
+        <StackPanel Name="_CreationPanel_Buttons" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Right"  Orientation="Horizontal" Margin="20px 0px">
+            <Button Name="_AcceptButton"  Style="{StaticResource _ButtonStyle}" Background="{StaticResource SaveButton}" Margin="10px 0px" Click="SaveChanges_Action">
+                Guardar
+            </Button>
+            <Button Name="_CancelButton" Style="{StaticResource _ButtonStyle}" IsCancel="True"  Click="ClosePanel_Action">
+                Cancelar
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>
 

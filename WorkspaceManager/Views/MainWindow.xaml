@@ -7,13 +7,13 @@
         mc:Ignorable="d" ResizeMode="CanResize"
         Title="Workspace Manager Tool" Height="500" MinHeight="500" Width="500" MinWidth="450" >
 
-    <Grid Background="{StaticResource Dark}">
-        <TabControl Background="{StaticResource DarkBlue}" BorderThickness="0" >
-            <TabItem Header="Scripts" Style="{StaticResource _TabItemStyle}">
-                <element:Scripts_Tab />
-            </TabItem>
+    <Grid Background="{StaticResource Black}">
+        <TabControl Background="{StaticResource Dark}" BorderThickness="0" >
             <TabItem Header="Accesos directos" Style="{StaticResource _TabItemStyle}" >
                 <element:QuickAccess_Tab />
+            </TabItem>
+            <TabItem Header="Scripts" Style="{StaticResource _TabItemStyle}">
+                <element:Scripts_Tab />
             </TabItem>
         </TabControl>
     </Grid>

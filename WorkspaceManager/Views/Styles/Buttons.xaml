@@ -9,7 +9,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="WhiteSmoke"/>
-        <Setter Property="Background" Value="{StaticResource Dark}"/>
+        <Setter Property="Background" Value="{StaticResource Black}"/>
         <Setter Property="Height" Value="30"/>
         <Setter Property="FontWeight" Value="Bold"/>
 
@@ -19,14 +19,14 @@
                     <Border Name="border" 
                         BorderThickness="1"
                         Padding="10,3" 
-                        BorderBrush="{StaticResource Dark}" 
+                        BorderBrush="{StaticResource Black}" 
                         CornerRadius="2" 
                         Background="{TemplateBinding Background}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource MediumDarkBlue}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource SemiDark}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -66,7 +66,7 @@
                         <Border
                                 x:Name="Border"
                                 CornerRadius="0 1 1 0"
-                                Background="{StaticResource Dark}"
+                                Background="{StaticResource Black}"
                                 BorderBrush="#FF97A0A5"
                                 BorderThickness="0.5 1 1 1">
                             <ContentPresenter />
@@ -74,7 +74,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource LightDarkBlue}" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Highlight}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Border" Property="Background" Value="#EEEEEE" />
