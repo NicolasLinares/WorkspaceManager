@@ -18,7 +18,7 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -69,7 +69,7 @@
         </ListBox>
 
         <!-- Scripts list-->
-        <ListBox x:Name="_ScriptsListBox" Grid.Row="2" Grid.RowSpan="4" 
+        <ListBox x:Name="_ScriptsListBox" Grid.Row="2" 
                 Style="{StaticResource _QA_ListBoxStyle}"
                 MouseDoubleClick="OpenExecutionPanel_Action"
                 ItemsSource="{Binding Source={StaticResource scripts}}"
@@ -103,7 +103,7 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate >
-                    <Border CornerRadius="5" BorderThickness="2" BorderBrush="{StaticResource SemiDark}" Background="{StaticResource SemiDark}" Style="{StaticResource _ToolTipStyle}"  ToolTip="{Binding Commands}">
+                    <Border CornerRadius="5" BorderThickness="2" BorderBrush="{StaticResource SemiDark}" Background="{StaticResource SemiDark}" Style="{StaticResource _ToolTipStyle}"  ToolTip="{Binding Description}">
                         <Grid Height="Auto" Margin="15px 5px 0px 5px">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -126,18 +126,18 @@
         </ListBox>
 
 
-
-        <!-- Footer Buttons -->
-        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Name="_RemoveFilter_Button" Template="{StaticResource _RemoveFilterButtonTemplate}"  Click="RemoveFilter_Action" Visibility="Collapsed"/>
-            <Button Name="_Creation_Button"  Template="{StaticResource _NewButtonTemplate}"   Click="OpenCreationPanel_Action" />
-        </StackPanel>
-
-
         <!-- Creation container -->
         <Grid Name="_CreationPanel_Container" Grid.Row="0" Grid.RowSpan="5"/>
 
         <!-- Execution container -->
         <Grid Name="_ExecutionPanel_Container" Grid.Row="0" Grid.RowSpan="5"/>
+
+        <!-- Footer Buttons -->
+        <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button Name="_RemoveFilter_Button" Template="{StaticResource _RemoveFilterButtonTemplate}"  Click="RemoveFilter_Action" Visibility="Collapsed"/>
+            <Button Name="_Creation_Button"  Template="{StaticResource _NewButtonTemplate}"   Click="OpenCreationPanel_Action" />
+        </StackPanel>
+
+
     </Grid>
 </UserControl>

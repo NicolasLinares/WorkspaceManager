@@ -12,7 +12,6 @@
         <Setter Property="Background" Value="{StaticResource Black}"/>
         <Setter Property="Height" Value="30"/>
         <Setter Property="FontWeight" Value="Bold"/>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -26,7 +25,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource SemiDark}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Highlight}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -58,7 +57,6 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="WhiteSmoke"/>
         <Setter Property="Height" Value="20px"/>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -68,7 +66,7 @@
                                 CornerRadius="0 1 1 0"
                                 Background="{StaticResource Black}"
                                 BorderBrush="#FF97A0A5"
-                                BorderThickness="0.5 1 1 1">
+                                BorderThickness="0.5 0.5 0.5 0.5">
                             <ContentPresenter />
                         </Border>
                     </Grid>

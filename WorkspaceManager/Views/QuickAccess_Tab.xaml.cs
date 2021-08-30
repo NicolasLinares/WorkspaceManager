@@ -138,6 +138,9 @@ namespace WorkspaceManagerTool.Views {
             MessageBoxResult result = MessageBox.Show("¿Desea eliminar el acceso directo de forma permanente?", "Eliminar acceso directo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
                 QuickAccessController.Remove(SelectedQuickAccessItem);
+                var auxSelected = SelectedGroup;
+                GroupItems = QuickAccessController.GroupItems;
+                _FiltersListBox.SelectedItem = auxSelected;
                 ChangeViewMode(CurrentViewMode);
             }
         }
@@ -224,8 +227,11 @@ namespace WorkspaceManagerTool.Views {
             _Creation_Button.Visibility = Visibility.Collapsed;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
+            _SearchBar.IsEnabled = false;
             _FiltersListBox.IsHitTestVisible = false;
             _QuickAcessListBox.IsHitTestVisible = false;
+            // Apply blur to background
+            _BlurEffect.Radius = 5;
         }
         private void CloseCreationPanel() {
             if (_CreationQuickAcess_Container.Children.Count > 0) {
@@ -234,9 +240,12 @@ namespace WorkspaceManagerTool.Views {
                 _CreationQuickAcess_Container.Children.RemoveAt(_CreationQuickAcess_Container.Children.Count - 1);
                 _Creation_Button.Visibility = Visibility.Visible;
                 // Enable list interactions
+                _SearchBar.IsEnabled = true;
                 _FiltersListBox.IsHitTestVisible = true;
                 _QuickAcessListBox.IsHitTestVisible = true;
                 _QuickAcessListBox.UnselectAll();
+                // Remove blur to background
+                _BlurEffect.Radius = 0;
             }
         }
         private void EnableFilterMode() {

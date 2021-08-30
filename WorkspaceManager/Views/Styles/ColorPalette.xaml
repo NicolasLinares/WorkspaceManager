@@ -11,6 +11,7 @@
 
     <SolidColorBrush x:Key="RunButton" Color="#2da44e"/>
     <SolidColorBrush x:Key="SaveButton" Color="#0680bd"/>
+    <SolidColorBrush x:Key="NewButton" Color="#c92634"/>
 
 
 </ResourceDictionary>

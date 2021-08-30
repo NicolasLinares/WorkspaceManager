@@ -39,13 +39,13 @@
         </Border>
 
         <TextBlock Text="Grupo" Grid.Row="1" Grid.Column="1" Style="{StaticResource _TextBlockStyle}"  />
-        <Border Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource _BorderTextBoxStyle}">
+        <Border Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Height="23"  Style="{StaticResource _BorderTextBoxStyle}">
             <ComboBox ItemsSource="{Binding Source={StaticResource options}}" Style="{StaticResource _ComboBoxStyle}" IsSynchronizedWithCurrentItem="True" 
                       SelectedItem="{Binding SelectedGroupOption}" SelectionChanged="ComboBoxSelectionChanged"/>
         </Border>
 
-        <Button Grid.Row="2" Grid.Column="3" Style="{StaticResource _ActionButtonStyle}" IsCancel="True"
-                    HorizontalAlignment="Left" Width="20" Click="CreateGroup_Action">
+        <Button Grid.Row="2" Grid.Column="3" Style="{StaticResource _ActionButtonStyle}"
+                    HorizontalAlignment="Left" Width="20" Height="20" Click="CreateGroup_Action">
             <TextBlock HorizontalAlignment="Center" Margin="0 -3 1 0" FontSize="16" Text="+" />
         </Button>
 
@@ -54,8 +54,8 @@
             <TextBox Text="{Binding Path=PathText, Mode=TwoWay}"  Style="{StaticResource _TextBoxStyle}" 
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
         </Border>
-        <Button Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" Style="{StaticResource _ActionButtonStyle}"  IsCancel="True" Margin="0px 0px 20px 0px"
-                    HorizontalAlignment="Right" Width="60" Click="Browse_Action">
+        <Button Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" Style="{StaticResource _ActionButtonStyle}" Margin="0px 0px 20px 0px"
+                    HorizontalAlignment="Right" Width="60" Height="19" Click="Browse_Action">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" Text="Buscar"/>
         </Button>
 
