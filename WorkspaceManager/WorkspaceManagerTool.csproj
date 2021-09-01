@@ -162,6 +162,9 @@
     <Compile Include="Views\QuickAccess_CreationPanel.xaml.cs">
       <DependentUpon>QuickAccess_CreationPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Config_Tab.xaml.cs">
+      <DependentUpon>Config_Tab.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\Templates\Buttons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -249,6 +252,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\QuickAccess_CreationPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Config_Tab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

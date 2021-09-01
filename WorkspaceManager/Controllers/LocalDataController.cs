@@ -5,11 +5,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using WorkspaceManagerTool.Models;
 using WorkspaceManagerTool.Utils;
 
 namespace WorkspaceManagerTool.Controllers {
     public abstract class LocalDataController {
+
+        public event EventHandler HandlerListImport;
+
 
         private ObservableCollection<GroupableResource> items;
         private ObservableCollection<Group> groups;
@@ -39,8 +43,8 @@ namespace WorkspaceManagerTool.Controllers {
         protected abstract string ResourceFile { get; }
 
         public abstract void Init();
-        protected void ReadData<T>() {
-            var data = JSONManager.ReadJSON<List<T>>(ResourceFile);
+        protected void ReadData<T>(string path) {
+            var data = JSONManager.ReadJSON<List<T>>(path);
 
             if (data == null) {
                 Items = new ObservableCollection<GroupableResource>();
@@ -53,6 +57,33 @@ namespace WorkspaceManagerTool.Controllers {
             JSONManager.SaveJSON(ResourceFile, Items);
         }
 
+        public void Import<T>() {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "JSON File|*.json";
+            dialog.Title = "Importar lista";
+            dialog.ShowDialog();
+            if (dialog.FileName != "") {
+                DialogResult alert = MessageBox.Show("¿Seguro que desea sobreescribir los datos actuales?", "Importar nueva lista", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (alert == DialogResult.OK) {
+                    ReadData<T>(dialog.FileName);
+                    // Set changes in the view
+                    HandlerListImport?.Invoke(this, new EventArgs());
+                    // Set changes in the local file
+                    File.Replace(dialog.FileName, ResourceFile, Path.GetTempFileName());
+                }
+            }
+        }
+
+        public void Export(string filename) {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "JSON File|*.json";
+            dialog.Title = "Exportar lista";
+            dialog.FileName = filename;
+            dialog.ShowDialog();
+            if (dialog.FileName != "") {
+                File.Copy(ResourceFile, dialog.FileName);
+            }
+        }
 
         public void Add(GroupableResource item) {
             items.Add(item);

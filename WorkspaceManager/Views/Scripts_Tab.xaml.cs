@@ -72,6 +72,7 @@ namespace WorkspaceManagerTool.Views {
             // Create controller and initialize data
             ScriptsController = ScriptsController.GetInstance();
             ScriptsController.Init();
+            ScriptsController.HandlerListImport += DoSetImport;
             // Set observable data from controller
             ScriptsItems = ScriptsController.Items;
             GroupItems = ScriptsController.GroupItems;
@@ -157,6 +158,9 @@ namespace WorkspaceManagerTool.Views {
             ReplaceItem(e.OldScript, e.NewScript);
         }
 
+        public void DoSetImport(object sender, EventArgs e) {
+            UpdateLists();
+        }
 
         private void ExecuteScript_Action(object sender, EventArgs e) {
             if (_ScriptsListBox.SelectedItem == null) {

@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="WorkspaceManagerTool.Views.Config_Tab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="400" Background="{StaticResource Dark}">
+
+    <Control.Resources>
+        <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+        <Style x:Key="_GroupBoxStyle" TargetType="{x:Type GroupBox}">
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="BorderBrush" Value="{StaticResource Highlight}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="Bold" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupBox}">
+                        <Grid SnapsToDevicePixels="true">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="10" />
+                            </Grid.RowDefinitions>
+                            <Border CornerRadius="4" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="4" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" />
+                            <Border Name="Header" Padding="0,1,6,0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+                                <ContentPresenter ContentSource="Header" RecognizesAccessKey="true" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Border>
+                            <ContentPresenter Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <Border Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="4"  BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="3">
+                                <Border.OpacityMask>
+                                    <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="7">
+                                        <Binding ElementName="Header" Path="ActualWidth" />
+                                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                                    </MultiBinding>
+                                </Border.OpacityMask>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Control.Resources>
+    
+    
+    <StackPanel CanVerticallyScroll="True">
+
+        <GroupBox Margin="10px" Style="{DynamicResource _GroupBoxStyle}">
+            <GroupBox.Header>
+                General
+            </GroupBox.Header>
+
+            <Grid>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Margin="10px" Style="{DynamicResource _GroupBoxStyle}">
+            <GroupBox.Header>
+                Accesos directos
+            </GroupBox.Header>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button ToolTip="Si existe, elimina la lista anterior" Click="Import_QuickAccessAction" 
+                        HorizontalAlignment="Left" Style="{StaticResource _ActionButtonStyle}">
+                        <TextBlock Text="Importar" FontWeight="Light" VerticalAlignment="Center" Margin="10px 0px"
+                           Style="{StaticResource _TextBlockStyle}"/>
+                    </Button>
+                    <Button ToolTip="Exportar la lista actual" Margin="5 0" Click="Export_QuickAccessAction" 
+                        HorizontalAlignment="Left" Style="{StaticResource _ActionButtonStyle}">
+                        <TextBlock Text="Exportar" FontWeight="Light" VerticalAlignment="Center" Margin="10px 0px"
+                           Style="{StaticResource _TextBlockStyle}"/>
+                    </Button>
+                    <Button ToolTip="Se importan los nuevos elementos sin modificar los existentes" Click="ImportNewItems_QuickAccessAction" 
+                        HorizontalAlignment="Left" Style="{StaticResource _ActionButtonStyle}" >
+                        <TextBlock Text="Añadir nuevos elementos" FontWeight="Light" VerticalAlignment="Center" Margin="10px 0px"
+                           Style="{StaticResource _TextBlockStyle}"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Margin="10px" Style="{DynamicResource _GroupBoxStyle}">
+            <GroupBox.Header>
+                Scripts
+            </GroupBox.Header>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button ToolTip="Si existe, elimina la lista anterior" Click="Import_ScriptsAction" 
+                        HorizontalAlignment="Left" Style="{StaticResource _ActionButtonStyle}">
+                        <TextBlock Text="Importar" FontWeight="Light" VerticalAlignment="Center" Margin="10px 0px"
+                           Style="{StaticResource _TextBlockStyle}"/>
+                    </Button>
+                    <Button ToolTip="Exportar la lista actual" Margin="5 0" Click="Export_ScriptsAction" 
+                        HorizontalAlignment="Left" Style="{StaticResource _ActionButtonStyle}">
+                        <TextBlock Text="Exportar" FontWeight="Light" VerticalAlignment="Center" Margin="10px 0px"
+                           Style="{StaticResource _TextBlockStyle}"/>
+                    </Button>
+                    <Button ToolTip="Se importan los nuevos elementos sin modificar los existentes" Click="ImportNewItems_ScriptsAction" 
+                        HorizontalAlignment="Left" Style="{StaticResource _ActionButtonStyle}" >
+                        <TextBlock Text="Añadir nuevos elementos" FontWeight="Light" VerticalAlignment="Center" Margin="10px 0px"
+                           Style="{StaticResource _TextBlockStyle}"/>
+                    </Button>
+                </StackPanel>
+
+            </Grid>
+        </GroupBox>
+    </StackPanel>
+</UserControl>

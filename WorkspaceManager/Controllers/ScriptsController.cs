@@ -30,7 +30,7 @@ namespace WorkspaceManagerTool.Controllers
         }
 
         public override void Init() {
-            ReadData<Script>();
+            ReadData<Script>(ResourceFile);
         }
 
         public void RunScript(GroupableResource script) {
@@ -42,8 +42,6 @@ namespace WorkspaceManagerTool.Controllers
                 PowerShell ps = new PowerShell();
                 ps.Run(script as Script);
             }).Start();
-
-
         }
 
 
