@@ -73,7 +73,7 @@ namespace WorkspaceManagerTool.Views {
                 SelectedGroupOption = SelectedFilter;
             }
             if (groups != null && groups.Count > 0) {
-                ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
+                ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
             }
         }
         public QuickAccess_CreationPanel(GroupableResource qaToEdit, ObservableCollection<Group> groups) {
@@ -90,7 +90,7 @@ namespace WorkspaceManagerTool.Views {
                 SelectedGroupOption = qaToEdit.Group;
             }
             if (groups != null && groups.Count > 0) {
-                ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
+                ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
             }
         }
         private void SetDefaultValues() {
@@ -126,6 +126,7 @@ namespace WorkspaceManagerTool.Views {
             if (dialog.ShowDialog() == true) {
                 SelectedGroupOption = new Group(dialog.NameText, dialog.ColorSelected);
                 ComboBoxGroupOptions.Add(SelectedGroupOption);
+                ComboBoxGroupOptions = new ObservableCollection<Group>(ComboBoxGroupOptions.OrderBy(gr => gr.Name));
             } 
         }
         public GroupableResource GetQuickAccess() {

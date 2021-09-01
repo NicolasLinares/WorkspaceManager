@@ -91,11 +91,15 @@ namespace WorkspaceManagerTool.Views {
         #region Actions
 
         private void OpenCreationPanel_Action(object sender, EventArgs e) {
+            // Joining groups from script and quickaccess tab
+            var scriptController = ScriptsController.GetInstance();
+            var groups = scriptController.GroupItems;
+            groups = new ObservableCollection<Group>(groups.Concat(GroupItems).Distinct());
             // Panel creation
             if (CurrentViewMode.Equals(ViewMode.FILTER)) {
-                QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems, SelectedGroup);
+                QuickAccessPanel = new QuickAccess_CreationPanel(groups, SelectedGroup);
             } else {
-                QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems);
+                QuickAccessPanel = new QuickAccess_CreationPanel(groups);
             }
             ChangeViewMode(ViewMode.CREATION);
         }
@@ -122,16 +126,14 @@ namespace WorkspaceManagerTool.Views {
 
             if (CurrentViewMode == ViewMode.EDITION) {
                 QuickAccessController.Replace(SelectedQAToEdit, new_qa);
-                GroupItems = QuickAccessController.GroupItems;
                 SelectedGroup = SelectedQAToEdit.Group;
                 SelectedQAToEdit = null;
             } else {
                 QuickAccessController.Add(new_qa);
             }
-
             ChangeViewMode(PreviousViewMode);
         }
-        private void RemoveItem_Action(object sender, RoutedEventArgs e) {
+     private void RemoveItem_Action(object sender, RoutedEventArgs e) {
             if (_QuickAcessListBox.SelectedItem == null) {
                 return;
             }
@@ -204,6 +206,7 @@ namespace WorkspaceManagerTool.Views {
                     ApplyFilter(SelectedGroup);
                     EnableFilterMode();
                     CloseCreationPanel();
+                    GroupItems = QuickAccessController.GroupItems;
                     break;
                 case (ViewMode.NORMAL):
                     UpdateLists();

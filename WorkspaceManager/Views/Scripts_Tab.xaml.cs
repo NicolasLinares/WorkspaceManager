@@ -102,11 +102,15 @@ namespace WorkspaceManagerTool.Views {
         }
 
         private void OpenCreationPanel_Action(object sender, EventArgs e) {
+            // Joining groups from script and quickaccess tab
+            var quickaccessController = QuickAccessController.GetInstance();
+            var groups = quickaccessController.GroupItems;
+            groups = new ObservableCollection<Group>(groups.Concat(GroupItems).Distinct());
             // Panel creation
             if (CurrentViewMode.Equals(ViewMode.FILTER)) {
-                CreationPanel = new Script_CreationPanel(GroupItems, SelectedGroup);
+                CreationPanel = new Script_CreationPanel(groups, SelectedGroup);
             } else {
-                CreationPanel = new Script_CreationPanel(GroupItems);
+                CreationPanel = new Script_CreationPanel(groups);
             }
             ChangeViewMode(ViewMode.CREATION);
         }
@@ -207,6 +211,7 @@ namespace WorkspaceManagerTool.Views {
                     EnableFilterMode();
                     CloseCreationPanel();
                     CloseExecutionPanel();
+                    GroupItems = ScriptsController.GroupItems;
                     break;
                 case (ViewMode.EXECUTION):
                     DisableFilterMode();
