@@ -15,6 +15,9 @@
             <TabItem Header="Scripts" Style="{StaticResource _TabItemStyle}">
                 <element:Scripts_Tab />
             </TabItem>
+            <TabItem Header="Configuración" Style="{StaticResource _TabItemStyle}">
+                <element:Config_Tab />
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

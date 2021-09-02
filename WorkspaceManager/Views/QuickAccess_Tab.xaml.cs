@@ -54,6 +54,8 @@ namespace WorkspaceManagerTool.Views {
 
         public GroupableResource SelectedQAToEdit { get; private set; }
 
+        public ObservableCollection<GroupableResource> SelectionRemoved { get; private set; }
+
         public ViewMode CurrentViewMode { get; private set; }
         public ViewMode PreviousViewMode { get; private set; }
 
@@ -67,6 +69,8 @@ namespace WorkspaceManagerTool.Views {
             // Create controller and initialize data
             QuickAccessController = QuickAccessController.GetInstance();
             QuickAccessController.Init();
+            QuickAccessController.HandlerListImport += SetNormalMode_Action;
+
             // Set observable data from controller
             QuickAccessItems = QuickAccessController.Items;
             GroupItems = QuickAccessController.GroupItems;
@@ -88,48 +92,87 @@ namespace WorkspaceManagerTool.Views {
         }
         #endregion
 
-        #region Actions
-
-        private void OpenCreationPanel_Action(object sender, EventArgs e) {
+        #region Set Mode Actions
+        private void SetCreationMode_Action(object sender, EventArgs e) {
+            // Joining groups from script and quickaccess tab
+            var scriptController = ScriptsController.GetInstance();
+            var groups = scriptController.GroupItems;
+            groups = new ObservableCollection<Group>(groups.Concat(GroupItems).Distinct());
             // Panel creation
             if (CurrentViewMode.Equals(ViewMode.FILTER)) {
-                QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems, SelectedGroup);
+                QuickAccessPanel = new QuickAccess_CreationPanel(groups, SelectedGroup);
             } else {
-                QuickAccessPanel = new QuickAccess_CreationPanel(GroupItems);
+                QuickAccessPanel = new QuickAccess_CreationPanel(groups);
             }
-            ChangeViewMode(ViewMode.CREATION);
+            SetViewMode(ViewMode.CREATION);
         }
-        private void OpenEditionPanel_Action(object sender, RoutedEventArgs e) {
+        private void SetEditionMode_Action(object sender, RoutedEventArgs e) {
             if (_QuickAcessListBox.SelectedItem == null) {
                 return;
             }
             // set current values to edit
             QuickAccessPanel = new QuickAccess_CreationPanel(SelectedQuickAccessItem, GroupItems);
-            ChangeViewMode(ViewMode.EDITION);
+            SetViewMode(ViewMode.EDITION);
         }
-        private void ClosePanel_Action(object sender, EventArgs e) {
-            ChangeViewMode(PreviousViewMode);
+        private void SetMultipleSelectionMode_Action(object sender, EventArgs e) {
+            SetViewMode(ViewMode.MULTIPLE_SELECTION);
         }
+        public void SetPreviousMode_Action(object sender, EventArgs e) {
+            SetViewMode(PreviousViewMode);
+        }
+        public void SetNormalMode_Action(object sender, EventArgs e) {
+            SetViewMode(ViewMode.NORMAL);
+        }
+        #endregion
 
+        #region Multiple Selection Actions
+        private void SetCounter_Action(object sender, EventArgs e) {
+            if (CurrentViewMode != ViewMode.MULTIPLE_SELECTION) {
+                return;
+            }
+            if (_QuickAcessListBox.SelectedItems.Count > 0) {
+                _Trash_Button.IsEnabled = true;
+            } else {
+                _Trash_Button.IsEnabled = false;
+            }
+            _SelectionCounter.Text = string.Format("{0}/{1}", _QuickAcessListBox.SelectedItems.Count, _QuickAcessListBox.Items.Count);
+        }
+        private void RemoveSelectedItems_Action(object sender, EventArgs e) {
+            if (_QuickAcessListBox.SelectedItems.Count > 0) {
+                foreach (var item in _QuickAcessListBox.SelectedItems.OfType<GroupableResource>().ToList()) {
+                    QuickAccessItems.Remove(item);
+                    SelectionRemoved.Add(item);
+                }
+                _CheckMark_Button.Visibility = Visibility.Visible;
+                _QuickAcessListBox.UnselectAll();
+            }
+        }
+        private void ApplySelectionChanges_Action(object sender, EventArgs e) {
+            MessageBoxResult result = MessageBox.Show("¿Seguro que desea aplicar los cambios de forma permanente?", "Aplicar cambios", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Cancel) {
+                return;
+            }
+            QuickAccessController.RemoveSelection(SelectionRemoved);
+            SetViewMode(ViewMode.NORMAL);
+        }
+        #endregion
 
+        #region Item Actions
         private void CreateItem_Action(object sender, EventArgs e) {
             GroupableResource new_qa = QuickAccessPanel.GetQuickAccess();
             if (QuickAccessController.Items.Contains(new_qa)) {
                 MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
-                ChangeViewMode(PreviousViewMode);
+                SetViewMode(PreviousViewMode);
                 return;
             }
-
             if (CurrentViewMode == ViewMode.EDITION) {
                 QuickAccessController.Replace(SelectedQAToEdit, new_qa);
-                GroupItems = QuickAccessController.GroupItems;
                 SelectedGroup = SelectedQAToEdit.Group;
                 SelectedQAToEdit = null;
             } else {
                 QuickAccessController.Add(new_qa);
             }
-
-            ChangeViewMode(PreviousViewMode);
+            SetViewMode(PreviousViewMode);
         }
         private void RemoveItem_Action(object sender, RoutedEventArgs e) {
             if (_QuickAcessListBox.SelectedItem == null) {
@@ -138,14 +181,10 @@ namespace WorkspaceManagerTool.Views {
             MessageBoxResult result = MessageBox.Show("¿Desea eliminar el acceso directo de forma permanente?", "Eliminar acceso directo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
                 QuickAccessController.Remove(SelectedQuickAccessItem);
-                var auxSelected = SelectedGroup;
-                GroupItems = QuickAccessController.GroupItems;
-                _FiltersListBox.SelectedItem = auxSelected;
-                ChangeViewMode(CurrentViewMode);
+                UpdateFilterList();
+                SetViewMode(CurrentViewMode);
             }
         }
-
-
         private void CopyToClipboard_Action(object sender, RoutedEventArgs e) {
             if (_QuickAcessListBox.SelectedItem == null) {
                 return;
@@ -153,7 +192,7 @@ namespace WorkspaceManagerTool.Views {
             Clipboard.SetText((SelectedQuickAccessItem as QuickAccess).Path);
         }
         private void OpenQuickAccess_Action(object sender, EventArgs e) {
-            if (_QuickAcessListBox.SelectedItem == null) {
+            if (CurrentViewMode == ViewMode.MULTIPLE_SELECTION || _QuickAcessListBox.SelectedItem == null) {
                 return;
             }
 
@@ -163,8 +202,9 @@ namespace WorkspaceManagerTool.Views {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
-
+        #region Searchbar & Filter
         private void SearchByName_Action(object sender, TextChangedEventArgs e) {
             if (_SearchText.Text.Length > 0) {
                 _SearchRemoveButton.Visibility = Visibility.Visible;
@@ -173,57 +213,53 @@ namespace WorkspaceManagerTool.Views {
             }
             QuickAccessItems = QuickAccessController.SearchByName(_SearchText.Text);
         }
-        private void RemoveSearch_Action(object sender, EventArgs e) {
-            _SearchText.Text = string.Empty;
-            _SearchRemoveButton.Visibility = Visibility.Hidden;
-            ChangeViewMode(ViewMode.NORMAL);
-        }
         private void ApplyFilter_Action(object sender, MouseButtonEventArgs e) {
             if (_FiltersListBox.SelectedItem == null) {
                 return;
             }
-            ChangeViewMode(ViewMode.FILTER);
+            SetViewMode(ViewMode.FILTER);
         }
-        private void RemoveFilter_Action(object sender, EventArgs e) {
-            ChangeViewMode(ViewMode.NORMAL);
-        }
-
         #endregion
 
         #region GUI methods
 
-        private void ChangeViewMode(ViewMode mode) {
+        private void SetViewMode(ViewMode mode) {
             switch (mode) {
                 case ViewMode.CREATION:
-                    OpenCreationPanel();
+                    DoEnableCreationMode();
                     break;
                 case ViewMode.EDITION:
-                    OpenEditionPanel();
+                    DoEnableEditionMode();
                     break;
                 case ViewMode.FILTER:
+                    DoDisableCreationMode();
+                    DoDisableMultipleSelectionMode();
+                    DoEnableFilterMode();
                     ApplyFilter(SelectedGroup);
-                    EnableFilterMode();
-                    CloseCreationPanel();
+                    UpdateFilterList();
+                    break;
+                case (ViewMode.MULTIPLE_SELECTION):
+                    DoEnableMultipleSelectionMode();
                     break;
                 case (ViewMode.NORMAL):
+                    DoDisableFilterMode();
+                    DoDisableMultipleSelectionMode();
+                    DoDisableCreationMode();
+                    DoCleanSearchBar();
                     UpdateLists();
-                    DisableFilterMode();
-                    CloseCreationPanel();
                     break;
             }
             PreviousViewMode = CurrentViewMode;
             CurrentViewMode = mode;
         }
-        private void OpenEditionPanel() {
-            SelectedQAToEdit = SelectedQuickAccessItem;
-            // Open panel
-            OpenCreationPanel();
-        }
-        private void OpenCreationPanel() {
+
+
+        private void DoEnableCreationMode() {
             QuickAccessPanel.HandlerSaveChanges += CreateItem_Action;
-            QuickAccessPanel.HandlerClosePanel += ClosePanel_Action;
+            QuickAccessPanel.HandlerClosePanel += SetPreviousMode_Action;
 
             _CreationQuickAcess_Container.Children.Add(QuickAccessPanel);
+            _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
             _Creation_Button.Visibility = Visibility.Collapsed;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
@@ -233,11 +269,39 @@ namespace WorkspaceManagerTool.Views {
             // Apply blur to background
             _BlurEffect.Radius = 5;
         }
-        private void CloseCreationPanel() {
+        private void DoEnableEditionMode() {
+            SelectedQAToEdit = SelectedQuickAccessItem;
+            // Open panel
+            DoEnableCreationMode();
+        }
+        private void DoEnableFilterMode() {
+            _RemoveFilter_Button.Visibility = Visibility.Visible;
+        }
+        private void DoEnableMultipleSelectionMode() {
+            // Set visibility
+            _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
+            _Creation_Button.Visibility = Visibility.Collapsed;
+            _CrossMark_Button.Visibility = Visibility.Visible;
+            _SelectionCounter.Visibility = Visibility.Visible;
+            _Trash_Button.Visibility = Visibility.Visible;
+            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
+            // Disable list interactions
+            _SearchBar.IsEnabled = false;
+            _FiltersListBox.IsHitTestVisible = false;
+            _QuickAcessListBox.ContextMenu.Visibility = Visibility.Collapsed;
+            _QuickAcessListBox.UnselectAll();
+            // Enable multiple selection
+            _QuickAcessListBox.SelectionMode = SelectionMode.Multiple;
+            _SelectionCounter.Text = string.Format("{0}/{1}", _QuickAcessListBox.SelectedItems.Count, _QuickAcessListBox.Items.Count);
+            SelectionRemoved = new ObservableCollection<GroupableResource>();
+        }
+
+        private void DoDisableCreationMode() {
             if (_CreationQuickAcess_Container.Children.Count > 0) {
                 QuickAccessPanel.HandlerSaveChanges -= CreateItem_Action;
-                QuickAccessPanel.HandlerClosePanel -= ClosePanel_Action;
+                QuickAccessPanel.HandlerClosePanel -= SetPreviousMode_Action;
                 _CreationQuickAcess_Container.Children.RemoveAt(_CreationQuickAcess_Container.Children.Count - 1);
+                _SelectionMultiple_Button.Visibility = Visibility.Visible;
                 _Creation_Button.Visibility = Visibility.Visible;
                 // Enable list interactions
                 _SearchBar.IsEnabled = true;
@@ -248,49 +312,39 @@ namespace WorkspaceManagerTool.Views {
                 _BlurEffect.Radius = 0;
             }
         }
-        private void EnableFilterMode() {
-            _RemoveFilter_Button.Visibility = Visibility.Visible;
-        }
-        private void DisableFilterMode() {
+        private void DoDisableFilterMode() {
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
         }
-
-
-        //private void CollapseScrollbar(object sender, SizeChangedEventArgs e) {
-        //    ScrollViewer sv = sender as ScrollViewer;
-
-        //    if (sv.ActualHeight < sv.ScrollableHeight) {
-        //        sv.BorderThickness = new Thickness(1, 1, 1, 1);
-        //    } else {
-        //        sv.BorderThickness = new Thickness(0, 0, 0, 0);
-        //    }
-        //}
-
-
-        /// <summary>
-        /// Select all text when textbox gets focus
-        /// </summary>
-        private void OnPalabraGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
-            if (sender is TextBox textBox) {
-                textBox.SelectAll();
-            }
+        private void DoDisableMultipleSelectionMode() {
+            // Organize buttons visibility
+            _SelectionMultiple_Button.Visibility = Visibility.Visible;
+            _Creation_Button.Visibility = Visibility.Visible;
+            _CheckMark_Button.Visibility = Visibility.Collapsed;
+            _CrossMark_Button.Visibility = Visibility.Collapsed;
+            _Trash_Button.Visibility = Visibility.Collapsed;
+            _Trash_Button.IsEnabled = false;
+            _SelectionCounter.Visibility = Visibility.Collapsed;
+            // Enable list interactions
+            _SearchBar.IsEnabled = true;
+            _FiltersListBox.IsHitTestVisible = true;
+            _QuickAcessListBox.ContextMenu.Visibility = Visibility.Visible;
+            // Disable multiple selection
+            _QuickAcessListBox.SelectionMode = SelectionMode.Single;
+            _SelectionCounter.Text = string.Empty;
+        }
+        private void DoCleanSearchBar() {
+            _SearchText.Text = string.Empty;
+            _SearchRemoveButton.Visibility = Visibility.Hidden;
         }
 
-        /// <summary>
-        /// Add focus when the user clicks on the textbox
-        /// </summary>
-        private void OnPalabraPreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            if (sender is TextBox textBox) {
-                if (!textBox.IsKeyboardFocusWithin) {
-                    e.Handled = true;
-                    textBox.Focus();
-                }
-            }
-        }
         #endregion
 
         #region Auxiliar methods
-
+        private void UpdateFilterList() {
+            var tmp = SelectedGroup;
+            GroupItems = QuickAccessController.GroupItems;
+            SelectedGroup = tmp;
+        }
         private void UpdateLists() {
             QuickAccessItems = QuickAccessController.Items;
             GroupItems = QuickAccessController.GroupItems;
@@ -299,8 +353,22 @@ namespace WorkspaceManagerTool.Views {
         }
         private void ApplyFilter(Group group) {
             QuickAccessItems = QuickAccessController.FilterByGroup(group);
+            _QuickAcessListBox.UnselectAll();
         }
 
+        private void OnPalabraGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
+            if (sender is TextBox textBox) {
+                textBox.SelectAll();
+            }
+        }
+        private void OnPalabraPreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            if (sender is TextBox textBox) {
+                if (!textBox.IsKeyboardFocusWithin) {
+                    e.Handled = true;
+                    textBox.Focus();
+                }
+            }
+        }
         #endregion
     }
 }

@@ -10,6 +10,7 @@ using System.ComponentModel;
 using WorkspaceManagerTool.Models;
 using WorkspaceManagerTool.Exceptions;
 using WorkspaceManagerTool.Controllers;
+using System.Linq;
 
 namespace WorkspaceManagerTool.Views {
     /// <summary>
@@ -65,7 +66,10 @@ namespace WorkspaceManagerTool.Views {
                 SelectedGroupOption = SelectedFilter;
             }
             if (groups != null && groups.Count > 0) {
-                ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
+                ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
+            } else {
+                ComboBoxGroupOptions = new ObservableCollection<Group>();
+                ComboBoxGroupOptions.Add(DefaultGroup);
             }
         }
         public Script_CreationPanel(GroupableResource scriptToEdit, ObservableCollection<Group> groups) {
@@ -81,7 +85,7 @@ namespace WorkspaceManagerTool.Views {
                 SelectedGroupOption = scriptToEdit.Group;
             }
             if (groups != null && groups.Count > 0) {
-                ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
+                ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
             }
         }
         private void SetDefaultValues() {
@@ -106,6 +110,7 @@ namespace WorkspaceManagerTool.Views {
             if (dialog.ShowDialog() == true) {
                 SelectedGroupOption = new Group(dialog.NameText, dialog.ColorSelected);
                 ComboBoxGroupOptions.Add(SelectedGroupOption);
+                ComboBoxGroupOptions = new ObservableCollection<Group>(ComboBoxGroupOptions.OrderBy(gr => gr.Name));
             }
         }
         public Script GetScript() {

@@ -73,7 +73,10 @@ namespace WorkspaceManagerTool.Views {
                 SelectedGroupOption = SelectedFilter;
             }
             if (groups != null && groups.Count > 0) {
-                ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
+                ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
+            } else {
+                ComboBoxGroupOptions = new ObservableCollection<Group>();
+                ComboBoxGroupOptions.Add(DefaultGroup);
             }
         }
         public QuickAccess_CreationPanel(GroupableResource qaToEdit, ObservableCollection<Group> groups) {
@@ -90,7 +93,7 @@ namespace WorkspaceManagerTool.Views {
                 SelectedGroupOption = qaToEdit.Group;
             }
             if (groups != null && groups.Count > 0) {
-                ComboBoxGroupOptions = new ObservableCollection<Group>(groups);
+                ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
             }
         }
         private void SetDefaultValues() {
@@ -114,6 +117,7 @@ namespace WorkspaceManagerTool.Views {
         private void Browse_Action(object sender, EventArgs e) {
             VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
             fbd.Description = "Seleccionar carpeta";
+            fbd.SelectedPath = PathText;
             fbd.UseDescriptionForTitle = true;
             fbd.ShowNewFolderButton = true;
             var result = fbd.ShowDialog();
@@ -126,6 +130,7 @@ namespace WorkspaceManagerTool.Views {
             if (dialog.ShowDialog() == true) {
                 SelectedGroupOption = new Group(dialog.NameText, dialog.ColorSelected);
                 ComboBoxGroupOptions.Add(SelectedGroupOption);
+                ComboBoxGroupOptions = new ObservableCollection<Group>(ComboBoxGroupOptions.OrderBy(gr => gr.Name));
             } 
         }
         public GroupableResource GetQuickAccess() {
