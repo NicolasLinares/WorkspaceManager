@@ -70,7 +70,7 @@
 
         <!-- Scripts list-->
         <ListBox x:Name="_ScriptsListBox" Grid.Row="2" 
-                Style="{StaticResource _QA_ListBoxStyle}"
+                Style="{StaticResource _ListBoxStyle}"
                 MouseDoubleClick="OpenExecutionPanel_Action"
                 ItemsSource="{Binding Source={StaticResource scripts}}"
                 SelectedValue="{Binding SelectedScriptItem}">
@@ -103,7 +103,7 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate >
-                    <Border CornerRadius="5" BorderThickness="2" BorderBrush="{StaticResource SemiDark}" Background="{StaticResource SemiDark}" Style="{StaticResource _ToolTipStyle}"  ToolTip="{Binding Description}">
+                    <Border Style="{StaticResource _ToolTipStyle}"  ToolTip="{Binding Description}">
                         <Grid Height="Auto" Margin="15px 5px 0px 5px">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>

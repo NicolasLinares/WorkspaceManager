@@ -67,6 +67,8 @@ namespace WorkspaceManagerTool.Views {
             // Create controller and initialize data
             QuickAccessController = QuickAccessController.GetInstance();
             QuickAccessController.Init();
+            QuickAccessController.HandlerListImport += DoSetImport;
+
             // Set observable data from controller
             QuickAccessItems = QuickAccessController.Items;
             GroupItems = QuickAccessController.GroupItems;
@@ -258,6 +260,10 @@ namespace WorkspaceManagerTool.Views {
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
         }
 
+
+        public void DoSetImport(object sender, EventArgs e) {
+            ChangeViewMode(ViewMode.NORMAL);
+        }
 
         //private void CollapseScrollbar(object sender, SizeChangedEventArgs e) {
         //    ScrollViewer sv = sender as ScrollViewer;

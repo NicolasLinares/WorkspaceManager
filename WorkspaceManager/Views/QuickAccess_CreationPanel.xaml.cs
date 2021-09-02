@@ -74,6 +74,9 @@ namespace WorkspaceManagerTool.Views {
             }
             if (groups != null && groups.Count > 0) {
                 ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
+            } else {
+                ComboBoxGroupOptions = new ObservableCollection<Group>();
+                ComboBoxGroupOptions.Add(DefaultGroup);
             }
         }
         public QuickAccess_CreationPanel(GroupableResource qaToEdit, ObservableCollection<Group> groups) {

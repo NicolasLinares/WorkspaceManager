@@ -159,7 +159,7 @@ namespace WorkspaceManagerTool.Views {
         }
 
         public void DoSetImport(object sender, EventArgs e) {
-            UpdateLists();
+            ChangeViewMode(ViewMode.NORMAL);
         }
 
         private void ExecuteScript_Action(object sender, EventArgs e) {

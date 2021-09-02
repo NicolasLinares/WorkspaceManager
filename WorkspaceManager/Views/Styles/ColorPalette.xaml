@@ -8,6 +8,7 @@
     <SolidColorBrush x:Key="SemiDark" Color="#2e343b"/>
 
     <SolidColorBrush x:Key="Highlight" Color="#677487"/>
+    <SolidColorBrush x:Key="SemiHighlight" Color="#3c444d"/>
 
     <SolidColorBrush x:Key="RunButton" Color="#2da44e"/>
     <SolidColorBrush x:Key="SaveButton" Color="#0680bd"/>

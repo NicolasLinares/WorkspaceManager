@@ -43,8 +43,7 @@ namespace WorkspaceManagerTool.Views
         }
         public void ImportNewItems_QuickAccessAction(object sender, EventArgs e) {
             var controller = QuickAccessController.GetInstance();
-
-            //controller.ImportNewItems();
+            controller.ImportNewItems<QuickAccess>();
         }
 
         #endregion
@@ -60,7 +59,8 @@ namespace WorkspaceManagerTool.Views
             controller.Export("scripts.json");
         }
         public void ImportNewItems_ScriptsAction(object sender, EventArgs e) {
-
+            var controller = ScriptsController.GetInstance();
+            controller.ImportNewItems<Script>();
         }
 
         #endregion

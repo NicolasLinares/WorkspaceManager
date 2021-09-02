@@ -30,7 +30,7 @@ namespace WorkspaceManagerTool.Controllers
         }
 
         public override void Init() {
-            ReadData<Script>(ResourceFile);
+            Items = ReadData<Script>(ResourceFile);
         }
 
         public void RunScript(GroupableResource script) {

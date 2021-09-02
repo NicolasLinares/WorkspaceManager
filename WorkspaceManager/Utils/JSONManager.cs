@@ -9,13 +9,17 @@ namespace WorkspaceManagerTool.Utils {
 
         private static void CreateDirectory(string path) {
             string dir = Path.GetDirectoryName(path);
-            if (Directory.Exists(dir))
+            if (Directory.Exists(dir)) {
                 return;
+            }
             Directory.CreateDirectory(dir);
         }
 
         private static void CreateFile(string path) {
             CreateDirectory(path);
+            if (File.Exists(path)) {
+                return;
+            }
             File.Create(path);
         }
 
@@ -23,7 +27,7 @@ namespace WorkspaceManagerTool.Utils {
             string jsonContent = string.Empty;
             try {
                 jsonContent = File.ReadAllText(jsonPath);
-            } catch(FileNotFoundException) {
+            } catch(Exception) {
                 CreateFile(jsonPath);
             }
             return JsonConvert.DeserializeObject<T>(jsonContent);
@@ -33,7 +37,7 @@ namespace WorkspaceManagerTool.Utils {
             CreateDirectory(jsonPath);
 
             JsonSerializer serializer = new JsonSerializer {
-                NullValueHandling = NullValueHandling.Ignore  //<<--- tener en cuenta
+                NullValueHandling = NullValueHandling.Ignore
             };
             using (StreamWriter sw = new StreamWriter(jsonPath))
             using (JsonWriter writer = new JsonTextWriter(sw)) {

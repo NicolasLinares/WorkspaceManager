@@ -32,7 +32,7 @@ namespace WorkspaceManagerTool.Controllers {
         }
 
         public override void Init() {
-            ReadData<QuickAccess>(ResourceFile);
+            Items = ReadData<QuickAccess>(ResourceFile);
         }
 
         public void OpenQuickAccess(GroupableResource qa) {
