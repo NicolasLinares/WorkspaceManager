@@ -240,6 +240,7 @@ namespace WorkspaceManagerTool.Views {
             ExecutionPanel.HandlerChanges += DoSaveChangesInScript;
             // Show panel view
             _ExecutionPanel_Container.Children.Add(ExecutionPanel);
+            _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
             _ExecutionPanel_Container.Visibility = Visibility.Visible;
             _Creation_Button.Visibility = Visibility.Collapsed;
         }
@@ -249,6 +250,7 @@ namespace WorkspaceManagerTool.Views {
             if (_ExecutionPanel_Container.Children.Count > 0) {
                 _ExecutionPanel_Container.Children.RemoveAt(_ExecutionPanel_Container.Children.Count - 1);
                 _ExecutionPanel_Container.Visibility = Visibility.Collapsed;
+                _SelectionMultiple_Button.Visibility = Visibility.Visible;
                 _Creation_Button.Visibility = Visibility.Visible;
                 ExecutionPanel.HandlerExecution -= ScriptsController.DoExecution;
                 ExecutionPanel.HandlerClosePanel -= DoCloseExecutionPanel;
@@ -272,6 +274,7 @@ namespace WorkspaceManagerTool.Views {
             CreationPanel.HandlerClosePanel += ClosePanel_Action;
             // Show panel view
             _CreationPanel_Container.Children.Add(CreationPanel);
+            _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
             _Creation_Button.Visibility = Visibility.Collapsed;
             _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
@@ -283,6 +286,7 @@ namespace WorkspaceManagerTool.Views {
                 CreationPanel.HandlerSaveChanges -= CreateItem_Action;
                 CreationPanel.HandlerClosePanel -= ClosePanel_Action;
                 _CreationPanel_Container.Children.RemoveAt(_CreationPanel_Container.Children.Count - 1);
+                _SelectionMultiple_Button.Visibility = Visibility.Visible;
                 _Creation_Button.Visibility = Visibility.Visible;
                 // Enable list interactions
                 _FiltersListBox.IsHitTestVisible = true;

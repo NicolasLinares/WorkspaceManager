@@ -72,6 +72,14 @@ namespace WorkspaceManagerTool.Controllers {
             WriteData();
         }
 
+        public void RemoveSelection(ObservableCollection<GroupableResource> selectionRemoved) {
+            if (selectionRemoved.Count <= 0) {
+                return;
+            }
+            Items = new ObservableCollection<GroupableResource>(Items.Except(selectionRemoved));
+            WriteData();
+        }
+
         public ObservableCollection<GroupableResource> SearchByName(string text) {
             return new ObservableCollection<GroupableResource>(Items.Where(it => it.Name.ToLower().Contains(text.ToLower())));
         }

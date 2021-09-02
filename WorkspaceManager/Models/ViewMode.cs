@@ -13,5 +13,6 @@ namespace WorkspaceManagerTool.Models
         EDITION = 2,
         FILTER = 3,
         EXECUTION = 4,
+        MULTIPLE_SELECTION = 5
     }
 }

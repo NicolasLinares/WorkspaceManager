@@ -117,6 +117,7 @@ namespace WorkspaceManagerTool.Views {
         private void Browse_Action(object sender, EventArgs e) {
             VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
             fbd.Description = "Seleccionar carpeta";
+            fbd.SelectedPath = PathText;
             fbd.UseDescriptionForTitle = true;
             fbd.ShowNewFolderButton = true;
             var result = fbd.ShowDialog();

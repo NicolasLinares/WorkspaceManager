@@ -40,7 +40,7 @@
                         <Image Grid.Column="0" Source="/WorkspaceManagerTool;component/Views/Images/search.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"  />
                         <TextBox Name="_SearchText" Grid.Column="1" Style="{StaticResource _TextBoxStyle}" TextChanged="SearchByName_Action" 
                                  GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown"/>
-                        <Button  Name="_SearchRemoveButton" Grid.Column="2" Background="Transparent" Visibility="Hidden" Click="RemoveSearch_Action" Style="{StaticResource _IconButtonStyle}" />
+                        <Button Name="_SearchRemoveButton" Grid.Column="2" Template="{StaticResource _CleanSearchButtonTemplate}" Click="RemoveSearch_Action" Visibility="Hidden"/>
                     </Grid>
                 </Border>
 
@@ -81,7 +81,7 @@
                         Style="{StaticResource _ListBoxStyle}"
                         MouseDoubleClick="OpenQuickAccess_Action"
                         ItemsSource="{Binding Source={StaticResource quickaccess}}"
-                        SelectionMode="Single"
+                        SelectionMode="Single" SelectionChanged="SetCounter_Action"
                         SelectedValue="{Binding SelectedQuickAccessItem}">
                     <ListBox.ContextMenu>
                         <ContextMenu Opacity="0.8">
@@ -145,9 +145,19 @@
         <Grid Name="_CreationQuickAcess_Container" Grid.Row="1" Grid.RowSpan="2"/>
         
         <!-- Footer Buttons -->
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10" >
+            <Button Name="_SelectionMultiple_Button" Template="{StaticResource _SelectionMultipleButtonTemplate}" Click="EnableMultipleSelection_Action"/>
+        </StackPanel>
+
         <StackPanel Grid.Row="2"  Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
             <Button Name="_RemoveFilter_Button" Template="{StaticResource _RemoveFilterButtonTemplate}" Click="RemoveFilter_Action" Visibility="Collapsed"/>
             <Button Name="_Creation_Button"  Template="{StaticResource _NewButtonTemplate}" Click="OpenCreationPanel_Action" />
+
+            <TextBlock Name="_SelectionCounter" Style="{StaticResource _TextBlockStyle}" Margin="5px 0px" FontSize="18" VerticalAlignment="Center" Visibility="Collapsed"/>
+            <Button Name="_Trash_Button" Template="{StaticResource _TrashButtonTemplate}" Click="RemoveSelectedItems_Action" Visibility="Collapsed" IsEnabled="false"/>
+            <Button Name="_CheckMark_Button" Template="{StaticResource _CheckMarkButtonTemplate}" Click="ApplySelectionChanges_Action" Visibility="Collapsed"/>
+            <Button Name="_CrossMark_Button" Template="{StaticResource _CrossMarkButtonTemplate}" Click="DisableMultipleSelection_Action" Visibility="Collapsed"/>
         </StackPanel>
     </Grid>
 

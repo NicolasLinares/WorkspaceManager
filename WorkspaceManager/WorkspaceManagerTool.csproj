@@ -328,5 +328,14 @@
   <ItemGroup>
     <Resource Include="Views\Images\plus.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Images\multiple-choice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Images\trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Images\check-mark.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
