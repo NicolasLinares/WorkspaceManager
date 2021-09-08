@@ -235,8 +235,8 @@ namespace WorkspaceManagerTool.Views {
                     DoDisableCreationMode();
                     DoDisableMultipleSelectionMode();
                     DoEnableFilterMode();
-                    ApplyFilter(SelectedGroup);
                     UpdateFilterList();
+                    ApplyFilter(SelectedGroup);
                     break;
                 case (ViewMode.MULTIPLE_SELECTION):
                     DoEnableMultipleSelectionMode();
