@@ -12,6 +12,7 @@ using System.Windows.Media;
 using Ookii.Dialogs.WinForms;
 using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess;
 using WorkspaceManagerTool.Models;
+using System.Windows.Media.Effects;
 
 namespace WorkspaceManagerTool.Views {
 
@@ -267,7 +268,8 @@ namespace WorkspaceManagerTool.Views {
             _FiltersListBox.IsHitTestVisible = false;
             _QuickAcessListBox.IsHitTestVisible = false;
             // Apply blur to background
-            _BlurEffect.Radius = 5;
+            BlurEffect effect = new BlurEffect() { Radius = 5 };
+            _BlurEffect.Effect = effect;
         }
         private void DoEnableEditionMode() {
             SelectedQAToEdit = SelectedQuickAccessItem;
@@ -309,7 +311,7 @@ namespace WorkspaceManagerTool.Views {
                 _QuickAcessListBox.IsHitTestVisible = true;
                 _QuickAcessListBox.UnselectAll();
                 // Remove blur to background
-                _BlurEffect.Radius = 0;
+                _BlurEffect.Effect = null;
             }
         }
         private void DoDisableFilterMode() {

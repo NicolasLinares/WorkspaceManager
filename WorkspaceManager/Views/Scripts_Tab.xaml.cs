@@ -175,14 +175,19 @@ namespace WorkspaceManagerTool.Views {
                 return;
             }
             if (CurrentViewMode == ViewMode.EDITION) {
-                ReplaceItem(SelectedScriptToEdit, new_sc);
+                ScriptsController.Replace(SelectedScriptToEdit, new_sc);
+                GroupItems = ScriptsController.GroupItems;
+                SelectedGroup = SelectedScriptToEdit.Group;
+                SelectedScriptToEdit = null;
             } else {
                 ScriptsController.Add(new_sc);
             }
             SetViewMode(PreviousViewMode);
         }
         public void ReplaceItem_Action(object sender, ScriptEvent e) {
-            ReplaceItem(e.OldScript, e.NewScript);
+            // Text script has been modified
+            ScriptsController.Replace(e.OldScript, e.NewScript);
+            _ScriptsListBox.UnselectAll();
         }
         private void RemoveItem_Action(object sender, RoutedEventArgs e) {
             if (_ScriptsListBox.SelectedItem == null) {
@@ -364,12 +369,6 @@ namespace WorkspaceManagerTool.Views {
         #endregion
 
         #region Auxiliar methods
-        private void ReplaceItem(GroupableResource olditem, GroupableResource newitem) {
-            ScriptsController.Replace(olditem, newitem);
-            GroupItems = ScriptsController.GroupItems;
-            SelectedGroup = olditem.Group;
-            SelectedScriptToEdit = null;
-        }
         private void UpdateFilterList() {
             var tmp = SelectedGroup;
             GroupItems = ScriptsController.GroupItems;

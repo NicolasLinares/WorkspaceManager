@@ -17,10 +17,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0">
-            <Border.Effect>
-                <BlurEffect x:Name="_BlurEffect" Radius="0" KernelType="Gaussian"/>
-            </Border.Effect>
+        <Border Grid.Row="0" x:Name="_BlurEffect">
 
             <Grid>
                 <Grid.RowDefinitions>
