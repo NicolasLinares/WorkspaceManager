@@ -54,4 +54,10 @@
             <Image Source="/WorkspaceManagerTool;component/Views/Images/trash.png" Width="18" Height="18" RenderOptions.BitmapScalingMode="HighQuality"  />
         </Button>
     </ControlTemplate>
+
+    <ControlTemplate x:Key="_ResourceTypeButtonTemplate" TargetType="Button">
+        <Button Name="button" Background="{StaticResource Black}" Style="{StaticResource _ButtonStyle}" Padding="0 0" Margin="0 0" Height="26" Width="38" >
+            <ContentPresenter/>
+        </Button>
+    </ControlTemplate>
 </ResourceDictionary>

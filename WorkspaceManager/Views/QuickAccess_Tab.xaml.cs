@@ -35,7 +35,7 @@ namespace WorkspaceManagerTool.Views {
         }
 
         public ObservableCollection<GroupableResource> QuickAccessItems {
-            get => quickAccess;
+            get => QuickAccessController != null ? QuickAccessController.OrderByType(quickAccess) : quickAccess;
             set => SetProperty(ref quickAccess, value);
         }
 
@@ -73,10 +73,7 @@ namespace WorkspaceManagerTool.Views {
             QuickAccessController.HandlerListImport += SetNormalMode_Action;
 
             // Set observable data from controller
-            QuickAccessItems = QuickAccessController.Items;
-            GroupItems = QuickAccessController.GroupItems;
-            _FiltersListBox.UnselectAll();
-            _QuickAcessListBox.UnselectAll();
+            UpdateLists();
         }
         #endregion
 
@@ -162,7 +159,8 @@ namespace WorkspaceManagerTool.Views {
         private void CreateItem_Action(object sender, EventArgs e) {
             GroupableResource new_qa = QuickAccessPanel.GetQuickAccess();
             if (QuickAccessController.Items.Contains(new_qa)) {
-                MessageBox.Show("El acceso directo ya existe.", "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(CurrentViewMode == ViewMode.EDITION ? "No se han realizado modificaciones en el acceso directo." : "El acceso directo ya existe.",
+                    CurrentViewMode == ViewMode.EDITION ? "Acceso directo no modificado" : "Acceso directo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
                 SetViewMode(PreviousViewMode);
                 return;
             }

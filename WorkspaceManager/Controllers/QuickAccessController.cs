@@ -38,5 +38,9 @@ namespace WorkspaceManagerTool.Controllers {
         public void OpenQuickAccess(GroupableResource qa) {
             Process process = Process.Start((qa as QuickAccess).Path);
         }
+
+        public ObservableCollection<GroupableResource> OrderByType(ObservableCollection<GroupableResource> itms) {
+            return new ObservableCollection<GroupableResource>(itms.OrderBy(it => (it as QuickAccess).Type));
+        }
     }
 }
