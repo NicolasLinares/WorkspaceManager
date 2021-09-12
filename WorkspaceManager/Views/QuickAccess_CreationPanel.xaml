@@ -8,6 +8,8 @@
 
     <Control.Resources>
         <CollectionViewSource x:Key="options" Source="{Binding ComboBoxGroupOptions, Mode=TwoWay}"/>
+        <Image x:Key="Folder" Source="/WorkspaceManagerTool;component/Views/Images/folder.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" />
+        <Image x:Key="File" Source="/WorkspaceManagerTool;component/Views/Images/file.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" />
     </Control.Resources>
 
     <Grid Background="{StaticResource Dark}">
@@ -22,52 +24,61 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0" Grid.ColumnSpan="4" Background="{StaticResource Black}">
+        <Grid Grid.Row="0" Grid.ColumnSpan="5" Background="{StaticResource Black}">
             <TextBlock Text="{Binding PanelTitle}" FontWeight="Bold" FontSize="13" VerticalAlignment="Center" Style="{StaticResource _TextBlockStyle}"/>
         </Grid>
 
+        
+        <!--Name-->
         <TextBlock Text="Nombre" Grid.Row="1" Style="{StaticResource _TextBlockStyle}" />
         <Border Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource _BorderTextBoxStyle}">
             <TextBox Text="{Binding Path=NameText, Mode=TwoWay}" Style="{StaticResource _TextBoxStyle}" MaxLength="50"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
         </Border>
 
-        <TextBlock Text="Grupo" Grid.Row="1" Grid.Column="1" Style="{StaticResource _TextBlockStyle}"  />
-        <Border Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Height="23"  Style="{StaticResource _BorderTextBoxStyle}">
+        <!--Group-->
+        <TextBlock Text="Grupo" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource _TextBlockStyle}"  />
+        <Border Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Height="23"  Style="{StaticResource _BorderTextBoxStyle}">
             <ComboBox ItemsSource="{Binding Source={StaticResource options}}" Style="{StaticResource _ComboBoxStyle}" IsSynchronizedWithCurrentItem="True" 
                       SelectedItem="{Binding SelectedGroupOption}" SelectionChanged="ComboBoxSelectionChanged"/>
         </Border>
 
-        <Button Grid.Row="2" Grid.Column="3" Style="{StaticResource _ActionButtonStyle}"
+        <Button Grid.Row="2" Grid.Column="4" Style="{StaticResource _ActionButtonStyle}"
                     HorizontalAlignment="Left" Width="20" Height="20" Click="CreateGroup_Action">
             <TextBlock HorizontalAlignment="Center" Margin="0 -3 1 0" FontSize="16" Text="+" />
         </Button>
 
-        <TextBlock Text="Ruta" Grid.Row="3" Style="{StaticResource _TextBlockStyle}" />
-        <Border  Grid.Row="4" Grid.ColumnSpan="3" Style="{StaticResource _BorderTextBoxStyle}" Margin="20px 0px 40px 0px">
-            <TextBox Text="{Binding Path=PathText, Mode=TwoWay}"  Style="{StaticResource _TextBoxStyle}" 
+        <!--Path-->
+        <TextBlock Text="Ruta" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _TextBlockStyle}" />
+        <Border  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource _BorderTextBoxStyle}" Margin="20px 0px 30px 0px">
+            <TextBox Name="_PathText"  Style="{StaticResource _TextBoxStyle}" TextChanged="CheckResourceType_Action"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
         </Border>
+        <Button Name="_ResourceTypeSwitch_Button"  Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right" Width="30" Style="{StaticResource _ActionButtonStyle}" Click="ChangeResourceType_Action">
+            <DynamicResource ResourceKey="Folder"/>
+        </Button>
         <Button Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" Style="{StaticResource _ActionButtonStyle}" Margin="0px 0px 20px 0px"
-                    HorizontalAlignment="Right" Width="60" Height="19" Click="Browse_Action">
+                    HorizontalAlignment="Right" Width="60" Height="20" Click="Browse_Action">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" Text="Buscar"/>
         </Button>
 
-
-        <TextBlock Text="Descripción" Grid.Row="5" Style="{StaticResource _TextBlockStyle}"  />
-        <TextBlock Name="_DescriptionCounter" Grid.Row="5" Grid.ColumnSpan="4" Style="{StaticResource _TextBlockStyle}" Margin="20px 0px" HorizontalAlignment="Right" />
-        <Border  Grid.Row="6" Grid.ColumnSpan="4" Margin="20px 0px"  Style="{StaticResource _BorderTextBoxStyle}">
+        <!--Description-->
+        <TextBlock Text="Descripción" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _TextBlockStyle}"  />
+        <TextBlock Name="_DescriptionCounter" Grid.Row="5" Grid.ColumnSpan="5" Style="{StaticResource _TextBlockStyle}" Margin="20px 0px" HorizontalAlignment="Right" />
+        <Border  Grid.Row="6" Grid.ColumnSpan="5" Margin="20px 0px"  Style="{StaticResource _BorderTextBoxStyle}">
             <TextBox Name="_DescriptionTextBox" Text="{Binding Path=DescriptionText, Mode=TwoWay}" Style="{StaticResource _TextBoxStyle}" MaxLength="100"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus"  PreviewMouseDown="OnPalabraPreviewMouseDown" TextChanged="DescriptionCounter_Action" />
         </Border>
 
-        <StackPanel Name="_CreationPanel_Buttons" Grid.Row="7" Grid.ColumnSpan="4" HorizontalAlignment="Right" Orientation="Horizontal" Margin="20px 0px">
+        <!--Buttons-->
+        <StackPanel Name="_CreationPanel_Buttons" Grid.Row="7" Grid.ColumnSpan="5" HorizontalAlignment="Right" Orientation="Horizontal" Margin="20px 0px">
             <Button Name="_AcceptButton"  Style="{StaticResource _ButtonStyle}" Background="{StaticResource SaveButton}" Margin="10px 0" Click="SaveChanges_Action">
                 Guardar
             </Button>

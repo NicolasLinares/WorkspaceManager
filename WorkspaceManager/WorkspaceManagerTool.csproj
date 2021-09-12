@@ -153,6 +153,7 @@
     <Compile Include="Models\GroupableResource.cs" />
     <Compile Include="Models\ViewMode.cs" />
     <Compile Include="Models\QuickAccess.cs" />
+    <Compile Include="Utils\ImageConverter.cs" />
     <Compile Include="Utils\JSONManager.cs" />
     <Compile Include="Utils\Notifier.cs" />
     <Compile Include="Models\Group.cs" />
@@ -336,6 +337,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Views\Images\check-mark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Images\file.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

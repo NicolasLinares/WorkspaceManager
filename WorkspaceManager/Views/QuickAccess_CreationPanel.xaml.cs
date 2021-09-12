@@ -19,6 +19,7 @@ using System.Windows.Media;
 using Ookii.Dialogs.WinForms;
 using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess;
 using WorkspaceManagerTool.Models;
+using Microsoft.Win32;
 
 namespace WorkspaceManagerTool.Views {
 
@@ -26,6 +27,7 @@ namespace WorkspaceManagerTool.Views {
     public partial class QuickAccess_CreationPanel : UserControl, INotifyPropertyChanged {
         private string panelTitle;
         private string name;
+        private QuickAccessType resourceType;
         private string path;
         private string description;
         private Group selectedGroupOption;
@@ -38,6 +40,10 @@ namespace WorkspaceManagerTool.Views {
         public string NameText {
             get => name;
             set => SetProperty(ref name, value);
+        }
+        public QuickAccessType ResourceType {
+            get => resourceType;
+            set => SetProperty(ref resourceType, value);
         }
         public string PathText {
             get => path;
@@ -58,7 +64,9 @@ namespace WorkspaceManagerTool.Views {
             set => SetProperty(ref groupsOptions, value);
         }
 
+
         private string DefaultName => "Nuevo acceso directo";
+        private QuickAccessType DefaultResourceType => QuickAccessType.DIRECTORY;
         private string DefaultPath => "Ruta sin definir";
         private string DefaultDescription => "";
         private Group DefaultGroup => new Group("Nuevo", new SolidColorBrush(Color.FromRgb(17, 166, 143)));
@@ -87,7 +95,7 @@ namespace WorkspaceManagerTool.Views {
             SetDefaultValues();
             if (qaToEdit != null) {
 
-                PathText = (qaToEdit as QuickAccess).Path;
+                _PathText.Text = (qaToEdit as QuickAccess).Path;
                 NameText = qaToEdit.Name;
                 DescriptionText = qaToEdit.Description;
                 SelectedGroupOption = qaToEdit.Group;
@@ -99,7 +107,8 @@ namespace WorkspaceManagerTool.Views {
         private void SetDefaultValues() {
             NameText = DefaultName;
             DescriptionText = DefaultDescription;
-            PathText = DefaultPath;
+            ResourceType = DefaultResourceType;
+            _PathText.Text = DefaultPath;
             SelectedGroupOption = DefaultGroup;
             ComboBoxGroupOptions = new ObservableCollection<Group>();
         }
@@ -114,15 +123,76 @@ namespace WorkspaceManagerTool.Views {
         private void ComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e) {
             SelectedGroupOption = (sender as ComboBox).SelectedItem as Group;
         }
+
+        private void DescriptionCounter_Action(object sender, EventArgs e) {
+            if (_DescriptionTextBox.Text.Length <= 0) {
+                _DescriptionCounter.Text = string.Empty;
+                return;
+            }
+            _DescriptionCounter.Text = string.Format("{0}/{1}", _DescriptionTextBox.Text.Length, _DescriptionTextBox.MaxLength);
+        }
+
+        private void ChangeResourceType_Action(object sender, EventArgs e) {
+            if (ResourceType == QuickAccessType.FILE) {
+                ResourceType = QuickAccessType.DIRECTORY;
+                _ResourceTypeSwitch_Button.Content = FindResource("Folder");
+                _ResourceTypeSwitch_Button.ToolTip = "Acceso directo a una carpeta";
+                return;
+            }
+            ResourceType = QuickAccessType.FILE;
+            _ResourceTypeSwitch_Button.Content = FindResource("File");
+            _ResourceTypeSwitch_Button.ToolTip = "Acceso directo a un fichero";
+        }
+
+        private void CheckResourceType_Action(object sender, EventArgs e) {
+            PathText = _PathText.Text;
+            try {
+                // get the file attributes for file or directory
+                FileAttributes attr = File.GetAttributes(PathText);
+                //detect whether its a directory or file
+                if (attr.HasFlag(FileAttributes.Directory)) {
+                    if (ResourceType != QuickAccessType.DIRECTORY) {
+                        ChangeResourceType_Action(this, new EventArgs());
+                    }
+                    return;
+                }
+
+                if (ResourceType != QuickAccessType.FILE) {
+                    ChangeResourceType_Action(this, new EventArgs());
+                    return;
+                }
+            } catch (Exception) {
+                return;
+            }
+        }
+
         private void Browse_Action(object sender, EventArgs e) {
-            VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
-            fbd.Description = "Seleccionar carpeta";
-            fbd.SelectedPath = PathText;
-            fbd.UseDescriptionForTitle = true;
-            fbd.ShowNewFolderButton = true;
-            var result = fbd.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK) {
-                PathText = fbd.SelectedPath;
+            if (ResourceType == QuickAccessType.FILE) {
+                BrowseFile();
+                return;
+            }
+            BrowseDirectory();
+
+            void BrowseDirectory() {
+                VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
+                fbd.Description = "Seleccionar carpeta";
+                fbd.SelectedPath = PathText;
+                fbd.UseDescriptionForTitle = true;
+                fbd.ShowNewFolderButton = true;
+                var result = fbd.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK) {
+                    PathText = fbd.SelectedPath;
+                }
+            }
+            void BrowseFile() {
+                OpenFileDialog dlg = new OpenFileDialog();
+                dlg.Filter = null; // Filter files by extension
+                dlg.Title = "Seleccionar fichero";
+                dlg.InitialDirectory = PathText;
+                var result = dlg.ShowDialog();
+                if (result == true) {
+                    PathText = dlg.FileName;
+                }
             }
         }
         private void CreateGroup_Action(object sender, EventArgs e) {
@@ -147,15 +217,7 @@ namespace WorkspaceManagerTool.Views {
             if (string.IsNullOrWhiteSpace(DescriptionText)) {
                 DescriptionText = DefaultDescription;
             }
-            return new FolderQuickAccess(PathText, NameText, DescriptionText, SelectedGroupOption);
-        }
-
-        public void DescriptionCounter_Action(object sender, EventArgs e) {
-            if (_DescriptionTextBox.Text.Length <= 0) {
-                _DescriptionCounter.Text = string.Empty;
-                return;
-            }
-            _DescriptionCounter.Text = string.Format("{0}/{1}", _DescriptionTextBox.Text.Length, _DescriptionTextBox.MaxLength);
+            return new FolderQuickAccess(PathText, NameText, DescriptionText, SelectedGroupOption, ResourceType);
         }
 
         private void ClosePanel_Action(object sender, EventArgs e) {
@@ -164,6 +226,8 @@ namespace WorkspaceManagerTool.Views {
         }
 
         private void SaveChanges_Action(object sender, EventArgs e) {
+            CheckResourceType_Action(this, new EventArgs());
+
             this.Visibility = Visibility.Collapsed;
             HandlerSaveChanges?.Invoke(this, e);
         }
