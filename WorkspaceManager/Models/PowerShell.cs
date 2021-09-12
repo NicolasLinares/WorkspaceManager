@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 
@@ -24,10 +25,15 @@ namespace WorkspaceManagerTool.Models {
             processInfo.UseShellExecute = true;
             processInfo.Verb = "runas";
             processInfo.Arguments = ADMIN_PARAM + " " + NO_EXIT_PARAM + " " + script.Commands;
-            Process process = Process.Start(processInfo);
-            process.WaitForExit();
-            int errorLevel = process.ExitCode;
-            process.Close();
+            try {
+                Process process = Process.Start(processInfo);
+                process.WaitForExit();
+                int errorLevel = process.ExitCode;
+                process.Close();
+            } catch(Win32Exception) {
+                return;
+            }
+
         }
 
         //public int RunCommand(string cmmd, bool showPSWindow) {
