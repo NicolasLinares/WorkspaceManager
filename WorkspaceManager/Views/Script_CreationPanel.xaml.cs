@@ -108,9 +108,10 @@ namespace WorkspaceManagerTool.Views {
         private void CreateGroup_Action(object sender, EventArgs e) {
             Group_CreationDialog dialog = new Group_CreationDialog();
             if (dialog.ShowDialog() == true) {
-                SelectedGroupOption = new Group(dialog.NameText, dialog.ColorSelected);
-                ComboBoxGroupOptions.Add(SelectedGroupOption);
+                var newgrp = new Group(dialog.NameText, dialog.ColorSelected);
+                ComboBoxGroupOptions.Add(newgrp);
                 ComboBoxGroupOptions = new ObservableCollection<Group>(ComboBoxGroupOptions.OrderBy(gr => gr.Name));
+                SelectedGroupOption = newgrp;
             }
         }
         public Script GetScript() {
