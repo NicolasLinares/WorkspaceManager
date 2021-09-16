@@ -210,6 +210,16 @@ namespace WorkspaceManagerTool.Views {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void DuplicateScript_Action(object sender, EventArgs e) {
+            if (CurrentViewMode == ViewMode.MULTIPLE_SELECTION || _ScriptsListBox.SelectedItem == null) {
+                return;
+            }
+            ScriptsController.DuplicateScript(SelectedScriptItem as Script);
+            SetViewMode(CurrentViewMode);
+        }
+
+
         #endregion
 
         #region Searchbar & Filter

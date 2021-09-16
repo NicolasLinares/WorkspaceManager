@@ -22,6 +22,8 @@ namespace WorkspaceManagerTool.Controllers {
             }
         }
 
+        public ObservableCollection<GroupableResource> OrderedItems => OrderByType(Items);
+
         private static QuickAccessController _instance;
 
         public static QuickAccessController GetInstance() {
@@ -39,7 +41,7 @@ namespace WorkspaceManagerTool.Controllers {
             Process process = Process.Start((qa as QuickAccess).Path);
         }
 
-        public ObservableCollection<GroupableResource> OrderByType(ObservableCollection<GroupableResource> itms) {
+        private ObservableCollection<GroupableResource> OrderByType(ObservableCollection<GroupableResource> itms) {
             return new ObservableCollection<GroupableResource>(itms.OrderBy(it => (it as QuickAccess).Type));
         }
     }

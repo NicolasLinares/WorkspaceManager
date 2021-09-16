@@ -222,6 +222,7 @@ namespace WorkspaceManagerTool.Views {
         }
 
         private void ClosePanel_Action(object sender, EventArgs e) {
+
             this.Visibility = Visibility.Collapsed;
             HandlerClosePanel?.Invoke(this, e);
         }

@@ -20,7 +20,7 @@
 
         <Border Grid.Row="1" Style="{StaticResource _BorderScriptTextBoxStyle}" Padding="5"  Margin="10px 5px 10px 5px" >
             <ScrollViewer  Style="{StaticResource _ScrollViewerStyle}"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <TextBox Name="_ScriptTextBox" Padding="10" Style="{StaticResource _ScriptTextBoxStyle}"
+                <TextBox Name="_ScriptTextBox" Padding="10" Style="{StaticResource _ScriptTextBoxStyle}" AcceptsTab="True"
                          GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" TextChanged="ShowSaveButton_Action" />
             </ScrollViewer>
         </Border>

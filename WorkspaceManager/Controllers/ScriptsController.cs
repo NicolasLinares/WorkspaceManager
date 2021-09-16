@@ -49,5 +49,20 @@ namespace WorkspaceManagerTool.Controllers
             RunScript(e.Script);
         }
 
+        public void DuplicateScript(Script script) {
+            string name = String.Format("{0} - Copy", script.Name);
+            string finalName = name;
+            int counter = 1;
+            while(ExistsName(finalName)) {
+                finalName = String.Format("{0} ({1})", name, counter++);
+            }
+
+            Script duplicated = new Script(finalName, script.Description, script.Commands, script.Group);
+            Add(duplicated);
+
+            bool ExistsName(string itemName) {
+                return Items.Any(it => it.Name.Equals(itemName));
+            }
+        }
     }
 }

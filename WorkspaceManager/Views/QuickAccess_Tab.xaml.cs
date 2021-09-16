@@ -35,7 +35,7 @@ namespace WorkspaceManagerTool.Views {
         }
 
         public ObservableCollection<GroupableResource> QuickAccessItems {
-            get => QuickAccessController != null ? QuickAccessController.OrderByType(quickAccess) : quickAccess;
+            get => quickAccess;
             set => SetProperty(ref quickAccess, value);
         }
 
