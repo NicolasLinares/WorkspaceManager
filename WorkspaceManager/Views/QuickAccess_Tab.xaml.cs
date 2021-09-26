@@ -201,6 +201,14 @@ namespace WorkspaceManagerTool.Views {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void PinScript_Action(object sender, EventArgs e) {
+            if (CurrentViewMode == ViewMode.MULTIPLE_SELECTION || _QuickAcessListBox.SelectedItem == null) {
+                return;
+            }
+            QuickAccessController.Pin(SelectedQuickAccessItem as QuickAccess);
+            SetViewMode(CurrentViewMode);
+        }
         #endregion
 
         #region Searchbar & Filter

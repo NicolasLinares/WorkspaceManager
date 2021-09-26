@@ -53,7 +53,7 @@ namespace WorkspaceManagerTool.Controllers {
             return new ObservableCollection<GroupableResource>(data.Cast<GroupableResource>());
         }
         protected void WriteData() {
-            JSONManager.SaveJSON(ResourceFile, Items);
+            JSONManager.SaveJSON(ResourceFile, items);
         }
         #endregion
 
@@ -75,10 +75,11 @@ namespace WorkspaceManagerTool.Controllers {
             foreach (var item in items) {
                 if (item.Equals(res)) {
                     item.Pinned = !res.Pinned;
+                    WriteData();
                     return;
                 }
             }
-            WriteData();
+            
         }
 
         public void RemoveSelection(ObservableCollection<GroupableResource> selectionRemoved) {
@@ -90,12 +91,11 @@ namespace WorkspaceManagerTool.Controllers {
         }
 
         public ObservableCollection<GroupableResource> SearchByName(string text) {
-            return items.AsQueryable().Where(it => it.Name.ToLower().Contains(text.ToLower())).ToObservableCollection();
+            return items.AsQueryable().Where(it => it.Name.ToLower().Contains(text.ToLower())).OrderBy(it => !it.Pinned).ToObservableCollection();
         }
         public ObservableCollection<GroupableResource> FilterByGroup(Group filter) {
-            return items.AsQueryable().Where(qa => qa.Group.Equals(filter)).ToObservableCollection();
+            return items.AsQueryable().Where(qa => qa.Group.Equals(filter)).OrderBy(it => !it.Pinned).ToObservableCollection();
         }
-
 
         #endregion
 

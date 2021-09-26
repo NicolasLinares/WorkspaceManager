@@ -3,14 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:WorkspaceManagerTool.Utils"
              mc:Ignorable="d" d:DesignHeight="500" >
 
     <Control.Resources>
         <CollectionViewSource x:Key="filter" Source="{Binding GroupItems, Mode=TwoWay}"/>
         <CollectionViewSource x:Key="quickaccess" Source="{Binding QuickAccessItems, Mode=TwoWay}"/>
-        <local:ImageConverter x:Key="ImageConverter"/>
-
     </Control.Resources>
 
     <Grid >
@@ -55,23 +52,13 @@
                          MouseUp="ApplyFilter_Action"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          IsSynchronizedWithCurrentItem="True"
+                         ItemTemplate="{StaticResource _GroupListBoxItemTemplate}"
                          ItemContainerStyle="{StaticResource _Groups_ListBoxItemStyle}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
-
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Name="border" 
-                                CornerRadius="2" BorderThickness="1" Padding="8px 3px"
-                                BorderBrush="{StaticResource SemiDark}"  Background="{Binding Color}"
-                                HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock Foreground="Black" Margin="0px 0px 0px 1px" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Name}"   />
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
                 </ListBox>
 
 
@@ -81,14 +68,16 @@
                         Style="{StaticResource _ListBoxStyle}"
                         MouseDoubleClick="OpenQuickAccess_Action"
                         ItemsSource="{Binding Source={StaticResource quickaccess}}"
+                         ItemTemplate="{StaticResource _QuickAccessListBoxItemTemplate}"
                         SelectionMode="Single" SelectionChanged="SetCounter_Action"
                         SelectedValue="{Binding SelectedQuickAccessItem}">
                     <ListBox.ContextMenu>
                         <ContextMenu Opacity="0.8">
-                            <MenuItem Header="Abrir carpeta" Click="OpenQuickAccess_Action"/>
+                            <MenuItem Header="Abrir" Click="OpenQuickAccess_Action"/>
                             <MenuItem Header="Copiar ruta" Click="CopyToClipboard_Action"/>
                             <MenuItem Header="Editar" Click="SetEditionMode_Action"/>
                             <MenuItem Header="Eliminar" Click="RemoveItem_Action"/>
+                            <MenuItem Header="Fijar" Click="PinScript_Action"/>
                             <ContextMenu.Style>
                                 <Style TargetType="{x:Type ContextMenu}">
                                     <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -111,31 +100,6 @@
                             </ContextMenu.Style>
                         </ContextMenu>
                     </ListBox.ContextMenu>
-                    <ListBox.ItemTemplate >
-                        <DataTemplate >
-                            <Border Style="{StaticResource _ToolTipStyle}" ToolTip="{Binding Description}" >
-                                <Grid Height="Auto" Margin="15px 5px 0px 5px">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0">
-                                        <TextBlock Height="20" FontWeight="DemiBold" Foreground="{Binding Group.Color}" FontSize="10" Text="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding Type, Converter={StaticResource ImageConverter}}" Width="18" Height="18" Margin="0px 0px 7px 0px" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"  />
-                                            <TextBlock Height="20" Margin="0px 5px 0px 0px" TextTrimming="WordEllipsis" Foreground="WhiteSmoke" Text="{Binding Path}" FontSize="12" FontWeight="Light"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </StackPanel>
-                                    <Border Grid.Column="1" Name="border" MaxWidth="160"
-                                        CornerRadius="2" BorderThickness="1" Padding="8px 3px" Margin="10px 0px"
-                                        BorderBrush="{StaticResource SemiDark}"  Background="{Binding Group.Color}"
-                                        HorizontalAlignment="Right" VerticalAlignment="Center">
-                                        <TextBlock Foreground="Black" Margin="0px 0px 0px 1px" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Group.Name}"/>
-                                    </Border>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
                 </ListBox>
 
             </Grid>
