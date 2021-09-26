@@ -152,6 +152,7 @@
     <Compile Include="Models\GroupableResource.cs" />
     <Compile Include="Models\ViewMode.cs" />
     <Compile Include="Models\QuickAccess.cs" />
+    <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\ImageConverter.cs" />
     <Compile Include="Utils\JSONManager.cs" />
     <Compile Include="Utils\Notifier.cs" />
@@ -166,6 +167,10 @@
       <DependentUpon>Config_Tab.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Styles\GroupBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Templates\ListBoxItems.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -339,6 +344,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Views\Images\file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Images\pin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

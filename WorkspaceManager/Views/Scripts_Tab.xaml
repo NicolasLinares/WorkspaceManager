@@ -41,31 +41,21 @@
         <!-- Filter list-->
         <ListBox Grid.Row="1" 
                  Name="_FiltersListBox" 
-                 VerticalAlignment="Center"
-                 Background="{StaticResource Dark}"
-                 BorderThickness="0"
-                 ItemsSource="{Binding Source={StaticResource filter}}"
-                 SelectedValue="{Binding SelectedGroup}"
-                 MouseUp="ApplyFilter_Action"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  IsSynchronizedWithCurrentItem="True"
-                 ItemContainerStyle="{StaticResource _Filters_ListBoxItemStyle}">
+                 VerticalAlignment="Center"
+                 BorderThickness="0"
+                 Background="{StaticResource Dark}"
+                 MouseUp="ApplyFilter_Action"
+                 SelectedValue="{Binding SelectedGroup}"
+                 ItemsSource="{Binding Source={StaticResource filter}}"
+                 ItemTemplate="{StaticResource _GroupListBoxItemTemplate}"
+                 ItemContainerStyle="{StaticResource _Groups_ListBoxItemStyle}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
-
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border Name="border" 
-                        CornerRadius="2" BorderThickness="1" Padding="8px 3px"
-                        BorderBrush="{StaticResource SemiDark}"  Background="{Binding Color}"
-                        HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Foreground="Black" Margin="0px 0px 0px 1px" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Name}"   />
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
         </ListBox>
 
         <!-- Scripts list-->
@@ -73,6 +63,7 @@
                 Style="{StaticResource _ListBoxStyle}"
                 MouseDoubleClick="SetExecutionMode_Action"
                 ItemsSource="{Binding Source={StaticResource scripts}}"
+                ItemTemplate="{StaticResource _ScriptListBoxItemTemplate}"
                 SelectionMode="Single" SelectionChanged="SetCounter_Action"
                 SelectedValue="{Binding SelectedScriptItem}">
             <ListBox.ContextMenu>
@@ -81,6 +72,7 @@
                     <MenuItem Header="Ejecutar" Click="ExecuteScript_Action"/>
                     <MenuItem Header="Editar" Click="SetEditionMode_Action"/>
                     <MenuItem Header="Eliminar" Click="RemoveItem_Action"/>
+                    <MenuItem Header="Fijar" Click="PinScript_Action"/>
                     <ContextMenu.Style>
                         <Style TargetType="{x:Type ContextMenu}">
                             <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -103,28 +95,6 @@
                     </ContextMenu.Style>
                 </ContextMenu>
             </ListBox.ContextMenu>
-            <ListBox.ItemTemplate>
-                <DataTemplate >
-                    <Border Style="{StaticResource _ToolTipStyle}"  ToolTip="{Binding Description}">
-                        <Grid Height="Auto" Margin="15px 5px 0px 5px">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                <Image Source="/WorkspaceManagerTool;component/Views/Images/powershell.png" Width="18" Height="18" Margin="0px 0px 7px 0px" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"  />
-                                <TextBlock Height="20" Margin="0px 5px 0px 0px" TextTrimming="WordEllipsis" Foreground="WhiteSmoke" Text="{Binding Name}" FontSize="12" FontWeight="Light"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            </StackPanel>
-                            <Border Grid.Column="1" Name="border" MaxWidth="160"
-                                CornerRadius="2" BorderThickness="1" Padding="8px 3px" Margin="10px 0px"
-                                BorderBrush="{StaticResource SemiDark}"  Background="{Binding Group.Color}"
-                                HorizontalAlignment="Right" VerticalAlignment="Center">
-                                <TextBlock Foreground="Black" Margin="0px 0px 0px 1px" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Group.Name}"/>
-                            </Border>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
         </ListBox>
 
 

@@ -33,6 +33,7 @@ namespace WorkspaceManagerTool.Models
             Description = description;
             Group = group;
             Type = type;
+            Pinned = false;
         }
 
         public override bool Equals(object obj) {

@@ -16,6 +16,7 @@ namespace WorkspaceManagerTool.Models
         private string name;
         private string description;
         private Group group;
+        private bool pinned;
 
         public string Name {
             get { return name; }
@@ -28,6 +29,10 @@ namespace WorkspaceManagerTool.Models
         public Group Group {
             get { return group; }
             set { SetProperty(ref group, value); }
+        }
+        public bool Pinned {
+            get { return pinned; }
+            set { SetProperty(ref pinned, value); }
         }
 
         public void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null) {

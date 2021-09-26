@@ -55,7 +55,7 @@
                          MouseUp="ApplyFilter_Action"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          IsSynchronizedWithCurrentItem="True"
-                         ItemContainerStyle="{StaticResource _Filters_ListBoxItemStyle}">
+                         ItemContainerStyle="{StaticResource _Groups_ListBoxItemStyle}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
@@ -111,9 +111,9 @@
                             </ContextMenu.Style>
                         </ContextMenu>
                     </ListBox.ContextMenu>
-                    <ListBox.ItemTemplate>
+                    <ListBox.ItemTemplate >
                         <DataTemplate >
-                            <Border Style="{StaticResource _ToolTipStyle}"  ToolTip="{Binding Description}">
+                            <Border Style="{StaticResource _ToolTipStyle}" ToolTip="{Binding Description}" >
                                 <Grid Height="Auto" Margin="15px 5px 0px 5px">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>

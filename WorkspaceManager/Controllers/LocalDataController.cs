@@ -19,7 +19,7 @@ namespace WorkspaceManagerTool.Controllers {
 
         public ObservableCollection<GroupableResource> Items {
             get {
-                return OrderGroupableResources(items);
+                return items.AsQueryable().OrderBy(it => !it.Pinned).ToObservableCollection(); ;
             }
             set {
                 items = value;
@@ -28,7 +28,7 @@ namespace WorkspaceManagerTool.Controllers {
         public ObservableCollection<Group> GroupItems {
             get {
                 var groups = items.Select(it => it.Group).Distinct();
-                return OrderGroups(groups);
+                return groups.AsQueryable().OrderBy(gr => gr.Name).ToObservableCollection();
             }
         }
 
@@ -71,28 +71,32 @@ namespace WorkspaceManagerTool.Controllers {
             items.Add(newItem);
             WriteData();
         }
+        public void Pin(GroupableResource res) {
+            foreach (var item in items) {
+                if (item.Equals(res)) {
+                    item.Pinned = !res.Pinned;
+                    return;
+                }
+            }
+            WriteData();
+        }
 
         public void RemoveSelection(ObservableCollection<GroupableResource> selectionRemoved) {
             if (selectionRemoved.Count <= 0) {
                 return;
             }
-            Items = new ObservableCollection<GroupableResource>(Items.Except(selectionRemoved));
+            items = items.AsQueryable().Except(selectionRemoved).ToObservableCollection(); ;
             WriteData();
         }
 
         public ObservableCollection<GroupableResource> SearchByName(string text) {
-            return new ObservableCollection<GroupableResource>(Items.Where(it => it.Name.ToLower().Contains(text.ToLower())));
+            return items.AsQueryable().Where(it => it.Name.ToLower().Contains(text.ToLower())).ToObservableCollection();
         }
         public ObservableCollection<GroupableResource> FilterByGroup(Group filter) {
-            return new ObservableCollection<GroupableResource>(Items.Where(qa => qa.Group.Equals(filter)));
+            return items.AsQueryable().Where(qa => qa.Group.Equals(filter)).ToObservableCollection();
         }
 
-        private ObservableCollection<Group> OrderGroups(IEnumerable<Group> grps) {
-            return new ObservableCollection<Group>(grps.OrderBy(gr => gr.Name));
-        }
-        private ObservableCollection<GroupableResource> OrderGroupableResources(ObservableCollection<GroupableResource> itms) {
-            return new ObservableCollection<GroupableResource>(itms.OrderBy(it => it.Group.Name).ThenBy(e => e.Name));
-        }
+
         #endregion
 
         #region Configuration actions
@@ -115,7 +119,7 @@ namespace WorkspaceManagerTool.Controllers {
                 MessageBox.Show("Los datos importados no son correctos", "Error al importar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Items = tmp;
+            items = tmp;
             // Set changes in the view
             HandlerListImport?.Invoke(this, new EventArgs());
             // Set changes in the local file
@@ -148,13 +152,12 @@ namespace WorkspaceManagerTool.Controllers {
                 return;
             }
             // joining both lists, discarding equal items
-            var newList = new ObservableCollection<GroupableResource>(Items.Concat(newItems).Distinct());
-            Items = OrderGroupableResources(newList);
+            items = new ObservableCollection<GroupableResource>(items.Concat(newItems).Distinct());
             // Set changes in the view
             HandlerListImport?.Invoke(this, new EventArgs());
             // Set changes in the local file
             WriteData();
-            ShowImportInformation(newList);
+            ShowImportInformation(newItems);
         }
         private void ShowImportInformation(ObservableCollection<GroupableResource> list) {
             var msg = String.Format("Total de elementos añadidos: {0}", list.Count);

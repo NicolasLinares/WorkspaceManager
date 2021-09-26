@@ -19,6 +19,7 @@ namespace WorkspaceManagerTool.Models {
             Description = description;
             Commands = commands;
             Group = group;
+            Pinned = false;
         }
 
         public override bool Equals(object obj) {

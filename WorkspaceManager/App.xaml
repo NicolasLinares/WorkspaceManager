@@ -17,6 +17,8 @@
                 <ResourceDictionary Source="Views/Styles/GroupBox.xaml" />
                 
                 <ResourceDictionary Source="Views/Templates/Buttons.xaml" />
+                <ResourceDictionary Source="Views/Templates/ListBoxItems.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

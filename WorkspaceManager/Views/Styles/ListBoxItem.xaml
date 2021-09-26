@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:WorkspaceManagerTool">
 
 
-    <Style x:Key="_Filters_ListBoxItemStyle" TargetType="ListBoxItem">
+    <Style x:Key="_Groups_ListBoxItemStyle" TargetType="ListBoxItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">

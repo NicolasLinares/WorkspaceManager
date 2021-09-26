@@ -37,6 +37,7 @@ namespace WorkspaceManagerTool.Views {
             set => SetProperty(ref scriptsItems, value);
         }
 
+
         public GroupableResource SelectedScriptItem {
             get => selectedScript;
             set {
@@ -216,6 +217,14 @@ namespace WorkspaceManagerTool.Views {
                 return;
             }
             ScriptsController.DuplicateScript(SelectedScriptItem as Script);
+            SetViewMode(CurrentViewMode);
+        }
+
+        private void PinScript_Action(object sender, EventArgs e) {
+            if (CurrentViewMode == ViewMode.MULTIPLE_SELECTION || _ScriptsListBox.SelectedItem == null) {
+                return;
+            }
+            ScriptsController.Pin(SelectedScriptItem as Script);
             SetViewMode(CurrentViewMode);
         }
 
