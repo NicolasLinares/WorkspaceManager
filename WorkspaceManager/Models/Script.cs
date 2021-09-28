@@ -14,12 +14,12 @@ namespace WorkspaceManagerTool.Models {
             set { SetProperty(ref commands, value); }
         }
 
-        public Script(string name, string description, string commands, Group group) {
+        public Script(string name, string description, string commands, Group group, bool pinned = false) {
             Name = name;
             Description = description;
             Commands = commands;
             Group = group;
-            Pinned = false;
+            Pinned = pinned;
         }
 
         public override bool Equals(object obj) {

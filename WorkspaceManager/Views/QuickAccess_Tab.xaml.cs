@@ -10,7 +10,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Ookii.Dialogs.WinForms;
-using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess;
 using WorkspaceManagerTool.Models;
 using System.Windows.Media.Effects;
 

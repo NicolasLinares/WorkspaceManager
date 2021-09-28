@@ -57,7 +57,7 @@ namespace WorkspaceManagerTool.Controllers
                 finalName = String.Format("{0} ({1})", name, counter++);
             }
 
-            Script duplicated = new Script(finalName, script.Description, script.Commands, script.Group);
+            Script duplicated = new Script(finalName, script.Description, script.Commands, script.Group, script.Pinned);
             Add(duplicated);
 
             bool ExistsName(string itemName) {

@@ -27,13 +27,13 @@ namespace WorkspaceManagerTool.Models
             set { SetProperty(ref type, value); }
         }
 
-        public QuickAccess(string path, string name, string description, Group group, QuickAccessType type) {
+        public QuickAccess(string path, string name, string description, Group group, QuickAccessType type, bool pinned = false) {
             Name = name;
             Path = path;
             Description = description;
             Group = group;
             Type = type;
-            Pinned = false;
+            Pinned = pinned;
         }
 
         public override bool Equals(object obj) {

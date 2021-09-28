@@ -17,7 +17,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Ookii.Dialogs.WinForms;
-using FolderQuickAccess = WorkspaceManagerTool.Models.QuickAccess;
 using WorkspaceManagerTool.Models;
 using Microsoft.Win32;
 
@@ -30,6 +29,7 @@ namespace WorkspaceManagerTool.Views {
         private QuickAccessType resourceType;
         private string path;
         private string description;
+        private bool pinned;
         private Group selectedGroupOption;
         private ObservableCollection<Group> groupsOptions;
 
@@ -52,6 +52,10 @@ namespace WorkspaceManagerTool.Views {
         public string DescriptionText {
             get => description;
             set => SetProperty(ref description, value);
+        }
+        public bool Pinned {
+            get => pinned;
+            set => SetProperty(ref pinned, value);
         }
         public Group SelectedGroupOption {
             get => selectedGroupOption;
@@ -94,11 +98,11 @@ namespace WorkspaceManagerTool.Views {
             PanelTitle = "Editar acceso directo";
             SetDefaultValues();
             if (qaToEdit != null) {
-
                 _PathText.Text = (qaToEdit as QuickAccess).Path;
                 NameText = qaToEdit.Name;
                 DescriptionText = qaToEdit.Description;
                 SelectedGroupOption = qaToEdit.Group;
+                Pinned = qaToEdit.Pinned;
             }
             if (groups != null && groups.Count > 0) {
                 ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
@@ -107,6 +111,7 @@ namespace WorkspaceManagerTool.Views {
         private void SetDefaultValues() {
             NameText = DefaultName;
             DescriptionText = DefaultDescription;
+            Pinned = false;
             ResourceType = DefaultResourceType;
             _PathText.Text = DefaultPath;
             SelectedGroupOption = DefaultGroup;
@@ -181,7 +186,7 @@ namespace WorkspaceManagerTool.Views {
                 fbd.ShowNewFolderButton = true;
                 var result = fbd.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK) {
-                    PathText = fbd.SelectedPath;
+                    _PathText.Text = fbd.SelectedPath;
                 }
             }
             void BrowseFile() {
@@ -191,7 +196,7 @@ namespace WorkspaceManagerTool.Views {
                 dlg.InitialDirectory = PathText;
                 var result = dlg.ShowDialog();
                 if (result == true) {
-                    PathText = dlg.FileName;
+                    _PathText.Text = dlg.FileName;
                 }
             }
         }
@@ -218,7 +223,7 @@ namespace WorkspaceManagerTool.Views {
             if (string.IsNullOrWhiteSpace(DescriptionText)) {
                 DescriptionText = DefaultDescription;
             }
-            return new FolderQuickAccess(PathText, NameText, DescriptionText, SelectedGroupOption, ResourceType);
+            return new QuickAccess(PathText, NameText, DescriptionText, SelectedGroupOption, ResourceType, Pinned);
         }
 
         private void ClosePanel_Action(object sender, EventArgs e) {

@@ -21,6 +21,7 @@ namespace WorkspaceManagerTool.Views {
         private string name;
         private string description;
         private string script;
+        private bool pinned;
         private Group selectedGroupOption;
         private ObservableCollection<Group> groupsOptions;
 
@@ -35,6 +36,10 @@ namespace WorkspaceManagerTool.Views {
         public string DescriptionText {
             get => description;
             set => SetProperty(ref description, value);
+        }
+        public bool Pinned {
+            get => pinned;
+            set => SetProperty(ref pinned, value);
         }
         public string ScriptText {
             get => script;
@@ -83,6 +88,7 @@ namespace WorkspaceManagerTool.Views {
                 DescriptionText = scriptToEdit.Description;
                 ScriptText = (scriptToEdit as Script).Commands;
                 SelectedGroupOption = scriptToEdit.Group;
+                Pinned = scriptToEdit.Pinned;
             }
             if (groups != null && groups.Count > 0) {
                 ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
@@ -91,6 +97,7 @@ namespace WorkspaceManagerTool.Views {
         private void SetDefaultValues() {
             NameText = DefaultName;
             DescriptionText = DefaultDescription;
+            Pinned = false;
             ScriptText = DefaultScript;
             SelectedGroupOption = DefaultGroup;
             ComboBoxGroupOptions = new ObservableCollection<Group>();
@@ -125,7 +132,7 @@ namespace WorkspaceManagerTool.Views {
             if (string.IsNullOrWhiteSpace(ScriptText)) {
                 ScriptText = DefaultScript;
             }
-            return new Script(NameText, DescriptionText, ScriptText, SelectedGroupOption);
+            return new Script(NameText, DescriptionText, ScriptText, SelectedGroupOption, Pinned);
         }
 
         public void DescriptionCounter_Action(object sender, EventArgs e) {

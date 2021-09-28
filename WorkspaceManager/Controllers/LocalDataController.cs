@@ -19,7 +19,7 @@ namespace WorkspaceManagerTool.Controllers {
 
         public ObservableCollection<GroupableResource> Items {
             get {
-                return items.AsQueryable().OrderBy(it => !it.Pinned).ToObservableCollection(); ;
+                return items.AsQueryable().OrderBy(it => !it.Pinned).ThenBy(it => it.Group.Name).ThenBy(it => it.Name).ToObservableCollection(); ;
             }
             set {
                 items = value;
@@ -134,6 +134,9 @@ namespace WorkspaceManagerTool.Controllers {
             dialog.ShowDialog();
             if (dialog.FileName == "") {
                 return;
+            }
+            if (File.Exists(dialog.FileName)) {
+                File.Delete(dialog.FileName);
             }
             File.Copy(ResourceFile, dialog.FileName);
         }

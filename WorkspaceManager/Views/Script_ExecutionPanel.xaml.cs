@@ -47,7 +47,7 @@ namespace WorkspaceManagerTool.Views {
         #region Actions
         private void RunScript_Action(object sender, EventArgs e) {
             ExecutionEvent exec = new ExecutionEvent();
-            exec.Script = new Script(ScriptSelected.Name, ScriptSelected.Description, _ScriptTextBox.Text, ScriptSelected.Group);
+            exec.Script = new Script(ScriptSelected.Name, ScriptSelected.Description, _ScriptTextBox.Text, ScriptSelected.Group, ScriptSelected.Pinned);
             HandlerExecution?.Invoke(this, exec);
         }
         private void ClosePanel_Action(object sender, EventArgs e) {
@@ -69,7 +69,7 @@ namespace WorkspaceManagerTool.Views {
         private void SaveChanges_Action(object sender, EventArgs e) {
             ScriptEvent exec = new ScriptEvent();
             exec.OldScript = ScriptSelected;
-            exec.NewScript = new Script(ScriptSelected.Name, ScriptSelected.Description, _ScriptTextBox.Text, ScriptSelected.Group);
+            exec.NewScript = new Script(ScriptSelected.Name, ScriptSelected.Description, _ScriptTextBox.Text, ScriptSelected.Group, ScriptSelected.Pinned);
             HandlerChanges?.Invoke(this, exec);
             // hide button because change has been applied
             _SaveChanges_Button.Visibility = Visibility.Collapsed;

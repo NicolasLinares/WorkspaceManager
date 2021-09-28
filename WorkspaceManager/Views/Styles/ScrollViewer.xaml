@@ -79,6 +79,8 @@
 
     <Style x:Key="_ScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Visible" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -96,10 +98,9 @@
                                    Grid.Row="0" Grid.Column="1" 
                                    Value="{TemplateBinding VerticalOffset}" 
                                    Maximum="{TemplateBinding ScrollableHeight}" 
-                                   ViewportSize="{TemplateBinding ViewportHeight}" 
+                                   ViewportSize="{TemplateBinding ViewportHeight}"
                                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
                         <ScrollBar Name="PART_HorizontalScrollBar"
- 
                                    Orientation="Horizontal" 
                                    Grid.Row="1" Grid.Column="0" 
                                    Value="{TemplateBinding HorizontalOffset}" 
