@@ -79,7 +79,16 @@ namespace WorkspaceManagerTool.Controllers {
                     return;
                 }
             }
-            
+        }
+
+
+        public void ChangeGroup(Group oldGroup, Group newGroup) {
+            foreach (var item in items) {
+                if (item.Group.Equals(oldGroup)) {
+                    item.Group = newGroup;
+                }
+            }
+            WriteData();
         }
 
         public void RemoveSelection(ObservableCollection<GroupableResource> selectionRemoved) {

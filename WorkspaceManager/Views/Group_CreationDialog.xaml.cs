@@ -1,33 +1,46 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
- 
+using WorkspaceManagerTool.Models;
+
 namespace WorkspaceManagerTool.Views {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class Group_CreationDialog : Window {
 
-        private SolidColorBrush color;
+        private Color DEFAULT_COLOR => Color.FromRgb(255, 255, 255);
+        private Group DEFAULT_GROUP => new Group("Nuevo", new SolidColorBrush(DEFAULT_COLOR));
 
-        public string NameText {
-            get { return _NameTextBox.Text; }
+        public string GroupName {
+            get {
+                return _GroupName.Text;
+            }
             private set {
-                _NameTextBox.Text = value;
-                _NameTextBox.ClearValue(TextBox.BorderBrushProperty);
+                _GroupName.Text = value;
             }
         }
-        public SolidColorBrush ColorSelected {
-            get { return color; }
-            private set { color = value; }
-        }
+        public SolidColorBrush ColorSelected { get; set; }
 
         public Group_CreationDialog() {
             InitializeComponent();
-            ColorSelected = new SolidColorBrush(Color.FromRgb(255,255,255));
-            _ColorPicker.SelectedColor = Color.FromRgb(255, 255, 255);
+
+            GroupName = DEFAULT_GROUP.Name;
+            ColorSelected = DEFAULT_GROUP.Color;
+            _ColorPicker.SelectedColor = DEFAULT_COLOR;
+        }
+
+        public Group_CreationDialog(Group groupToEdit) {
+            InitializeComponent();
+
+            GroupName = groupToEdit.Name;
+            ColorSelected = groupToEdit.Color;
+            _ColorPicker.SelectedColor = groupToEdit.Color.Color;
         }
 
         /// <summary>
@@ -59,7 +72,7 @@ namespace WorkspaceManagerTool.Views {
 
         private void Create_Action(object sender, EventArgs e) {
             // Input validation
-            if (string.IsNullOrWhiteSpace(NameText)) {
+            if (string.IsNullOrWhiteSpace(GroupName)) {
                 this.DialogResult = false;
                 return;
             }
@@ -68,6 +81,15 @@ namespace WorkspaceManagerTool.Views {
 
         private void Cancel_Action(object sender, EventArgs e) {
             this.DialogResult = false;
+        }
+
+        public Group GetGroup() {
+            // Set default values if empty
+            if (string.IsNullOrWhiteSpace(GroupName)) {
+                GroupName = DEFAULT_GROUP.Name;
+            }
+
+            return new Group(GroupName, ColorSelected);
         }
 
         private Color GetContrastColor(Color color) {

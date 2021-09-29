@@ -46,7 +46,8 @@
                  VerticalAlignment="Center"
                  BorderThickness="0"
                  Background="{StaticResource Dark}"
-                 MouseUp="ApplyFilter_Action"
+                 PreviewMouseLeftButtonUp="ApplyFilter_Action"
+                 ContextMenuOpening="ApplyFilter_Action"
                  SelectedValue="{Binding SelectedGroup}"
                  ItemsSource="{Binding Source={StaticResource filter}}"
                  ItemTemplate="{StaticResource _GroupListBoxItemTemplate}"
@@ -56,6 +57,31 @@
                     <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
+            <ListBox.ContextMenu>
+                <ContextMenu Opacity="0.8">
+                    <MenuItem Header="Editar" Click="OpenGroupEditionWindow_Action"/>
+                    <ContextMenu.Style>
+                        <Style TargetType="{x:Type ContextMenu}">
+                            <Setter Property="SnapsToDevicePixels" Value="True" />
+                            <Setter Property="OverridesDefaultStyle" Value="True" />
+                            <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+                            <Setter Property="HasDropShadow" Value="True" />
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                                        <Border x:Name="Border" Background="{StaticResource Black}" BorderThickness="1">
+                                            <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Disabled">
+                                                <ItemsPresenter/>
+                                            </ScrollViewer>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ContextMenu.Style>
+                </ContextMenu>
+            </ListBox.ContextMenu>
         </ListBox>
 
         <!-- Scripts list-->

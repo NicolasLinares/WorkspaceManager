@@ -56,10 +56,10 @@ namespace WorkspaceManagerTool.Views {
             set => SetProperty(ref groupsOptions, value);
         }
 
-        private string DefaultName => "Nuevo script";
-        private string DefaultDescription => "";
-        private string DefaultScript => "echo 'Hello World!'";
-        private Group DefaultGroup => new Group("Nuevo", new SolidColorBrush(Color.FromRgb(17, 166, 143)));
+        private string DEFAULT_NAME => "Nuevo script";
+        private string DEFAULT_DESCRIPTION => "";
+        private string DEFAULT_SCRIPT => "echo 'Hello World!'";
+        private Group DEFAULT_GROUP => new Group("Nuevo", new SolidColorBrush(Color.FromRgb(17, 166, 143)));
 
         public Script_CreationPanel(ObservableCollection<Group> groups, Group SelectedFilter = null) {
             DataContext = this;
@@ -74,7 +74,7 @@ namespace WorkspaceManagerTool.Views {
                 ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
             } else {
                 ComboBoxGroupOptions = new ObservableCollection<Group>();
-                ComboBoxGroupOptions.Add(DefaultGroup);
+                ComboBoxGroupOptions.Add(DEFAULT_GROUP);
             }
         }
         public Script_CreationPanel(GroupableResource scriptToEdit, ObservableCollection<Group> groups) {
@@ -95,11 +95,11 @@ namespace WorkspaceManagerTool.Views {
             }
         }
         private void SetDefaultValues() {
-            NameText = DefaultName;
-            DescriptionText = DefaultDescription;
+            NameText = DEFAULT_NAME;
+            DescriptionText = DEFAULT_DESCRIPTION;
             Pinned = false;
-            ScriptText = DefaultScript;
-            SelectedGroupOption = DefaultGroup;
+            ScriptText = DEFAULT_SCRIPT;
+            SelectedGroupOption = DEFAULT_GROUP;
             ComboBoxGroupOptions = new ObservableCollection<Group>();
         }
 
@@ -115,7 +115,11 @@ namespace WorkspaceManagerTool.Views {
         private void CreateGroup_Action(object sender, EventArgs e) {
             Group_CreationDialog dialog = new Group_CreationDialog();
             if (dialog.ShowDialog() == true) {
-                var newgrp = new Group(dialog.NameText, dialog.ColorSelected);
+                var newgrp = dialog.GetGroup();
+                if (ComboBoxGroupOptions.Contains(newgrp)) {
+                    MessageBox.Show("El grupo creado ya existe.", "Grupo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 ComboBoxGroupOptions.Add(newgrp);
                 ComboBoxGroupOptions = new ObservableCollection<Group>(ComboBoxGroupOptions.OrderBy(gr => gr.Name));
                 SelectedGroupOption = newgrp;
@@ -124,13 +128,13 @@ namespace WorkspaceManagerTool.Views {
         public Script GetScript() {
             // Set default values if empty
             if (string.IsNullOrWhiteSpace(NameText)) {
-                NameText = DefaultName;
+                NameText = DEFAULT_NAME;
             }
             if (string.IsNullOrWhiteSpace(DescriptionText)) {
-                DescriptionText = DefaultDescription;
+                DescriptionText = DEFAULT_DESCRIPTION;
             }
             if (string.IsNullOrWhiteSpace(ScriptText)) {
-                ScriptText = DefaultScript;
+                ScriptText = DEFAULT_SCRIPT;
             }
             return new Script(NameText, DescriptionText, ScriptText, SelectedGroupOption, Pinned);
         }

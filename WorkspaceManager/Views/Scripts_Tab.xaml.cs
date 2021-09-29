@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -240,11 +241,27 @@ namespace WorkspaceManagerTool.Views {
             }
             ScriptsItems = ScriptsController.SearchByName(_SearchText.Text);
         }
-        private void ApplyFilter_Action(object sender, MouseButtonEventArgs e) {
+
+        private void ApplyFilter_Action(object sender, EventArgs e) {
             if (_FiltersListBox.SelectedItem == null) {
                 return;
             }
             SetViewMode(ViewMode.FILTER);
+        }
+
+
+        private void OpenGroupEditionWindow_Action(object sender, RoutedEventArgs e) {
+            Group_CreationDialog dialog = new Group_CreationDialog(SelectedGroup);
+            if (dialog.ShowDialog() == true) {
+                var editedGroup = dialog.GetGroup();
+                if (GroupItems.Contains(editedGroup)) {
+                    MessageBox.Show("El grupo creado ya existe.", "Grupo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                ScriptsController.ChangeGroup(SelectedGroup, editedGroup);
+                SelectedGroup = editedGroup;
+                SetViewMode(ViewMode.FILTER);
+            }
         }
 
         #endregion

@@ -152,6 +152,21 @@ namespace WorkspaceManagerTool.Views {
             QuickAccessController.RemoveSelection(SelectionRemoved);
             SetViewMode(ViewMode.NORMAL);
         }
+
+        private void OpenGroupEditionWindow_Action(object sender, RoutedEventArgs e) {
+            Group_CreationDialog dialog = new Group_CreationDialog(SelectedGroup);
+            if (dialog.ShowDialog() == true) {
+                var editedGroup = dialog.GetGroup();
+                if (GroupItems.Contains(editedGroup)) {
+                    MessageBox.Show("El grupo creado ya existe.", "Grupo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                QuickAccessController.ChangeGroup(SelectedGroup, editedGroup);
+                SelectedGroup = editedGroup;
+                SetViewMode(ViewMode.FILTER);
+            }
+        }
+
         #endregion
 
         #region Item Actions
@@ -219,7 +234,7 @@ namespace WorkspaceManagerTool.Views {
             }
             QuickAccessItems = QuickAccessController.SearchByName(_SearchText.Text);
         }
-        private void ApplyFilter_Action(object sender, MouseButtonEventArgs e) {
+        private void ApplyFilter_Action(object sender, EventArgs e) {
             if (_FiltersListBox.SelectedItem == null) {
                 return;
             }

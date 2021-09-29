@@ -22,7 +22,7 @@
 
         <TextBlock Text="Nombre" Grid.Row="0" Grid.ColumnSpan="2"  Style="{StaticResource _TextBlockStyle}" />
         <Border Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource _BorderTextBoxStyle}" Margin="20px 0px">
-            <TextBox Name="_NameTextBox" Text="{Binding Path=NameText, Mode=TwoWay}" Style="{StaticResource _TextBoxStyle}" Width="200" MaxLength="20"
+            <TextBox Name="_GroupName" Style="{StaticResource _TextBoxStyle}" Width="200" MaxLength="20"
                      GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" />
         </Border>
 

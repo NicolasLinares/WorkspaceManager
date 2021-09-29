@@ -69,10 +69,10 @@ namespace WorkspaceManagerTool.Views {
         }
 
 
-        private string DefaultName => "Nuevo acceso directo";
-        private QuickAccessType DefaultResourceType => QuickAccessType.DIRECTORY;
-        private string DefaultPath => "Ruta sin definir";
-        private string DefaultDescription => "";
+        private string DEFAULT_NAME => "Nuevo acceso directo";
+        private QuickAccessType DEFAULT_RESOURCE_TYPE => QuickAccessType.DIRECTORY;
+        private string DEFAULT_PATH => "Ruta sin definir";
+        private string DEFAULT_DESCRIPTION => "";
         private Group DefaultGroup => new Group("Nuevo", new SolidColorBrush(Color.FromRgb(17, 166, 143)));
 
         public QuickAccess_CreationPanel(ObservableCollection<Group> groups, Group SelectedFilter = null) {
@@ -109,11 +109,11 @@ namespace WorkspaceManagerTool.Views {
             }
         }
         private void SetDefaultValues() {
-            NameText = DefaultName;
-            DescriptionText = DefaultDescription;
+            NameText = DEFAULT_NAME;
+            DescriptionText = DEFAULT_DESCRIPTION;
             Pinned = false;
-            ResourceType = DefaultResourceType;
-            _PathText.Text = DefaultPath;
+            ResourceType = DEFAULT_RESOURCE_TYPE;
+            _PathText.Text = DEFAULT_PATH;
             SelectedGroupOption = DefaultGroup;
             ComboBoxGroupOptions = new ObservableCollection<Group>();
         }
@@ -203,7 +203,11 @@ namespace WorkspaceManagerTool.Views {
         private void CreateGroup_Action(object sender, EventArgs e) {
             Group_CreationDialog dialog = new Group_CreationDialog();
             if (dialog.ShowDialog() == true) {
-                var newgrp = new Group(dialog.NameText, dialog.ColorSelected);
+                var newgrp = dialog.GetGroup();
+                if (ComboBoxGroupOptions.Contains(newgrp)) {
+                    MessageBox.Show("El grupo creado ya existe.", "Grupo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 ComboBoxGroupOptions.Add(newgrp);
                 ComboBoxGroupOptions = new ObservableCollection<Group>(ComboBoxGroupOptions.OrderBy(gr => gr.Name));
                 SelectedGroupOption = newgrp;
@@ -212,16 +216,16 @@ namespace WorkspaceManagerTool.Views {
         public GroupableResource GetQuickAccess() {
             // Set default values if empty
             if (string.IsNullOrWhiteSpace(NameText)) {
-                NameText = DefaultName;
+                NameText = DEFAULT_NAME;
             }
             if (string.IsNullOrWhiteSpace(PathText)) {
-                PathText = DefaultPath;
+                PathText = DEFAULT_PATH;
             }
             if (SelectedGroupOption == null) {
                 SelectedGroupOption = DefaultGroup;
             }
             if (string.IsNullOrWhiteSpace(DescriptionText)) {
-                DescriptionText = DefaultDescription;
+                DescriptionText = DEFAULT_DESCRIPTION;
             }
             return new QuickAccess(PathText, NameText, DescriptionText, SelectedGroupOption, ResourceType, Pinned);
         }
