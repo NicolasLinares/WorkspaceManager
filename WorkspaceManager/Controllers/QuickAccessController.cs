@@ -37,8 +37,8 @@ namespace WorkspaceManagerTool.Controllers {
             Items = ReadData<QuickAccess>(ResourceFile);
         }
 
-        public void OpenQuickAccess(GroupableResource qa) {
-            Process process = Process.Start((qa as QuickAccess).Path);
+        public void OpenPath(string path) {
+            Process process = Process.Start(path);
         }
 
         private ObservableCollection<GroupableResource> OrderByType(ObservableCollection<GroupableResource> itms) {

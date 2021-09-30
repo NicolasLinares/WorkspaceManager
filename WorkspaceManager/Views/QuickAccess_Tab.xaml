@@ -96,13 +96,15 @@
                 <ListBox Name="_QuickAcessListBox" Grid.Row="2"
                         Style="{StaticResource _ListBoxStyle}"
                         MouseDoubleClick="OpenQuickAccess_Action"
+                        ContextMenuOpening="DefineOptionsByType_Action"
                         ItemsSource="{Binding Source={StaticResource quickaccess}}"
-                         ItemTemplate="{StaticResource _QuickAccessListBoxItemTemplate}"
+                        ItemTemplate="{StaticResource _QuickAccessListBoxItemTemplate}"
                         SelectionMode="Single" SelectionChanged="SetCounter_Action"
                         SelectedValue="{Binding SelectedQuickAccessItem}">
                     <ListBox.ContextMenu>
                         <ContextMenu Opacity="0.8">
-                            <MenuItem Header="Abrir" Click="OpenQuickAccess_Action"/>
+                            <MenuItem Header="Abrir fichero" Click="OpenQuickAccess_Action"/>
+                            <MenuItem Name="_MenuItemOpenFolder" Header="Abrir carpeta" Click="OpenFileFolder_Action" Visibility="Collapsed"/>
                             <MenuItem Header="Copiar ruta" Click="CopyToClipboard_Action"/>
                             <MenuItem Header="Editar" Click="SetEditionMode_Action"/>
                             <MenuItem Header="Eliminar" Click="RemoveItem_Action"/>

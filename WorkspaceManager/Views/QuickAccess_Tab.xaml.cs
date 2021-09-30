@@ -12,6 +12,7 @@ using System.Windows.Media;
 using Ookii.Dialogs.WinForms;
 using WorkspaceManagerTool.Models;
 using System.Windows.Media.Effects;
+using System.IO;
 
 namespace WorkspaceManagerTool.Views {
 
@@ -210,7 +211,7 @@ namespace WorkspaceManagerTool.Views {
             }
 
             try {
-                QuickAccessController.OpenQuickAccess(SelectedQuickAccessItem);
+                QuickAccessController.OpenPath((SelectedQuickAccessItem as QuickAccess).Path);
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -223,6 +224,38 @@ namespace WorkspaceManagerTool.Views {
             QuickAccessController.Pin(SelectedQuickAccessItem as QuickAccess);
             SetViewMode(CurrentViewMode);
         }
+
+        private void OpenFileFolder_Action(object sender, EventArgs e) {
+            if (CurrentViewMode == ViewMode.MULTIPLE_SELECTION || _QuickAcessListBox.SelectedItem == null) {
+                return;
+            }
+            try {
+                var qa = SelectedQuickAccessItem as QuickAccess;
+                string folderContent = Path.GetDirectoryName(qa.Path);
+                QuickAccessController.OpenPath(folderContent);
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
+        private void DefineOptionsByType_Action(object sender, EventArgs e) {
+            if (CurrentViewMode == ViewMode.MULTIPLE_SELECTION || _QuickAcessListBox.SelectedItem == null) {
+                return;
+            }
+
+            var element = _QuickAcessListBox.SelectedItem as QuickAccess;
+            if (element.Type is QuickAccessType.FILE) {
+                _MenuItemOpenFolder.Visibility = Visibility.Visible;
+            } else {
+                _MenuItemOpenFolder.Visibility = Visibility.Collapsed;
+            }
+
+        }
+
+
+
         #endregion
 
         #region Searchbar & Filter
