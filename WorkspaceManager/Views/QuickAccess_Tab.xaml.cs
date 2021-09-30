@@ -239,19 +239,16 @@ namespace WorkspaceManagerTool.Views {
         }
 
 
-
-        private void DefineOptionsByType_Action(object sender, EventArgs e) {
+        private void DefineContextMenuOptionsByItemType_Action(object sender, EventArgs e) {
             if (CurrentViewMode == ViewMode.MULTIPLE_SELECTION || _QuickAcessListBox.SelectedItem == null) {
                 return;
             }
-
             var element = _QuickAcessListBox.SelectedItem as QuickAccess;
             if (element.Type is QuickAccessType.FILE) {
                 _MenuItemOpenFolder.Visibility = Visibility.Visible;
             } else {
                 _MenuItemOpenFolder.Visibility = Visibility.Collapsed;
             }
-
         }
 
 

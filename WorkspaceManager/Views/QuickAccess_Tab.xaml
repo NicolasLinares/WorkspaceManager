@@ -44,18 +44,18 @@
                 <!-- Filter list-->
 
                 <ListBox Grid.Row="1" 
-                 Name="_FiltersListBox" 
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 IsSynchronizedWithCurrentItem="True"
-                 VerticalAlignment="Center"
-                 BorderThickness="0"
-                 Background="{StaticResource Dark}"
-                 PreviewMouseLeftButtonUp="ApplyFilter_Action"
-                 ContextMenuOpening="ApplyFilter_Action"
-                 SelectedValue="{Binding SelectedGroup}"
-                 ItemsSource="{Binding Source={StaticResource filter}}"
-                 ItemTemplate="{StaticResource _GroupListBoxItemTemplate}"
-                 ItemContainerStyle="{StaticResource _Groups_ListBoxItemStyle}">
+                         Name="_FiltersListBox" 
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         IsSynchronizedWithCurrentItem="True"
+                         VerticalAlignment="Center"
+                         BorderThickness="0"
+                         Background="{StaticResource Dark}"
+                         PreviewMouseLeftButtonUp="ApplyFilter_Action"
+                         ContextMenuOpening="ApplyFilter_Action"
+                         SelectedValue="{Binding SelectedGroup}"
+                         ItemsSource="{Binding Source={StaticResource filter}}"
+                         ItemTemplate="{StaticResource _GroupListBoxItemTemplate}"
+                         ItemContainerStyle="{StaticResource _Groups_ListBoxItemStyle}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
@@ -96,7 +96,7 @@
                 <ListBox Name="_QuickAcessListBox" Grid.Row="2"
                         Style="{StaticResource _ListBoxStyle}"
                         MouseDoubleClick="OpenQuickAccess_Action"
-                        ContextMenuOpening="DefineOptionsByType_Action"
+                        ContextMenuOpening="DefineContextMenuOptionsByItemType_Action"
                         ItemsSource="{Binding Source={StaticResource quickaccess}}"
                         ItemTemplate="{StaticResource _QuickAccessListBoxItemTemplate}"
                         SelectionMode="Single" SelectionChanged="SetCounter_Action"
@@ -132,7 +132,6 @@
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>
-
             </Grid>
         </Border>
 

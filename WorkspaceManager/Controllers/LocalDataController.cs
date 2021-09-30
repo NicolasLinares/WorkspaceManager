@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 using WorkspaceManagerTool.Models;
 using WorkspaceManagerTool.Utils;
 
@@ -19,16 +20,28 @@ namespace WorkspaceManagerTool.Controllers {
 
         public ObservableCollection<GroupableResource> Items {
             get {
-                return items.AsQueryable().OrderBy(it => !it.Pinned).ThenBy(it => it.Group.Name).ThenBy(it => it.Name).ToObservableCollection(); ;
+                return items.AsQueryable().OrderBy(it => !it.Pinned).ThenBy(it => it.Group.Name).ThenBy(it => it.Name).ToObservableCollection();
             }
             set {
                 items = value;
             }
         }
+
+        public static Group AllGroup => new Group("Todo", new SolidColorBrush(Color.FromRgb(200, 200, 250)));
+
+        public static ObservableCollection<Group> AllFilter {
+            get {
+                var all = new ObservableCollection<Group>();
+                all.Add(AllGroup);
+                return all;
+            }
+        }
+
         public ObservableCollection<Group> GroupItems {
             get {
                 var groups = items.Select(it => it.Group).Distinct();
-                return groups.AsQueryable().OrderBy(gr => gr.Name).ToObservableCollection();
+                groups = AllFilter.Concat(groups.OrderBy(gr => gr.Name));
+                return groups.AsQueryable().ToObservableCollection();
             }
         }
 
@@ -103,6 +116,9 @@ namespace WorkspaceManagerTool.Controllers {
             return items.AsQueryable().Where(it => it.Name.ToLower().Contains(text.ToLower())).OrderBy(it => !it.Pinned).ToObservableCollection();
         }
         public ObservableCollection<GroupableResource> FilterByGroup(Group filter) {
+            if (filter.Equals(AllGroup)) {
+                return Items;
+            }
             return items.AsQueryable().Where(qa => qa.Group.Equals(filter)).OrderBy(it => !it.Pinned).ToObservableCollection();
         }
 
