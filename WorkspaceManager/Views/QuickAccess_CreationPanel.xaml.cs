@@ -85,10 +85,12 @@ namespace WorkspaceManagerTool.Views {
                 SelectedGroupOption = SelectedFilter;
             }
             if (groups != null && groups.Count > 0) {
+                groups.RemoveAt(0);
                 ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
             } else {
-                ComboBoxGroupOptions = new ObservableCollection<Group>();
-                ComboBoxGroupOptions.Add(DefaultGroup);
+                ComboBoxGroupOptions = new ObservableCollection<Group> {
+                    DefaultGroup
+                };
             }
         }
         public QuickAccess_CreationPanel(GroupableResource qaToEdit, ObservableCollection<Group> groups) {
@@ -105,6 +107,7 @@ namespace WorkspaceManagerTool.Views {
                 Pinned = qaToEdit.Pinned;
             }
             if (groups != null && groups.Count > 0) {
+                groups.RemoveAt(0);
                 ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
             }
         }
@@ -179,21 +182,23 @@ namespace WorkspaceManagerTool.Views {
             BrowseDirectory();
 
             void BrowseDirectory() {
-                VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
-                fbd.Description = "Seleccionar carpeta";
-                fbd.SelectedPath = PathText;
-                fbd.UseDescriptionForTitle = true;
-                fbd.ShowNewFolderButton = true;
+                VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog {
+                    Description = "Seleccionar carpeta",
+                    SelectedPath = PathText,
+                    UseDescriptionForTitle = true,
+                    ShowNewFolderButton = true
+                };
                 var result = fbd.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK) {
                     _PathText.Text = fbd.SelectedPath;
                 }
             }
             void BrowseFile() {
-                OpenFileDialog dlg = new OpenFileDialog();
-                dlg.Filter = null; // Filter files by extension
-                dlg.Title = "Seleccionar fichero";
-                dlg.InitialDirectory = PathText;
+                OpenFileDialog dlg = new OpenFileDialog {
+                    Filter = null, // Filter files by extension
+                    Title = "Seleccionar fichero",
+                    InitialDirectory = PathText
+                };
                 var result = dlg.ShowDialog();
                 if (result == true) {
                     _PathText.Text = dlg.FileName;
@@ -204,7 +209,7 @@ namespace WorkspaceManagerTool.Views {
             Group_CreationDialog dialog = new Group_CreationDialog();
             if (dialog.ShowDialog() == true) {
                 var newgrp = dialog.GetGroup();
-                if (ComboBoxGroupOptions.Contains(newgrp)) {
+                if (newgrp.Equals(CONSTANTS.AllGroup) || ComboBoxGroupOptions.Contains(newgrp)) {
                     MessageBox.Show("El grupo creado ya existe.", "Grupo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }

@@ -246,7 +246,21 @@ namespace WorkspaceManagerTool.Views {
             if (_FiltersListBox.SelectedItem == null) {
                 return;
             }
+            if (SelectedGroup.Equals(CONSTANTS.AllGroup)) {
+                _FiltersContextMenu.Visibility = Visibility.Collapsed;
+                _FiltersContextMenu.IsOpen = false;
+            }
             SetViewMode(ViewMode.FILTER);
+        }
+
+        private void OnContextMenuOpening_Action(object sender, EventArgs e) {
+            if (_FiltersListBox.SelectedItem == null || SelectedGroup.Equals(CONSTANTS.AllGroup)) {
+                _FiltersContextMenu.Visibility = Visibility.Collapsed;
+                _FiltersContextMenu.IsOpen = false;
+                return;
+            }
+            _FiltersContextMenu.Visibility = Visibility.Visible;
+            ApplyFilter_Action(sender, e);
         }
 
 
@@ -254,7 +268,7 @@ namespace WorkspaceManagerTool.Views {
             Group_CreationDialog dialog = new Group_CreationDialog(SelectedGroup);
             if (dialog.ShowDialog() == true) {
                 var editedGroup = dialog.GetGroup();
-                if (GroupItems.Contains(editedGroup)) {
+                if (editedGroup.Equals(CONSTANTS.AllGroup) || GroupItems.Contains(editedGroup)) {
                     MessageBox.Show("El grupo creado ya existe.", "Grupo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
@@ -279,19 +293,16 @@ namespace WorkspaceManagerTool.Views {
                     DoDisableCreationMode();
                     DoDisableExecutionMode();
                     DoDisableMultipleSelectionMode();
-                    DoEnableFilterMode();
                     UpdateFilterList();
                     ApplyFilter(SelectedGroup);
                     break;
                 case (ViewMode.EXECUTION):
-                    DoDisableFilterMode();
                     DoEnableExecutionMode();
                     break;
                 case (ViewMode.MULTIPLE_SELECTION):
                     DoEnableMultipleSelectionMode();
                     break;
                 case (ViewMode.NORMAL):
-                    DoDisableFilterMode();
                     DoDisableMultipleSelectionMode();
                     DoDisableCreationMode();
                     DoDisableExecutionMode();
@@ -310,7 +321,6 @@ namespace WorkspaceManagerTool.Views {
             _CreationPanel_Container.Children.Add(CreationPanel);
             _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
             _Creation_Button.Visibility = Visibility.Collapsed;
-            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
             _FiltersListBox.IsHitTestVisible = false;
             _ScriptsListBox.IsHitTestVisible = false;
@@ -332,9 +342,7 @@ namespace WorkspaceManagerTool.Views {
             _ExecutionPanel_Container.Visibility = Visibility.Visible;
             _Creation_Button.Visibility = Visibility.Collapsed;
         }
-        private void DoEnableFilterMode() {
-            _RemoveFilter_Button.Visibility = Visibility.Visible;
-        }
+
         private void DoEnableMultipleSelectionMode() {
             // Set visibility
             _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
@@ -342,7 +350,6 @@ namespace WorkspaceManagerTool.Views {
             _CrossMark_Button.Visibility = Visibility.Visible;
             _SelectionCounter.Visibility = Visibility.Visible;
             _Trash_Button.Visibility = Visibility.Visible;
-            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
             _SearchBar.IsEnabled = false;
             _FiltersListBox.IsHitTestVisible = false;
@@ -367,9 +374,7 @@ namespace WorkspaceManagerTool.Views {
                 _ScriptsListBox.UnselectAll();
             }
         }
-        private void DoDisableFilterMode() {
-            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
-        }
+
         private void DoDisableExecutionMode() {
             if (_ExecutionPanel_Container.Children.Count > 0) {
                 _ExecutionPanel_Container.Children.RemoveAt(_ExecutionPanel_Container.Children.Count - 1);
@@ -414,6 +419,7 @@ namespace WorkspaceManagerTool.Views {
             ScriptsItems = ScriptsController.Items;
             GroupItems = ScriptsController.GroupItems;
             _FiltersListBox.UnselectAll();
+            _FiltersListBox.SelectedItem = _FiltersListBox.Items[0];
             _ScriptsListBox.UnselectAll();
         }
         private void ApplyFilter(Group group) {

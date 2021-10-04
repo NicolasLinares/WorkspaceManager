@@ -27,12 +27,11 @@ namespace WorkspaceManagerTool.Controllers {
             }
         }
 
-        public static Group AllGroup => new Group("Todo", new SolidColorBrush(Color.FromRgb(200, 200, 250)));
-
         public static ObservableCollection<Group> AllFilter {
             get {
-                var all = new ObservableCollection<Group>();
-                all.Add(AllGroup);
+                var all = new ObservableCollection<Group> {
+                    CONSTANTS.AllGroup
+                };
                 return all;
             }
         }
@@ -116,7 +115,7 @@ namespace WorkspaceManagerTool.Controllers {
             return items.AsQueryable().Where(it => it.Name.ToLower().Contains(text.ToLower())).OrderBy(it => !it.Pinned).ToObservableCollection();
         }
         public ObservableCollection<GroupableResource> FilterByGroup(Group filter) {
-            if (filter.Equals(AllGroup)) {
+            if (filter.Equals(CONSTANTS.AllGroup)) {
                 return Items;
             }
             return items.AsQueryable().Where(qa => qa.Group.Equals(filter)).OrderBy(it => !it.Pinned).ToObservableCollection();
@@ -126,9 +125,10 @@ namespace WorkspaceManagerTool.Controllers {
 
         #region Configuration actions
         public void Import<T>() {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "JSON File|*.json";
-            dialog.Title = "Importar lista";
+            OpenFileDialog dialog = new OpenFileDialog {
+                Filter = "JSON File|*.json",
+                Title = "Importar lista"
+            };
             dialog.ShowDialog();
             if (dialog.FileName == "") {
                 return;
@@ -144,6 +144,7 @@ namespace WorkspaceManagerTool.Controllers {
                 MessageBox.Show("Los datos importados no son correctos", "Error al importar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             items = tmp;
             // Set changes in the view
             HandlerListImport?.Invoke(this, new EventArgs());
@@ -151,11 +152,13 @@ namespace WorkspaceManagerTool.Controllers {
             WriteData();
             ShowImportInformation(tmp);
         }
+
         public void Export(string filename) {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "JSON File|*.json";
-            dialog.Title = "Exportar lista";
-            dialog.FileName = filename;
+            SaveFileDialog dialog = new SaveFileDialog {
+                Filter = "JSON File|*.json",
+                Title = "Exportar lista",
+                FileName = filename
+            };
             dialog.ShowDialog();
             if (dialog.FileName == "") {
                 return;
@@ -166,9 +169,10 @@ namespace WorkspaceManagerTool.Controllers {
             File.Copy(ResourceFile, dialog.FileName);
         }
         public void ImportNewItems<T>() {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "JSON File|*.json";
-            dialog.Title = "Importar lista";
+            OpenFileDialog dialog = new OpenFileDialog {
+                Filter = "JSON File|*.json",
+                Title = "Importar lista"
+            };
             dialog.ShowDialog();
             if (dialog.FileName == "") {
                 return;

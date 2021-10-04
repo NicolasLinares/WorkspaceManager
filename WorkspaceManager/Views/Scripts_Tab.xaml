@@ -47,7 +47,7 @@
                  BorderThickness="0"
                  Background="{StaticResource Dark}"
                  PreviewMouseLeftButtonUp="ApplyFilter_Action"
-                 ContextMenuOpening="ApplyFilter_Action"
+                 ContextMenuOpening="OnContextMenuOpening_Action"
                  SelectedValue="{Binding SelectedGroup}"
                  ItemsSource="{Binding Source={StaticResource filter}}"
                  ItemTemplate="{StaticResource _GroupListBoxItemTemplate}"
@@ -58,7 +58,7 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ContextMenu>
-                <ContextMenu Opacity="0.8">
+                <ContextMenu Name="_FiltersContextMenu" Opacity="0.8">
                     <MenuItem Header="Editar" Click="OpenGroupEditionWindow_Action"/>
                     <ContextMenu.Style>
                         <Style TargetType="{x:Type ContextMenu}">
@@ -138,7 +138,6 @@
         </StackPanel>
 
         <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <Button Name="_RemoveFilter_Button" Template="{StaticResource _RemoveFilterButtonTemplate}"  Click="SetNormalMode_Action" Visibility="Collapsed"/>
             <Button Name="_Creation_Button"  Template="{StaticResource _NewButtonTemplate}"   Click="SetCreationMode_Action" />
 
             <Button Name="_CheckMark_Button" Template="{StaticResource _CheckMarkButtonTemplate}" Click="ApplySelectionChanges_Action" Visibility="Collapsed"/>

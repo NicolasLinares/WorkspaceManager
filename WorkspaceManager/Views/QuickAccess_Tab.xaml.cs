@@ -158,7 +158,7 @@ namespace WorkspaceManagerTool.Views {
             Group_CreationDialog dialog = new Group_CreationDialog(SelectedGroup);
             if (dialog.ShowDialog() == true) {
                 var editedGroup = dialog.GetGroup();
-                if (GroupItems.Contains(editedGroup)) {
+                if (editedGroup.Equals(CONSTANTS.AllGroup) || GroupItems.Contains(editedGroup)) {
                     MessageBox.Show("El grupo creado ya existe.", "Grupo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
@@ -268,7 +268,21 @@ namespace WorkspaceManagerTool.Views {
             if (_FiltersListBox.SelectedItem == null) {
                 return;
             }
+            if (SelectedGroup.Equals(CONSTANTS.AllGroup)) {
+                _FiltersContextMenu.Visibility = Visibility.Collapsed;
+                _FiltersContextMenu.IsOpen = false;
+            }
             SetViewMode(ViewMode.FILTER);
+        }
+
+        private void OnContextMenuOpening_Action(object sender, EventArgs e) {
+            if (_FiltersListBox.SelectedItem == null || SelectedGroup.Equals(CONSTANTS.AllGroup)) {
+                _FiltersContextMenu.Visibility = Visibility.Collapsed;
+                _FiltersContextMenu.IsOpen = false;
+                return;
+            }
+            _FiltersContextMenu.Visibility = Visibility.Visible;
+            ApplyFilter_Action(sender, e);
         }
         #endregion
 
@@ -285,7 +299,6 @@ namespace WorkspaceManagerTool.Views {
                 case ViewMode.FILTER:
                     DoDisableCreationMode();
                     DoDisableMultipleSelectionMode();
-                    DoEnableFilterMode();
                     UpdateFilterList();
                     ApplyFilter(SelectedGroup);
                     break;
@@ -293,7 +306,6 @@ namespace WorkspaceManagerTool.Views {
                     DoEnableMultipleSelectionMode();
                     break;
                 case (ViewMode.NORMAL):
-                    DoDisableFilterMode();
                     DoDisableMultipleSelectionMode();
                     DoDisableCreationMode();
                     DoCleanSearchBar();
@@ -312,7 +324,6 @@ namespace WorkspaceManagerTool.Views {
             _CreationQuickAcess_Container.Children.Add(QuickAccessPanel);
             _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
             _Creation_Button.Visibility = Visibility.Collapsed;
-            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
             _SearchBar.IsEnabled = false;
             _FiltersListBox.IsHitTestVisible = false;
@@ -326,9 +337,7 @@ namespace WorkspaceManagerTool.Views {
             // Open panel
             DoEnableCreationMode();
         }
-        private void DoEnableFilterMode() {
-            _RemoveFilter_Button.Visibility = Visibility.Visible;
-        }
+
         private void DoEnableMultipleSelectionMode() {
             // Set visibility
             _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
@@ -336,7 +345,6 @@ namespace WorkspaceManagerTool.Views {
             _CrossMark_Button.Visibility = Visibility.Visible;
             _SelectionCounter.Visibility = Visibility.Visible;
             _Trash_Button.Visibility = Visibility.Visible;
-            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
             _SearchBar.IsEnabled = false;
             _FiltersListBox.IsHitTestVisible = false;
@@ -364,9 +372,7 @@ namespace WorkspaceManagerTool.Views {
                 _BlurEffect.Effect = null;
             }
         }
-        private void DoDisableFilterMode() {
-            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
-        }
+
         private void DoDisableMultipleSelectionMode() {
             // Organize buttons visibility
             _SelectionMultiple_Button.Visibility = Visibility.Visible;
@@ -401,6 +407,7 @@ namespace WorkspaceManagerTool.Views {
             QuickAccessItems = QuickAccessController.Items;
             GroupItems = QuickAccessController.GroupItems;
             _FiltersListBox.UnselectAll();
+            _FiltersListBox.SelectedItem = _FiltersListBox.Items[0];
             _QuickAcessListBox.UnselectAll();
         }
         private void ApplyFilter(Group group) {
