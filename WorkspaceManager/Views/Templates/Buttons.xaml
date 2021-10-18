@@ -33,7 +33,7 @@
 
     <ControlTemplate x:Key="_SelectionMultipleButtonTemplate" TargetType="Button">
         <Button Background="{StaticResource Black}" Style="{StaticResource _ButtonStyle}" Margin="5px 0px" ToolTip="Habilita la selección múltiple de elementos" >
-            <Image Source="/WorkspaceManagerTool;component/Views/Images/multiple-choice.png" Width="18" Height="18" RenderOptions.BitmapScalingMode="HighQuality"  />
+            <Image Source="/WorkspaceManagerTool;component/Views/Images/multiple-choice.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"  />
         </Button>
     </ControlTemplate>
 

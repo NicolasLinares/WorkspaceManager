@@ -78,10 +78,7 @@ namespace WorkspaceManagerTool.Views {
             ScriptsController.Init();
             ScriptsController.HandlerListImport += SetNormalMode_Action;
             // Set observable data from controller
-            ScriptsItems = ScriptsController.Items;
-            GroupItems = ScriptsController.GroupItems;
-            _FiltersListBox.UnselectAll();
-            _ScriptsListBox.UnselectAll();
+            UpdateLists();
         }
 
         #region Notify Preperties changes
@@ -154,7 +151,7 @@ namespace WorkspaceManagerTool.Views {
                     ScriptsItems.Remove(item);
                     SelectionRemoved.Add(item);
                 }
-                _CheckMark_Button.Visibility = Visibility.Visible;
+                _CheckMark_Button.IsEnabled= true;
                 _ScriptsListBox.UnselectAll();
             }
         }
@@ -348,11 +345,13 @@ namespace WorkspaceManagerTool.Views {
             _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
             _Creation_Button.Visibility = Visibility.Collapsed;
             _CrossMark_Button.Visibility = Visibility.Visible;
+            _CheckMark_Button.Visibility = Visibility.Visible;
+            _CheckMark_Button.IsEnabled = false;
             _SelectionCounter.Visibility = Visibility.Visible;
             _Trash_Button.Visibility = Visibility.Visible;
             // Disable list interactions
             _SearchBar.IsEnabled = false;
-            _FiltersListBox.IsHitTestVisible = false;
+            _FiltersListBox.Visibility = Visibility.Collapsed;
             _ScriptsListBox.ContextMenu.Visibility = Visibility.Collapsed;
             _ScriptsListBox.UnselectAll();
             // Enable multiple selection
@@ -397,7 +396,7 @@ namespace WorkspaceManagerTool.Views {
             _SelectionCounter.Visibility = Visibility.Collapsed;
             // Enable list interactions
             _SearchBar.IsEnabled = true;
-            _FiltersListBox.IsHitTestVisible = true;
+            _FiltersListBox.Visibility = Visibility.Visible;
             _ScriptsListBox.ContextMenu.Visibility = Visibility.Visible;
             // Disable multiple selection
             _ScriptsListBox.SelectionMode = SelectionMode.Single;

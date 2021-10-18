@@ -141,7 +141,7 @@ namespace WorkspaceManagerTool.Views {
                     QuickAccessItems.Remove(item);
                     SelectionRemoved.Add(item);
                 }
-                _CheckMark_Button.Visibility = Visibility.Visible;
+                _CheckMark_Button.IsEnabled = true;
                 _QuickAcessListBox.UnselectAll();
             }
         }
@@ -343,11 +343,13 @@ namespace WorkspaceManagerTool.Views {
             _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
             _Creation_Button.Visibility = Visibility.Collapsed;
             _CrossMark_Button.Visibility = Visibility.Visible;
+            _CheckMark_Button.Visibility = Visibility.Visible;
+            _CheckMark_Button.IsEnabled = false;
             _SelectionCounter.Visibility = Visibility.Visible;
             _Trash_Button.Visibility = Visibility.Visible;
             // Disable list interactions
             _SearchBar.IsEnabled = false;
-            _FiltersListBox.IsHitTestVisible = false;
+            _FiltersListBox.Visibility = Visibility.Collapsed;
             _QuickAcessListBox.ContextMenu.Visibility = Visibility.Collapsed;
             _QuickAcessListBox.UnselectAll();
             // Enable multiple selection
@@ -384,7 +386,7 @@ namespace WorkspaceManagerTool.Views {
             _SelectionCounter.Visibility = Visibility.Collapsed;
             // Enable list interactions
             _SearchBar.IsEnabled = true;
-            _FiltersListBox.IsHitTestVisible = true;
+            _FiltersListBox.Visibility = Visibility.Visible;
             _QuickAcessListBox.ContextMenu.Visibility = Visibility.Visible;
             // Disable multiple selection
             _QuickAcessListBox.SelectionMode = SelectionMode.Single;
