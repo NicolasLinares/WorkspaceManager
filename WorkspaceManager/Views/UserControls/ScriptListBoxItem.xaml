@@ -9,37 +9,19 @@
         <Grid Height="Auto" Margin="15px 5px 0px 5px">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <Image Source="/WorkspaceManagerTool;component/Views/Images/powershell.png" Width="18" Height="18" Margin="7px 0px 7px 0px" RenderOptions.BitmapScalingMode="HighQuality"/>
                 <TextBlock Height="20" Margin="0px 5px 0px 0px" TextTrimming="WordEllipsis" Foreground="WhiteSmoke" Text="{Binding Name}" FontSize="12" FontWeight="Light"/>
             </StackPanel>
-            <Image Name="_PinImage" Grid.Column="1" Source="/WorkspaceManagerTool;component/Views/Images/pin.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality">
-                <Image.RenderTransform>
-                    <RotateTransform Angle="-20" CenterY="15" CenterX="5"/>
-                </Image.RenderTransform>
-
-                <Image.Style>
-                    <Style TargetType="{x:Type Image}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Pinned}" Value="True">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Pinned}" Value="False">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Image.Style>
-            </Image>
-            <Button Grid.Column="2" Template="{StaticResource _RunButtonItemTemplate}" Content="Run" Click="Execute_Action"/>
-            <!--<Button Grid.Column="3" Content="Pin" Width="20" Click="Pin_Action"/>-->
-            <Ellipse Grid.Column="4" Width="15" Height="15" ToolTip="{Binding Group.Name}" Fill="{Binding Group.Color}" HorizontalAlignment="Left"/>
+            <Button Grid.Column="1" Template="{StaticResource _RunButtonItemTemplate}" Click="Execute_Action"/>
+            <Button Grid.Column="2" Template="{StaticResource _PinButtonItemTemplate}" Click="Pin_Action"/>
+            <Ellipse Grid.Column="4" Width="15" Height="15" ToolTip="{Binding Group.Name}" Fill="{Binding Group.Color}" HorizontalAlignment="Center"/>
         </Grid>
     </Border>
 

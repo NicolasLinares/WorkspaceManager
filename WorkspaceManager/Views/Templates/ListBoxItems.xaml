@@ -1,46 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:utils="clr-namespace:WorkspaceManagerTool.Utils"
-                    xmlns:local="clr-namespace:WorkspaceManagerTool.Views.Templates">
-
-
-
-
-
+                    xmlns:utils="clr-namespace:WorkspaceManagerTool.Utils">
     <utils:ImageConverter x:Key="ImageConverter"/>
-    <DataTemplate x:Key="_QuickAccessListBoxItemTemplate">
-        <Border Style="{StaticResource _ToolTipStyle}" ToolTip="{Binding Description}" >
-            <Grid Height="Auto" Margin="15px 5px 0px 5px">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="30"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                    <TextBlock Height="20" FontWeight="DemiBold" Foreground="{Binding Group.Color}" FontSize="10" Text="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding Type, Converter={StaticResource ImageConverter}}" Width="16" Height="16" Margin="0px 0px 7px 0px" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"  />
-                        <TextBlock Height="20" Margin="0px 5px 0px 0px" TextTrimming="WordEllipsis" Foreground="WhiteSmoke" Text="{Binding Path}" FontSize="12" FontWeight="Light"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </StackPanel>
-                <Image Name="_PinImage" Grid.Column="1" Source="/WorkspaceManagerTool;component/Views/Images/pin.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality">
-                    <Image.RenderTransform>
-                        <RotateTransform Angle="-20" CenterY="15" CenterX="5"/>
-                    </Image.RenderTransform>
-                </Image>
-                <Ellipse Grid.Column="2" Width="15" Height="15" ToolTip="{Binding Group.Name}" Fill="{Binding Group.Color}" HorizontalAlignment="Left"/>
-            </Grid>
-        </Border>
-        <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding Pinned}" Value="True">
-                <Setter TargetName="_PinImage" Property="Visibility" Value="Visible"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Pinned}" Value="False">
-                <Setter TargetName="_PinImage" Property="Visibility" Value="Collapsed"/>
-            </DataTrigger>
-        </DataTemplate.Triggers>
-    </DataTemplate>
-
+    
     <DataTemplate x:Key="_GroupListBoxItemTemplate">
         <Border CornerRadius="2" BorderThickness="1" Padding="8px 3px"
                 BorderBrush="{StaticResource SemiDark}"  Background="{Binding Color}"

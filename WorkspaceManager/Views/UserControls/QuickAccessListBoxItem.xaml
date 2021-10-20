@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="WorkspaceManagerTool.Views.UserControls.QuickAccessListBoxItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignHeight="50" d:DesignWidth="400">
+
+    <Border Style="{StaticResource _ToolTipStyle}" ToolTip="{Binding Description}" >
+        <Grid Height="Auto" Margin="15px 5px 0px 5px">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Height="20" FontWeight="DemiBold" Foreground="{Binding Group.Color}" FontSize="10" Text="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{Binding Type, Converter={StaticResource ImageConverter}}" Width="16" Height="16" Margin="0px 0px 7px 0px" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"  />
+                    <TextBlock Height="20" Margin="0px 5px 0px 0px" TextTrimming="WordEllipsis" Foreground="WhiteSmoke" Text="{Binding Path}" FontSize="12" FontWeight="Light"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+            <Button Grid.Column="1" Template="{StaticResource _PinButtonItemTemplate}" Click="Pin_Action"/>
+            <Ellipse Grid.Column="3" Width="15" Height="15" ToolTip="{Binding Group.Name}" Fill="{Binding Group.Color}" HorizontalAlignment="Center"/>
+        </Grid>
+    </Border>
+</UserControl>

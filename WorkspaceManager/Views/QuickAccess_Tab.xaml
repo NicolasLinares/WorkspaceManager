@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:item="clr-namespace:WorkspaceManagerTool.Views.UserControls"
              mc:Ignorable="d" d:DesignHeight="500" >
 
     <Control.Resources>
@@ -109,7 +110,6 @@
                         MouseDoubleClick="OpenQuickAccess_Action"
                         ContextMenuOpening="DefineContextMenuOptionsByItemType_Action"
                         ItemsSource="{Binding Source={StaticResource quickaccess}}"
-                        ItemTemplate="{StaticResource _QuickAccessListBoxItemTemplate}"
                         SelectionMode="Single" SelectionChanged="SetCounter_Action"
                         SelectedValue="{Binding SelectedQuickAccessItem}">
                     <ListBox.ContextMenu>
@@ -142,6 +142,11 @@
                             </ContextMenu.Style>
                         </ContextMenu>
                     </ListBox.ContextMenu>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <item:QuickAccessListBoxItem DataContext="{Binding}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
         </Border>

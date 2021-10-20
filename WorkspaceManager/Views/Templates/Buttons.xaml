@@ -25,9 +25,44 @@
     </ControlTemplate>
 
     <ControlTemplate x:Key="_RunButtonItemTemplate" TargetType="Button">
-        <Button Background="{StaticResource Black}" Style="{StaticResource _IconButtonItemStyle}" Margin="5px 0px"  ToolTip="Ejecutar script">
+        <Button Background="{StaticResource Black}" Style="{StaticResource _IconButtonItemStyle}" Margin="5px 0px"  ToolTip="Ejecutar">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Image Source="/WorkspaceManagerTool;component/Views/Images/run.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"  />
+                <Image Source="/WorkspaceManagerTool;component/Views/Images/run.png" Width="14" Height="14" RenderOptions.BitmapScalingMode="HighQuality">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="_PinButtonItemTemplate" TargetType="Button">
+        <Button Background="{StaticResource Black}" Style="{StaticResource _IconButtonCollapsedItemStyle}"  Margin="5px 0px"  ToolTip="Fijar">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Name="_PinImage" Grid.Column="1" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Pinned}" Value="True">
+                                    <Setter Property="Source" Value="/WorkspaceManagerTool;component/Views/Images/pin.png"/>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Pinned}" Value="False">
+                                    <Setter Property="Source" Value="/WorkspaceManagerTool;component/Views/Images/pin-unmarked.png"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
             </StackPanel>
         </Button>
     </ControlTemplate>
