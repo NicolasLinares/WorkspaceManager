@@ -48,7 +48,36 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <!-- Tipo de botones: botones de cada item -->
+    <Style x:Key="_IconButtonItemStyle" TargetType="Button">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border" 
+                        BorderThickness="1"
+                        Padding="5,5" 
+                        BorderBrush="{StaticResource Dark}"
+                        CornerRadius="5" 
+                        Background="{StaticResource Dark}" >
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Black}" />
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Black}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Tipo de botones: Añadir grupo [+] / Buscar carpeta -->
     <Style x:Key="_ActionButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>

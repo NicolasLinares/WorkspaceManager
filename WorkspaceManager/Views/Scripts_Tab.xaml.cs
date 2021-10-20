@@ -70,13 +70,15 @@ namespace WorkspaceManagerTool.Views {
         public Script_ExecutionPanel ExecutionPanel { get; set; }
 
         public Scripts_Tab() {
-            DataContext = this;
+            this.DataContext = this;
             InitializeComponent();
 
             // Create controller and initialize data
             ScriptsController = ScriptsController.GetInstance();
             ScriptsController.Init();
             ScriptsController.HandlerListImport += SetNormalMode_Action;
+            ScriptsController.UpdateListView += UpdateCurrentView_Action;
+
             // Set observable data from controller
             UpdateLists();
         }
@@ -122,6 +124,7 @@ namespace WorkspaceManagerTool.Views {
             }
             SetViewMode(ViewMode.EXECUTION);
         }
+
         private void SetMultipleSelectionMode_Action(object sender, EventArgs e) {
             SetViewMode(ViewMode.MULTIPLE_SELECTION);
         }
@@ -130,6 +133,9 @@ namespace WorkspaceManagerTool.Views {
         }
         public void SetNormalMode_Action(object sender, EventArgs e) {
             SetViewMode(ViewMode.NORMAL);
+        }
+        public void UpdateCurrentView_Action(object sender, EventArgs e) {
+            SetViewMode(CurrentViewMode);
         }
         #endregion
 

@@ -357,5 +357,11 @@
   <ItemGroup>
     <Resource Include="Views\Images\pin.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Images\run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Images\pin-black.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

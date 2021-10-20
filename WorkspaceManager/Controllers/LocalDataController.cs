@@ -14,6 +14,7 @@ namespace WorkspaceManagerTool.Controllers {
     public abstract class LocalDataController {
 
         public event EventHandler HandlerListImport;
+        public event EventHandler UpdateListView;
 
         private ObservableCollection<GroupableResource> items;
         private ObservableCollection<Group> groups;
@@ -119,6 +120,10 @@ namespace WorkspaceManagerTool.Controllers {
                 return Items;
             }
             return items.AsQueryable().Where(qa => qa.Group.Equals(filter)).OrderBy(it => !it.Pinned).ToObservableCollection();
+        }
+
+        public void UpdateChangesInView() {
+            UpdateListView?.Invoke(this, new EventArgs());
         }
 
         #endregion

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WorkspaceManagerTool.Controllers;
+using WorkspaceManagerTool.Models;
 
 namespace WorkspaceManagerTool.Views.UserControls {
     /// <summary>
@@ -20,11 +22,21 @@ namespace WorkspaceManagerTool.Views.UserControls {
     public partial class ScriptListBoxItem : UserControl {
 
 
-
         public ScriptListBoxItem() {
             InitializeComponent();
         }
 
+        private void Execute_Action(object sender, EventArgs e) {
+            var controller = ScriptsController.GetInstance();
+            controller.RunScript(this.DataContext as Script);
+
+        }
+
+        private void Pin_Action(object sender, EventArgs e) {
+            var controller = ScriptsController.GetInstance();
+            controller.Pin(this.DataContext as Script);
+            controller.UpdateChangesInView();
+        }
 
     }
 }
