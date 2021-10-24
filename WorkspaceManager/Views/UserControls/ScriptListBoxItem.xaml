@@ -11,6 +11,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
@@ -20,8 +21,9 @@
                 <TextBlock Height="20" Margin="0px 5px 0px 0px" TextTrimming="WordEllipsis" Foreground="WhiteSmoke" Text="{Binding Name}" FontSize="12" FontWeight="Light"/>
             </StackPanel>
             <Button Grid.Column="1" Template="{StaticResource _RunButtonItemTemplate}" Click="Execute_Action"/>
-            <Button Grid.Column="2" Template="{StaticResource _PinButtonItemTemplate}" Click="Pin_Action"/>
-            <Ellipse Grid.Column="4" Width="15" Height="15" ToolTip="{Binding Group.Name}" Fill="{Binding Group.Color}" HorizontalAlignment="Center"/>
+            <Button Grid.Column="2" Template="{StaticResource _TrashButtonItemTemplate}" Click="Remove_Action"/>
+            <Button Grid.Column="3" Template="{StaticResource _PinButtonItemTemplate}" Click="Pin_Action"/>
+            <Ellipse Grid.Column="5" Width="15" Height="15" ToolTip="{Binding Group.Name}" Fill="{Binding Group.Color}" HorizontalAlignment="Center"/>
         </Grid>
     </Border>
 

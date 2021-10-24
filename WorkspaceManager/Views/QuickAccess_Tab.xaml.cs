@@ -112,9 +112,9 @@ namespace WorkspaceManagerTool.Views {
             QuickAccessPanel = new QuickAccess_CreationPanel(SelectedQuickAccessItem, GroupItems);
             SetViewMode(ViewMode.EDITION);
         }
-        private void SetMultipleSelectionMode_Action(object sender, EventArgs e) {
-            SetViewMode(ViewMode.MULTIPLE_SELECTION);
-        }
+        //private void SetMultipleSelectionMode_Action(object sender, EventArgs e) {
+        //    SetViewMode(ViewMode.MULTIPLE_SELECTION);
+        //}
         public void SetPreviousMode_Action(object sender, EventArgs e) {
             SetViewMode(PreviousViewMode);
         }
@@ -298,15 +298,15 @@ namespace WorkspaceManagerTool.Views {
                     break;
                 case ViewMode.FILTER:
                     DoDisableCreationMode();
-                    DoDisableMultipleSelectionMode();
+                    //DoDisableMultipleSelectionMode();
                     UpdateFilterList();
                     ApplyFilter(SelectedGroup);
                     break;
-                case (ViewMode.MULTIPLE_SELECTION):
-                    DoEnableMultipleSelectionMode();
-                    break;
+                //case (ViewMode.MULTIPLE_SELECTION):
+                //    DoEnableMultipleSelectionMode();
+                //    break;
                 case (ViewMode.NORMAL):
-                    DoDisableMultipleSelectionMode();
+                    //DoDisableMultipleSelectionMode();
                     DoDisableCreationMode();
                     DoCleanSearchBar();
                     UpdateLists();
@@ -322,7 +322,7 @@ namespace WorkspaceManagerTool.Views {
             QuickAccessPanel.HandlerClosePanel += SetPreviousMode_Action;
 
             _CreationQuickAcess_Container.Children.Add(QuickAccessPanel);
-            _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
+            //_SelectionMultiple_Button.Visibility = Visibility.Collapsed;
             _Creation_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
             _SearchBar.IsEnabled = false;
@@ -338,32 +338,32 @@ namespace WorkspaceManagerTool.Views {
             DoEnableCreationMode();
         }
 
-        private void DoEnableMultipleSelectionMode() {
-            // Set visibility
-            _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
-            _Creation_Button.Visibility = Visibility.Collapsed;
-            _CrossMark_Button.Visibility = Visibility.Visible;
-            _CheckMark_Button.Visibility = Visibility.Visible;
-            _CheckMark_Button.IsEnabled = false;
-            _SelectionCounter.Visibility = Visibility.Visible;
-            _Trash_Button.Visibility = Visibility.Visible;
-            // Disable list interactions
-            _SearchBar.IsEnabled = false;
-            _FiltersListBox.Visibility = Visibility.Collapsed;
-            _QuickAcessListBox.ContextMenu.Visibility = Visibility.Collapsed;
-            _QuickAcessListBox.UnselectAll();
-            // Enable multiple selection
-            _QuickAcessListBox.SelectionMode = SelectionMode.Multiple;
-            _SelectionCounter.Text = string.Format("{0}/{1}", _QuickAcessListBox.SelectedItems.Count, _QuickAcessListBox.Items.Count);
-            SelectionRemoved = new ObservableCollection<GroupableResource>();
-        }
+        //private void DoEnableMultipleSelectionMode() {
+        //    // Set visibility
+        //    _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
+        //    _Creation_Button.Visibility = Visibility.Collapsed;
+        //    _CrossMark_Button.Visibility = Visibility.Visible;
+        //    _CheckMark_Button.Visibility = Visibility.Visible;
+        //    _CheckMark_Button.IsEnabled = false;
+        //    _SelectionCounter.Visibility = Visibility.Visible;
+        //    _Trash_Button.Visibility = Visibility.Visible;
+        //    // Disable list interactions
+        //    _SearchBar.IsEnabled = false;
+        //    _FiltersListBox.Visibility = Visibility.Collapsed;
+        //    _QuickAcessListBox.ContextMenu.Visibility = Visibility.Collapsed;
+        //    _QuickAcessListBox.UnselectAll();
+        //    // Enable multiple selection
+        //    _QuickAcessListBox.SelectionMode = SelectionMode.Multiple;
+        //    _SelectionCounter.Text = string.Format("{0}/{1}", _QuickAcessListBox.SelectedItems.Count, _QuickAcessListBox.Items.Count);
+        //    SelectionRemoved = new ObservableCollection<GroupableResource>();
+        //}
 
         private void DoDisableCreationMode() {
             if (_CreationQuickAcess_Container.Children.Count > 0) {
                 QuickAccessPanel.HandlerSaveChanges -= CreateItem_Action;
                 QuickAccessPanel.HandlerClosePanel -= SetPreviousMode_Action;
                 _CreationQuickAcess_Container.Children.RemoveAt(_CreationQuickAcess_Container.Children.Count - 1);
-                _SelectionMultiple_Button.Visibility = Visibility.Visible;
+                //_SelectionMultiple_Button.Visibility = Visibility.Visible;
                 _Creation_Button.Visibility = Visibility.Visible;
                 // Enable list interactions
                 _SearchBar.IsEnabled = true;
@@ -375,23 +375,23 @@ namespace WorkspaceManagerTool.Views {
             }
         }
 
-        private void DoDisableMultipleSelectionMode() {
-            // Organize buttons visibility
-            _SelectionMultiple_Button.Visibility = Visibility.Visible;
-            _Creation_Button.Visibility = Visibility.Visible;
-            _CheckMark_Button.Visibility = Visibility.Collapsed;
-            _CrossMark_Button.Visibility = Visibility.Collapsed;
-            _Trash_Button.Visibility = Visibility.Collapsed;
-            _Trash_Button.IsEnabled = false;
-            _SelectionCounter.Visibility = Visibility.Collapsed;
-            // Enable list interactions
-            _SearchBar.IsEnabled = true;
-            _FiltersListBox.Visibility = Visibility.Visible;
-            _QuickAcessListBox.ContextMenu.Visibility = Visibility.Visible;
-            // Disable multiple selection
-            _QuickAcessListBox.SelectionMode = SelectionMode.Single;
-            _SelectionCounter.Text = string.Empty;
-        }
+        //private void DoDisableMultipleSelectionMode() {
+        //    // Organize buttons visibility
+        //    _SelectionMultiple_Button.Visibility = Visibility.Visible;
+        //    _Creation_Button.Visibility = Visibility.Visible;
+        //    _CheckMark_Button.Visibility = Visibility.Collapsed;
+        //    _CrossMark_Button.Visibility = Visibility.Collapsed;
+        //    _Trash_Button.Visibility = Visibility.Collapsed;
+        //    _Trash_Button.IsEnabled = false;
+        //    _SelectionCounter.Visibility = Visibility.Collapsed;
+        //    // Enable list interactions
+        //    _SearchBar.IsEnabled = true;
+        //    _FiltersListBox.Visibility = Visibility.Visible;
+        //    _QuickAcessListBox.ContextMenu.Visibility = Visibility.Visible;
+        //    // Disable multiple selection
+        //    _QuickAcessListBox.SelectionMode = SelectionMode.Single;
+        //    _SelectionCounter.Text = string.Empty;
+        //}
         private void DoCleanSearchBar() {
             _SearchText.Text = string.Empty;
             _SearchRemoveButton.Visibility = Visibility.Hidden;

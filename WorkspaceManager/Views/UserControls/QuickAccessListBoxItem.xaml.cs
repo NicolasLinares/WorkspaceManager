@@ -25,6 +25,12 @@ namespace WorkspaceManagerTool.Views.UserControls {
             InitializeComponent();
         }
 
+        private void Remove_Action(object sender, EventArgs e) {
+            var controller = QuickAccessController.GetInstance();
+            controller.Remove(this.DataContext as QuickAccess);
+            controller.UpdateChangesInView();
+        }
+
         private void Pin_Action(object sender, EventArgs e) {
             var controller = QuickAccessController.GetInstance();
             controller.Pin(this.DataContext as QuickAccess);

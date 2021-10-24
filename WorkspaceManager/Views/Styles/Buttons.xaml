@@ -67,7 +67,7 @@
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="False">
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="False">
                             <Setter TargetName="border" Property="BorderBrush" Value="Transparent" />
                             <Setter TargetName="border" Property="Background" Value="Transparent" />
                         </DataTrigger>
@@ -75,6 +75,14 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Black}" />
                             <Setter TargetName="border" Property="Background" Value="{StaticResource Black}" />
                         </Trigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="False"></Condition>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="True"></Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Dark}" />
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Dark}" />
+                        </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -99,18 +107,22 @@
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="False" />
-                                <Condition Binding="{Binding Pinned}" Value="False" />
-                            </MultiDataTrigger.Conditions>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="False">
                             <Setter TargetName="border" Property="BorderBrush" Value="Transparent" />
                             <Setter TargetName="border" Property="Background" Value="Transparent" />
-                        </MultiDataTrigger>
+                        </DataTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Black}" />
                             <Setter TargetName="border" Property="Background" Value="{StaticResource Black}" />
                         </Trigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="False"></Condition>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="True"></Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Dark}" />
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Dark}" />
+                        </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -147,9 +147,10 @@
         <Grid Name="_ExecutionPanel_Container" Grid.Row="0" Grid.RowSpan="5"/>
 
         <!-- Footer Buttons -->
-        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10" >
+        
+        <!--<StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10" >
             <Button Name="_SelectionMultiple_Button" Template="{StaticResource _SelectionMultipleButtonTemplate}" Click="SetMultipleSelectionMode_Action"/>
-        </StackPanel>
+        </StackPanel>-->
 
         <StackPanel Grid.Row="3"  Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
             <Button Name="_Creation_Button"  Template="{StaticResource _NewButtonTemplate}" Click="SetCreationMode_Action" />

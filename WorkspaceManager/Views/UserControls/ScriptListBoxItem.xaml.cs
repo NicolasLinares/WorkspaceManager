@@ -29,7 +29,12 @@ namespace WorkspaceManagerTool.Views.UserControls {
         private void Execute_Action(object sender, EventArgs e) {
             var controller = ScriptsController.GetInstance();
             controller.RunScript(this.DataContext as Script);
+        }
 
+        private void Remove_Action(object sender, EventArgs e) {
+            var controller = ScriptsController.GetInstance();
+            controller.Remove(this.DataContext as Script);
+            controller.UpdateChangesInView();
         }
 
         private void Pin_Action(object sender, EventArgs e) {
