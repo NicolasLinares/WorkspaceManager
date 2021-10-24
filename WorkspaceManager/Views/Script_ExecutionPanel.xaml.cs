@@ -19,22 +19,43 @@ namespace WorkspaceManagerTool.Views {
     public partial class Script_ExecutionPanel : UserControl, INotifyPropertyChanged {
 
         private string name;
+        private bool backgroundOption;
+        private bool keepOpenOption;
+        private bool closeOption;
 
         public string NameText {
             get => name;
             set => SetProperty(ref name, value);
         }
-        public GroupableResource ScriptSelected { get; set; }
-        public GroupableResource LastModifiedScriptText { get; set; }
+        public Script ScriptSelected { get; set; }
+        public Script LastModifiedScriptText { get; set; }
+
+        public bool BackgroundOption {
+            get => backgroundOption;
+            set => SetProperty(ref backgroundOption, value);
+        }
+        public bool KeepOpenOption {
+            get => keepOpenOption;
+            set => SetProperty(ref keepOpenOption, value);
+        }
+        public bool CloseOption {
+            get => closeOption;
+            set => SetProperty(ref closeOption, value);
+        }
 
         public Script_ExecutionPanel(GroupableResource script) {
             DataContext = this;
             InitializeComponent();
 
-            ScriptSelected = script;
-            LastModifiedScriptText = script;
-            NameText = script.Name;
-            _ScriptTextBox.Text = (script as Script).Commands;
+            ScriptSelected = script as Script;
+            LastModifiedScriptText = ScriptSelected;
+            NameText = ScriptSelected.Name;
+            _ScriptTextBox.Text = ScriptSelected.Commands;
+
+            BackgroundOption = ScriptSelected.Options.ExecOption == ExecutionOption.BackgroundExecution;
+            KeepOpenOption = ScriptSelected.Options.ExecOption == ExecutionOption.KeepOpenAfterFinish;
+            CloseOption = ScriptSelected.Options.ExecOption == ExecutionOption.CloseAfterFinish;
+
         }
 
 
@@ -48,12 +69,23 @@ namespace WorkspaceManagerTool.Views {
         private void RunScript_Action(object sender, EventArgs e) {
             ExecutionEvent exec = new ExecutionEvent();
             exec.Script = new Script(ScriptSelected.Name, ScriptSelected.Description, _ScriptTextBox.Text, ScriptSelected.Group, ScriptSelected.Pinned);
+            (exec.Script as Script).SetOptions(ScriptSelected.Options);
             HandlerExecution?.Invoke(this, exec);
         }
         private void ClosePanel_Action(object sender, EventArgs e) {
             this.Visibility = Visibility.Collapsed;
             HandlerClosePanel?.Invoke(this, e);
         }
+        private void OpenCloseOptionsPanel_Action(object sender, EventArgs e) {
+
+            if (_OptionsPanel.Visibility == Visibility.Visible) {
+                _OptionsPanel.Visibility = Visibility.Collapsed;
+                return;
+            }
+            _OptionsPanel.Visibility = Visibility.Visible;
+        }
+
+
         private void ShowSaveButton_Action(object sender, EventArgs e) {
             if (!this.IsLoaded && !this.IsInitialized) {
                 return;
@@ -77,6 +109,20 @@ namespace WorkspaceManagerTool.Views {
             (LastModifiedScriptText as Script).Commands = _ScriptTextBox.Text;
             ScriptSelected = LastModifiedScriptText;
         }
+
+
+        private void SetBackgroundOption(object sender, EventArgs e) {
+            ScriptSelected.SetOptions(new Options(ExecutionOption.BackgroundExecution));
+        }
+
+        private void SetKeepOpenOption(object sender, EventArgs e) {
+            ScriptSelected.SetOptions(new Options(ExecutionOption.KeepOpenAfterFinish));
+        }
+
+        private void SetCloseOption(object sender, EventArgs e) {
+            ScriptSelected.SetOptions(new Options(ExecutionOption.CloseAfterFinish));
+        }
+
         #endregion
 
         #region Notify Preperties changes
