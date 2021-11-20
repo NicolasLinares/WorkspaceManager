@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 
 namespace WorkspaceManagerTool.Models {
 
     class PowerShell {
 
-        public string ADMIN_PARAM => " -ExecutionPolicy Unrestricted ";
-        public string NO_EXIT_PARAM => " -NoExit ";
-        public string FILE_PARAM => " -File ";
+        private const string ADMIN_PARAM = " -ExecutionPolicy Unrestricted ";
+        private const string NO_EXIT_PARAM = " -NoExit ";
+        private const string FILE_PARAM = " -File ";
+        private const string SCRIPT_TEMP_FILE = "temp.ps1";
 
-        private static string EXECUTABLE = "powershell.exe";
+        private const string EXECUTABLE = "powershell.exe";
 
         public void Run(Script script) {
 
@@ -26,10 +28,13 @@ namespace WorkspaceManagerTool.Models {
             if (options.ExecOption == ExecutionOption.KeepOpenAfterFinish) {
                 args += NO_EXIT_PARAM;
             }
-            processInfo.Arguments = args + script.Commands;
+            File.WriteAllText(SCRIPT_TEMP_FILE, script.Commands);
+            var script_temp_file = Path.Combine(Directory.GetCurrentDirectory(), SCRIPT_TEMP_FILE);
+            processInfo.Arguments = args + script_temp_file;
             try {
                 Process process = Process.Start(processInfo);
                 process.WaitForExit();
+                File.Delete(script_temp_file);
                 int errorLevel = process.ExitCode;
                 process.Close();
             } catch(Win32Exception) {
