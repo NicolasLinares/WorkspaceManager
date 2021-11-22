@@ -13,24 +13,46 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20px 0px 0px 0px">
-            <Image Source="/WorkspaceManagerTool;component/Views/Images/powershell.png" Width="24" Height="24"  VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"/>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="30px 0px" >
+            <Image Source="/WorkspaceManagerTool;component/Views/Images/powershell.png" Width="24" Height="24" Margin="-10px"  VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"/>
             <TextBlock Text="{Binding NameText}" Height="25" FontSize="15" TextTrimming="CharacterEllipsis" FontWeight="Medium" Style="{StaticResource _TextBlockStyle}"/>
         </StackPanel>
 
-        <Border Grid.Row="1" Style="{StaticResource _BorderScriptTextBoxStyle}" Padding="5"  Margin="10px 5px 10px 5px" >
-            <ScrollViewer  Style="{StaticResource _ScrollViewerStyle}" >
-                <TextBox Name="_ScriptTextBox" Padding="10" Style="{StaticResource _ScriptTextBoxStyle}" AcceptsTab="True"
-                         GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" TextChanged="ShowSaveButton_Action" />
-            </ScrollViewer>
-        </Border>
+        <Button Grid.Row="0" HorizontalAlignment="Right" Height="20px" Margin="0px 0px 10px 0px" Click="OpenCloseOptionsPanel_Action">Opciones</Button>
+        
+        <DockPanel Grid.Row="1" >
+            <StackPanel Name="_OptionsPanel" Grid.Row="2" DockPanel.Dock="Right" Orientation="Vertical" HorizontalAlignment="Left" Margin="10px 10px 20px 10px" Visibility="Collapsed">
+                <TextBlock Text="Opciones de ejecución" Height="25" FontSize="15" FontWeight="Normal" Margin="0px 0px 0px 10px"></TextBlock>
+
+                <RadioButton FontSize="13" FontWeight="Light" Foreground="WhiteSmoke" IsChecked="{Binding BackgroundOption}" Background="{StaticResource SemiDark}" Margin="0px 0px 0px 5px" Click="SetBackgroundOption">
+                    Ejecutar en segundo plano
+                </RadioButton>
+                <RadioButton FontSize="13" FontWeight="Light" Foreground="WhiteSmoke" IsChecked="{Binding KeepOpenOption}" Background="{StaticResource SemiDark}" Margin="0px 0px 0px 5px" Click="SetKeepOpenOption">
+                    Mantener consola abierta
+                </RadioButton>
+                <RadioButton FontSize="13" FontWeight="Light" Foreground="WhiteSmoke" IsChecked="{Binding CloseOption}" Background="{StaticResource SemiDark}" Margin="0px 0px 0px 5px" Click="SetCloseOption">
+                    Cerrar al terminar
+                </RadioButton>
+
+            </StackPanel>
+
+            <Border Style="{StaticResource _BorderScriptTextBoxStyle}" Padding="5" Margin="10px 5px 10px 15px" >
+                <ScrollViewer  Style="{StaticResource _ScrollViewerStyle}" >
+                    <TextBox Name="_ScriptTextBox" Padding="10" Style="{StaticResource _ScriptTextBoxStyle}" AcceptsTab="True"
+                             GotKeyboardFocus="OnPalabraGotKeyboardFocus" PreviewMouseDown="OnPalabraPreviewMouseDown" TextChanged="ShowSaveButton_Action" />
+                </ScrollViewer>
+            </Border>
+
+        </DockPanel>
 
 
-        <Button Grid.Row="2" Name="_SaveChanges_Button" Style="{StaticResource _ButtonStyle}" HorizontalAlignment="Left"  Background="{StaticResource SaveButton}" Margin="10px 0px" Visibility="Collapsed" Click="SaveChanges_Action">
+
+
+        <Button Grid.Row="3" Name="_SaveChanges_Button" Style="{StaticResource _ButtonStyle}" HorizontalAlignment="Left"  Background="{StaticResource SaveButton}" Margin="10px 0px 10px 10px" Visibility="Collapsed" Click="SaveChanges_Action">
             Guardar
         </Button>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0px 0px 10px 0px" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0px 0px 10px 10px" HorizontalAlignment="Right">
             <Button Name="_Execution_Button" Background="{StaticResource RunButton}" Style="{StaticResource _ButtonStyle}" Click="RunScript_Action" >
                 Ejecutar
             </Button>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 using WorkspaceManagerTool.Models;
 using WorkspaceManagerTool.Utils;
 
@@ -13,22 +14,34 @@ namespace WorkspaceManagerTool.Controllers {
     public abstract class LocalDataController {
 
         public event EventHandler HandlerListImport;
+        public event EventHandler UpdateListView;
 
         private ObservableCollection<GroupableResource> items;
         private ObservableCollection<Group> groups;
 
         public ObservableCollection<GroupableResource> Items {
             get {
-                return items.AsQueryable().OrderBy(it => !it.Pinned).ThenBy(it => it.Group.Name).ThenBy(it => it.Name).ToObservableCollection(); ;
+                return items.AsQueryable().OrderBy(it => !it.Pinned).ThenBy(it => it.Group.Name).ThenBy(it => it.Name).ToObservableCollection();
             }
             set {
                 items = value;
             }
         }
+
+        public static ObservableCollection<Group> AllFilter {
+            get {
+                var all = new ObservableCollection<Group> {
+                    CONSTANTS.AllGroup
+                };
+                return all;
+            }
+        }
+
         public ObservableCollection<Group> GroupItems {
             get {
                 var groups = items.Select(it => it.Group).Distinct();
-                return groups.AsQueryable().OrderBy(gr => gr.Name).ToObservableCollection();
+                groups = AllFilter.Concat(groups.OrderBy(gr => gr.Name));
+                return groups.AsQueryable().ToObservableCollection();
             }
         }
 
@@ -103,16 +116,24 @@ namespace WorkspaceManagerTool.Controllers {
             return items.AsQueryable().Where(it => it.Name.ToLower().Contains(text.ToLower())).OrderBy(it => !it.Pinned).ToObservableCollection();
         }
         public ObservableCollection<GroupableResource> FilterByGroup(Group filter) {
+            if (filter.Equals(CONSTANTS.AllGroup)) {
+                return Items;
+            }
             return items.AsQueryable().Where(qa => qa.Group.Equals(filter)).OrderBy(it => !it.Pinned).ToObservableCollection();
+        }
+
+        public void UpdateChangesInView() {
+            UpdateListView?.Invoke(this, new EventArgs());
         }
 
         #endregion
 
         #region Configuration actions
         public void Import<T>() {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "JSON File|*.json";
-            dialog.Title = "Importar lista";
+            OpenFileDialog dialog = new OpenFileDialog {
+                Filter = "JSON File|*.json",
+                Title = "Importar lista"
+            };
             dialog.ShowDialog();
             if (dialog.FileName == "") {
                 return;
@@ -128,6 +149,7 @@ namespace WorkspaceManagerTool.Controllers {
                 MessageBox.Show("Los datos importados no son correctos", "Error al importar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             items = tmp;
             // Set changes in the view
             HandlerListImport?.Invoke(this, new EventArgs());
@@ -135,11 +157,13 @@ namespace WorkspaceManagerTool.Controllers {
             WriteData();
             ShowImportInformation(tmp);
         }
+
         public void Export(string filename) {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "JSON File|*.json";
-            dialog.Title = "Exportar lista";
-            dialog.FileName = filename;
+            SaveFileDialog dialog = new SaveFileDialog {
+                Filter = "JSON File|*.json",
+                Title = "Exportar lista",
+                FileName = filename
+            };
             dialog.ShowDialog();
             if (dialog.FileName == "") {
                 return;
@@ -150,9 +174,10 @@ namespace WorkspaceManagerTool.Controllers {
             File.Copy(ResourceFile, dialog.FileName);
         }
         public void ImportNewItems<T>() {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "JSON File|*.json";
-            dialog.Title = "Importar lista";
+            OpenFileDialog dialog = new OpenFileDialog {
+                Filter = "JSON File|*.json",
+                Title = "Importar lista"
+            };
             dialog.ShowDialog();
             if (dialog.FileName == "") {
                 return;

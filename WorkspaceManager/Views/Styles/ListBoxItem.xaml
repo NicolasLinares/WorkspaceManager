@@ -33,6 +33,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="_Border" Property="Background" Value="{StaticResource SemiHighlight}" />
+                            <Setter TargetName="_Border" Property="BorderBrush" Value="{StaticResource Highlight}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="_Border" Property="Background" Value="{StaticResource SemiHighlight}" />

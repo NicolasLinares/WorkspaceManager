@@ -25,7 +25,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -149,7 +149,9 @@
     <Compile Include="Controllers\LocalDataController.cs" />
     <Compile Include="Events\ExecutionEvent.cs" />
     <Compile Include="Events\ScriptEvent.cs" />
+    <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\GroupableResource.cs" />
+    <Compile Include="Models\Options.cs" />
     <Compile Include="Models\ViewMode.cs" />
     <Compile Include="Models\QuickAccess.cs" />
     <Compile Include="Utils\Extensions.cs" />
@@ -165,6 +167,12 @@
     </Compile>
     <Compile Include="Views\Config_Tab.xaml.cs">
       <DependentUpon>Config_Tab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\QuickAccessListBoxItem.xaml.cs">
+      <DependentUpon>QuickAccessListBoxItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ScriptListBoxItem.xaml.cs">
+      <DependentUpon>ScriptListBoxItem.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Styles\GroupBox.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -268,6 +276,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\QuickAccessListBoxItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\ScriptListBoxItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Script.cs" />
@@ -289,7 +305,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -312,10 +330,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="AppConfig.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ScriptsContext.xml" />
+    <Resource Include="AppConfig.xml">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Views\Images\favicon.ico" />
@@ -347,6 +364,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Views\Images\pin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Images\run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Images\pin-unmarked.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

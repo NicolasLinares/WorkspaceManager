@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:WorkspaceManagerTool.Views.Templates">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 
 
@@ -25,15 +24,91 @@
         </Button>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="_RemoveFilterButtonTemplate" TargetType="Button">
-        <Button Background="{StaticResource Black}" Style="{StaticResource _ButtonStyle}" Foreground="IndianRed" Margin="5px 0px">
-            Quitar filtro
+    <ControlTemplate x:Key="_RunButtonItemTemplate" TargetType="Button">
+        <Button Background="{StaticResource Black}" Style="{StaticResource _IconButtonItemStyle}" Margin="5px 0px"  ToolTip="Ejecutar">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Source="/WorkspaceManagerTool;component/Views/Images/run.png" Width="14" Height="14" RenderOptions.BitmapScalingMode="HighQuality">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="False"></Condition>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="True"></Condition>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="_TrashButtonItemTemplate" TargetType="Button">
+        <Button Background="{StaticResource Black}" Style="{StaticResource _IconButtonItemStyle}" Margin="0px 0px"  ToolTip="Ejecutar">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Source="/WorkspaceManagerTool;component/Views/Images/trash.png" Width="14" Height="14" RenderOptions.BitmapScalingMode="HighQuality">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="False"></Condition>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="True"></Condition>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="_PinButtonItemTemplate" TargetType="Button">
+        <Button Background="{StaticResource Black}" Style="{StaticResource _IconButtonCollapsedItemStyle}"  Margin="5px 0px"  ToolTip="Fijar">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Name="_PinImage" Grid.Column="1" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Pinned}" Value="True">
+                                    <Setter Property="Source" Value="/WorkspaceManagerTool;component/Views/Images/pin.png"/>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Pinned}" Value="False">
+                                    <Setter Property="Source" Value="/WorkspaceManagerTool;component/Views/Images/pin-unmarked.png"/>
+                                </DataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="False"></Condition>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="True"></Condition>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
         </Button>
     </ControlTemplate>
 
     <ControlTemplate x:Key="_SelectionMultipleButtonTemplate" TargetType="Button">
         <Button Background="{StaticResource Black}" Style="{StaticResource _ButtonStyle}" Margin="5px 0px" ToolTip="Habilita la selección múltiple de elementos" >
-            <Image Source="/WorkspaceManagerTool;component/Views/Images/multiple-choice.png" Width="18" Height="18" RenderOptions.BitmapScalingMode="HighQuality"  />
+            <Image Source="/WorkspaceManagerTool;component/Views/Images/multiple-choice.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"  />
         </Button>
     </ControlTemplate>
 

@@ -71,10 +71,12 @@ namespace WorkspaceManagerTool.Views {
                 SelectedGroupOption = SelectedFilter;
             }
             if (groups != null && groups.Count > 0) {
+                groups.RemoveAt(0);
                 ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
             } else {
-                ComboBoxGroupOptions = new ObservableCollection<Group>();
-                ComboBoxGroupOptions.Add(DEFAULT_GROUP);
+                ComboBoxGroupOptions = new ObservableCollection<Group> {
+                    DEFAULT_GROUP
+                };
             }
         }
         public Script_CreationPanel(GroupableResource scriptToEdit, ObservableCollection<Group> groups) {
@@ -91,6 +93,7 @@ namespace WorkspaceManagerTool.Views {
                 Pinned = scriptToEdit.Pinned;
             }
             if (groups != null && groups.Count > 0) {
+                groups.RemoveAt(0);
                 ComboBoxGroupOptions = new ObservableCollection<Group>(groups.OrderBy(gr => gr.Name));
             }
         }
@@ -116,7 +119,7 @@ namespace WorkspaceManagerTool.Views {
             Group_CreationDialog dialog = new Group_CreationDialog();
             if (dialog.ShowDialog() == true) {
                 var newgrp = dialog.GetGroup();
-                if (ComboBoxGroupOptions.Contains(newgrp)) {
+                if (newgrp.Equals(CONSTANTS.AllGroup) || ComboBoxGroupOptions.Contains(newgrp)) {
                     MessageBox.Show("El grupo creado ya existe.", "Grupo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }

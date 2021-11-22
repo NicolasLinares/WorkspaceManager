@@ -9,9 +9,16 @@ namespace WorkspaceManagerTool.Models {
 
         private string commands;
 
+        private Options options;
+
         public string Commands {
             get { return commands; }
             set { SetProperty(ref commands, value); }
+        }
+
+        public Options Options {
+            get { return options; }
+            set { SetProperty(ref options, value); }
         }
 
         public Script(string name, string description, string commands, Group group, bool pinned = false) {
@@ -20,6 +27,7 @@ namespace WorkspaceManagerTool.Models {
             Commands = commands;
             Group = group;
             Pinned = pinned;
+            Options = new Options(ExecutionOption.KeepOpenAfterFinish);
         }
 
         public override bool Equals(object obj) {
@@ -33,6 +41,10 @@ namespace WorkspaceManagerTool.Models {
 
         public override int GetHashCode() {
             return (Commands != null ? Commands.GetHashCode() : 0);
+        }
+
+        public void SetOptions(Options op) {
+            Options = op;
         }
     }
 }

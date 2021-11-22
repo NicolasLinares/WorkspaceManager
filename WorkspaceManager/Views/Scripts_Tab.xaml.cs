@@ -70,18 +70,17 @@ namespace WorkspaceManagerTool.Views {
         public Script_ExecutionPanel ExecutionPanel { get; set; }
 
         public Scripts_Tab() {
-            DataContext = this;
+            this.DataContext = this;
             InitializeComponent();
 
             // Create controller and initialize data
             ScriptsController = ScriptsController.GetInstance();
             ScriptsController.Init();
             ScriptsController.HandlerListImport += SetNormalMode_Action;
+            ScriptsController.UpdateListView += UpdateCurrentView_Action;
+
             // Set observable data from controller
-            ScriptsItems = ScriptsController.Items;
-            GroupItems = ScriptsController.GroupItems;
-            _FiltersListBox.UnselectAll();
-            _ScriptsListBox.UnselectAll();
+            UpdateLists();
         }
 
         #region Notify Preperties changes
@@ -125,14 +124,18 @@ namespace WorkspaceManagerTool.Views {
             }
             SetViewMode(ViewMode.EXECUTION);
         }
-        private void SetMultipleSelectionMode_Action(object sender, EventArgs e) {
-            SetViewMode(ViewMode.MULTIPLE_SELECTION);
-        }
+
+        //private void SetMultipleSelectionMode_Action(object sender, EventArgs e) {
+        //    SetViewMode(ViewMode.MULTIPLE_SELECTION);
+        //}
         public void SetPreviousMode_Action(object sender, EventArgs e) {
             SetViewMode(PreviousViewMode);
         }
         public void SetNormalMode_Action(object sender, EventArgs e) {
             SetViewMode(ViewMode.NORMAL);
+        }
+        public void UpdateCurrentView_Action(object sender, EventArgs e) {
+            SetViewMode(CurrentViewMode);
         }
         #endregion
 
@@ -154,7 +157,7 @@ namespace WorkspaceManagerTool.Views {
                     ScriptsItems.Remove(item);
                     SelectionRemoved.Add(item);
                 }
-                _CheckMark_Button.Visibility = Visibility.Visible;
+                _CheckMark_Button.IsEnabled= true;
                 _ScriptsListBox.UnselectAll();
             }
         }
@@ -246,7 +249,21 @@ namespace WorkspaceManagerTool.Views {
             if (_FiltersListBox.SelectedItem == null) {
                 return;
             }
+            if (SelectedGroup.Equals(CONSTANTS.AllGroup)) {
+                _FiltersContextMenu.Visibility = Visibility.Collapsed;
+                _FiltersContextMenu.IsOpen = false;
+            }
             SetViewMode(ViewMode.FILTER);
+        }
+
+        private void OnContextMenuOpening_Action(object sender, EventArgs e) {
+            if (_FiltersListBox.SelectedItem == null || SelectedGroup.Equals(CONSTANTS.AllGroup)) {
+                _FiltersContextMenu.Visibility = Visibility.Collapsed;
+                _FiltersContextMenu.IsOpen = false;
+                return;
+            }
+            _FiltersContextMenu.Visibility = Visibility.Visible;
+            ApplyFilter_Action(sender, e);
         }
 
 
@@ -254,7 +271,7 @@ namespace WorkspaceManagerTool.Views {
             Group_CreationDialog dialog = new Group_CreationDialog(SelectedGroup);
             if (dialog.ShowDialog() == true) {
                 var editedGroup = dialog.GetGroup();
-                if (GroupItems.Contains(editedGroup)) {
+                if (editedGroup.Equals(CONSTANTS.AllGroup) || GroupItems.Contains(editedGroup)) {
                     MessageBox.Show("El grupo creado ya existe.", "Grupo duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
@@ -278,21 +295,18 @@ namespace WorkspaceManagerTool.Views {
                 case ViewMode.FILTER:
                     DoDisableCreationMode();
                     DoDisableExecutionMode();
-                    DoDisableMultipleSelectionMode();
-                    DoEnableFilterMode();
+                    //DoDisableMultipleSelectionMode();
                     UpdateFilterList();
                     ApplyFilter(SelectedGroup);
                     break;
                 case (ViewMode.EXECUTION):
-                    DoDisableFilterMode();
                     DoEnableExecutionMode();
                     break;
-                case (ViewMode.MULTIPLE_SELECTION):
-                    DoEnableMultipleSelectionMode();
-                    break;
+                //case (ViewMode.MULTIPLE_SELECTION):
+                //    DoEnableMultipleSelectionMode();
+                //    break;
                 case (ViewMode.NORMAL):
-                    DoDisableFilterMode();
-                    DoDisableMultipleSelectionMode();
+                    //DoDisableMultipleSelectionMode();
                     DoDisableCreationMode();
                     DoDisableExecutionMode();
                     DoCleanSearchBar();
@@ -308,9 +322,8 @@ namespace WorkspaceManagerTool.Views {
             CreationPanel.HandlerClosePanel += SetPreviousMode_Action;
             // Show panel view
             _CreationPanel_Container.Children.Add(CreationPanel);
-            _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
+            //_SelectionMultiple_Button.Visibility = Visibility.Collapsed;
             _Creation_Button.Visibility = Visibility.Collapsed;
-            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
             // Disable list interactions
             _FiltersListBox.IsHitTestVisible = false;
             _ScriptsListBox.IsHitTestVisible = false;
@@ -328,38 +341,37 @@ namespace WorkspaceManagerTool.Views {
             ExecutionPanel.HandlerChanges += ReplaceItem_Action;
             // Show panel view
             _ExecutionPanel_Container.Children.Add(ExecutionPanel);
-            _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
+            //_SelectionMultiple_Button.Visibility = Visibility.Collapsed;
             _ExecutionPanel_Container.Visibility = Visibility.Visible;
             _Creation_Button.Visibility = Visibility.Collapsed;
         }
-        private void DoEnableFilterMode() {
-            _RemoveFilter_Button.Visibility = Visibility.Visible;
-        }
-        private void DoEnableMultipleSelectionMode() {
-            // Set visibility
-            _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
-            _Creation_Button.Visibility = Visibility.Collapsed;
-            _CrossMark_Button.Visibility = Visibility.Visible;
-            _SelectionCounter.Visibility = Visibility.Visible;
-            _Trash_Button.Visibility = Visibility.Visible;
-            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
-            // Disable list interactions
-            _SearchBar.IsEnabled = false;
-            _FiltersListBox.IsHitTestVisible = false;
-            _ScriptsListBox.ContextMenu.Visibility = Visibility.Collapsed;
-            _ScriptsListBox.UnselectAll();
-            // Enable multiple selection
-            _ScriptsListBox.SelectionMode = SelectionMode.Multiple;
-            _SelectionCounter.Text = string.Format("{0}/{1}", _ScriptsListBox.SelectedItems.Count, _ScriptsListBox.Items.Count);
-            SelectionRemoved = new ObservableCollection<GroupableResource>();
-        }
+
+        //private void DoEnableMultipleSelectionMode() {
+        //    // Set visibility
+        //    _SelectionMultiple_Button.Visibility = Visibility.Collapsed;
+        //    _Creation_Button.Visibility = Visibility.Collapsed;
+        //    _CrossMark_Button.Visibility = Visibility.Visible;
+        //    _CheckMark_Button.Visibility = Visibility.Visible;
+        //    _CheckMark_Button.IsEnabled = false;
+        //    _SelectionCounter.Visibility = Visibility.Visible;
+        //    _Trash_Button.Visibility = Visibility.Visible;
+        //    // Disable list interactions
+        //    _SearchBar.IsEnabled = false;
+        //    _FiltersListBox.Visibility = Visibility.Collapsed;
+        //    _ScriptsListBox.ContextMenu.Visibility = Visibility.Collapsed;
+        //    _ScriptsListBox.UnselectAll();
+        //    // Enable multiple selection
+        //    _ScriptsListBox.SelectionMode = SelectionMode.Multiple;
+        //    _SelectionCounter.Text = string.Format("{0}/{1}", _ScriptsListBox.SelectedItems.Count, _ScriptsListBox.Items.Count);
+        //    SelectionRemoved = new ObservableCollection<GroupableResource>();
+        //}
 
         private void DoDisableCreationMode() {
             if (_CreationPanel_Container.Children.Count > 0) {
                 CreationPanel.HandlerSaveChanges -= CreateItem_Action;
                 CreationPanel.HandlerClosePanel -= SetPreviousMode_Action;
                 _CreationPanel_Container.Children.RemoveAt(_CreationPanel_Container.Children.Count - 1);
-                _SelectionMultiple_Button.Visibility = Visibility.Visible;
+                //_SelectionMultiple_Button.Visibility = Visibility.Visible;
                 _Creation_Button.Visibility = Visibility.Visible;
                 // Enable list interactions
                 _FiltersListBox.IsHitTestVisible = true;
@@ -367,37 +379,35 @@ namespace WorkspaceManagerTool.Views {
                 _ScriptsListBox.UnselectAll();
             }
         }
-        private void DoDisableFilterMode() {
-            _RemoveFilter_Button.Visibility = Visibility.Collapsed;
-        }
+
         private void DoDisableExecutionMode() {
             if (_ExecutionPanel_Container.Children.Count > 0) {
                 _ExecutionPanel_Container.Children.RemoveAt(_ExecutionPanel_Container.Children.Count - 1);
                 _ExecutionPanel_Container.Visibility = Visibility.Collapsed;
-                _SelectionMultiple_Button.Visibility = Visibility.Visible;
+                //_SelectionMultiple_Button.Visibility = Visibility.Visible;
                 _Creation_Button.Visibility = Visibility.Visible;
                 ExecutionPanel.HandlerExecution -= ScriptsController.DoExecution;
                 ExecutionPanel.HandlerClosePanel -= SetPreviousMode_Action;
                 ExecutionPanel.HandlerChanges -= ReplaceItem_Action;
             }
         }
-        private void DoDisableMultipleSelectionMode() {
-            // Organize buttons visibility
-            _SelectionMultiple_Button.Visibility = Visibility.Visible;
-            _Creation_Button.Visibility = Visibility.Visible;
-            _CheckMark_Button.Visibility = Visibility.Collapsed;
-            _CrossMark_Button.Visibility = Visibility.Collapsed;
-            _Trash_Button.Visibility = Visibility.Collapsed;
-            _Trash_Button.IsEnabled = false;
-            _SelectionCounter.Visibility = Visibility.Collapsed;
-            // Enable list interactions
-            _SearchBar.IsEnabled = true;
-            _FiltersListBox.IsHitTestVisible = true;
-            _ScriptsListBox.ContextMenu.Visibility = Visibility.Visible;
-            // Disable multiple selection
-            _ScriptsListBox.SelectionMode = SelectionMode.Single;
-            _SelectionCounter.Text = string.Empty;
-        }
+        //private void DoDisableMultipleSelectionMode() {
+        //    // Organize buttons visibility
+        //    _SelectionMultiple_Button.Visibility = Visibility.Visible;
+        //    _Creation_Button.Visibility = Visibility.Visible;
+        //    _CheckMark_Button.Visibility = Visibility.Collapsed;
+        //    _CrossMark_Button.Visibility = Visibility.Collapsed;
+        //    _Trash_Button.Visibility = Visibility.Collapsed;
+        //    _Trash_Button.IsEnabled = false;
+        //    _SelectionCounter.Visibility = Visibility.Collapsed;
+        //    // Enable list interactions
+        //    _SearchBar.IsEnabled = true;
+        //    _FiltersListBox.Visibility = Visibility.Visible;
+        //    _ScriptsListBox.ContextMenu.Visibility = Visibility.Visible;
+        //    // Disable multiple selection
+        //    _ScriptsListBox.SelectionMode = SelectionMode.Single;
+        //    _SelectionCounter.Text = string.Empty;
+        //}
         private void DoCleanSearchBar() {
             _SearchText.Text = string.Empty;
             _SearchRemoveButton.Visibility = Visibility.Hidden;
@@ -414,6 +424,7 @@ namespace WorkspaceManagerTool.Views {
             ScriptsItems = ScriptsController.Items;
             GroupItems = ScriptsController.GroupItems;
             _FiltersListBox.UnselectAll();
+            _FiltersListBox.SelectedItem = _FiltersListBox.Items[0];
             _ScriptsListBox.UnselectAll();
         }
         private void ApplyFilter(Group group) {

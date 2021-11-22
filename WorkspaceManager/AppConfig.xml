@@ -19,12 +19,10 @@
               <add key="producto.titulo" value="Workspace Manager Tool" />
               <add key="producto.descrip" value="Gestión de scripts y ficheros" />
               <add key="producto.nombreAutor" value="Nicolás Enrique Linares La Barba" />
-              <add key="producto.nivel" value="LOCAL" />
             </name-values>
           </property>
         </object>
       </list>
     </property>
   </object>
-  <import resource="ScriptsContext.xml" />
 </objects>
